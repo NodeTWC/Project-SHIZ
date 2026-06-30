@@ -1,0 +1,654 @@
+/*==================================================
+
+    Project SHIZ
+    A.M.S.S. v0.7
+    Cinematic Lock Update
+
+    03-components.css
+    Components
+
+==================================================*/
+
+
+/*==================================================
+    DATABASE COUNTER
+==================================================*/
+
+.counter{
+    display:flex;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.counter div{
+    flex:1;
+
+    padding:15px;
+
+    text-align:center;
+
+    border:
+        1px solid rgba(123,232,255,.18);
+
+    border-radius:var(--radius-sm);
+
+    background:rgba(255,255,255,.05);
+}
+
+.counter strong{
+    display:block;
+
+    margin-top:12px;
+
+    font-size:34px;
+
+    color:var(--primary);
+}
+
+
+/*==================================================
+    REGISTER FORM
+==================================================*/
+
+.register{
+    display:flex;
+    gap:10px;
+
+    margin-bottom:24px;
+}
+
+.register input{
+    flex:1;
+
+    padding:13px;
+
+    border:
+        1px solid rgba(123,232,255,.18);
+
+    border-radius:var(--radius-sm);
+
+    outline:none;
+
+    background:var(--panel-dark);
+
+    color:var(--text);
+
+    transition:.25s;
+}
+
+.register input::placeholder{
+    color:var(--muted);
+}
+
+.register input:focus{
+    border-color:var(--primary);
+
+    box-shadow:
+        0 0 12px rgba(123,232,255,.35);
+}
+
+
+/*==================================================
+    BUTTON BASE
+==================================================*/
+
+button{
+    border:none;
+
+    font-family:var(--font-main);
+
+    cursor:pointer;
+
+    user-select:none;
+}
+
+#addMovie,
+#startButton,
+#resetButton{
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color:#00131E;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    transition:.25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+#addMovie:hover,
+#startButton:hover,
+#resetButton:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 24px rgba(123,232,255,.62);
+}
+
+#addMovie:active,
+#startButton:active,
+#resetButton:active{
+    transform:scale(.97);
+}
+
+#addMovie{
+    min-width:72px;
+
+    border-radius:var(--radius-sm);
+}
+
+#startButton,
+#resetButton{
+    width:190px;
+    height:56px;
+
+    border-radius:var(--radius-lg);
+
+    font-size:18px;
+}
+
+#resetButton{
+    display:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.95),
+            var(--primary)
+        );
+}
+
+#startButton:disabled,
+#resetButton:disabled{
+    opacity:.45;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+}
+
+
+/*==================================================
+    BUTTON SHINE
+==================================================*/
+
+#startButton::before,
+#resetButton::before,
+#addMovie::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:42%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.7),
+            transparent
+        );
+}
+
+#startButton:hover::before,
+#resetButton:hover::before,
+#addMovie:hover::before{
+    animation:buttonShine .8s linear;
+}
+
+
+/*==================================================
+    MOVIE LIST
+==================================================*/
+
+#movieCards{
+    height:calc(100vh - 315px);
+
+    overflow-y:auto;
+
+    padding-right:6px;
+}
+
+
+/*==================================================
+    MOVIE CARD
+==================================================*/
+
+.movieCard{
+    position:relative;
+
+    overflow:hidden;
+
+    margin-bottom:12px;
+
+    padding:14px;
+
+    border:
+        1px solid rgba(123,232,255,.18);
+
+    border-left:
+        4px solid var(--primary);
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.04);
+
+    transition:.25s;
+
+    animation:fadeIn .35s ease;
+}
+
+.movieCard:hover{
+    transform:translateX(6px);
+
+    box-shadow:var(--shadow);
+}
+
+.movieTitle{
+    font-size:18px;
+
+    font-weight:700;
+}
+
+.movieStatus{
+    margin-top:10px;
+
+    color:var(--sub);
+
+    font-size:13px;
+}
+
+.movieBar{
+    margin-top:12px;
+
+    height:4px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            transparent
+        );
+}
+
+
+/*==================================================
+    AI CORE RING
+==================================================*/
+
+#ring{
+    position:absolute;
+
+    width:440px;
+    height:440px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    opacity:.72;
+
+    z-index:1;
+}
+
+#ring::before{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    border:
+        2px solid rgba(123,232,255,.65);
+
+    box-shadow:
+        0 0 20px rgba(123,232,255,.35);
+
+    animation:ringRotate 30s linear infinite;
+}
+
+#ring::after{
+    content:"";
+
+    position:absolute;
+
+    inset:28px;
+
+    border-radius:50%;
+
+    border:
+        2px dashed rgba(123,232,255,.45);
+
+    animation:ringReverse 18s linear infinite;
+}
+
+.ring2{
+    position:absolute;
+
+    inset:70px;
+
+    border-radius:50%;
+
+    border:
+        1px solid rgba(255,255,255,.45);
+
+    animation:ringRotate 12s linear infinite;
+}
+
+.ring3{
+    position:absolute;
+
+    inset:120px;
+
+    border-radius:50%;
+
+    border:
+        2px dotted rgba(123,232,255,.55);
+
+    animation:ringReverse 9s linear infinite;
+}
+
+
+/*==================================================
+    SYSTEM MESSAGE
+==================================================*/
+
+#systemMessage{
+    position:absolute;
+
+    z-index:8;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    letter-spacing:3px;
+
+    color:var(--primary);
+
+    text-shadow:
+        0 0 10px rgba(123,232,255,.8);
+}
+
+#systemMessage span:first-child{
+    font-size:30px;
+
+    font-weight:700;
+}
+
+#systemMessage span:last-child{
+    margin-top:8px;
+
+    font-size:14px;
+
+    color:var(--sub);
+}
+
+
+/*==================================================
+    RESULT PANEL
+==================================================*/
+
+.result-panel{
+    width:min(720px, 88%);
+
+    min-height:310px;
+
+    padding:34px 40px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:
+        1px solid var(--result-line);
+
+    border-radius:22px;
+
+    background:var(--result-bg);
+
+    box-shadow:var(--shadow-result);
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+.result-panel::before,
+.result-panel::after{
+    content:"";
+
+    position:absolute;
+
+    width:38px;
+    height:38px;
+
+    border-color:var(--primary);
+    border-style:solid;
+
+    opacity:.9;
+}
+
+.result-panel::before{
+    top:14px;
+    left:14px;
+
+    border-width:2px 0 0 2px;
+}
+
+.result-panel::after{
+    right:14px;
+    bottom:14px;
+
+    border-width:0 2px 2px 0;
+}
+
+.result-label{
+    margin-bottom:22px;
+
+    color:var(--white);
+
+    font-size:16px;
+
+    letter-spacing:6px;
+
+    text-shadow:
+        0 0 12px var(--white),
+        0 0 28px var(--primary);
+}
+
+.result-title{
+    width:100%;
+
+    color:var(--white);
+
+    font-size:54px;
+
+    font-weight:800;
+
+    line-height:1.15;
+
+    text-align:center;
+
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+
+    text-shadow:
+        0 0 14px var(--white),
+        0 0 42px var(--primary);
+}
+
+.result-meta{
+    width:100%;
+
+    margin-top:30px;
+
+    padding-top:22px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr 1fr;
+
+    gap:14px;
+
+    border-top:
+        1px solid rgba(255,255,255,.22);
+}
+
+.result-meta div{
+    padding:12px;
+
+    border:
+        1px solid rgba(123,232,255,.18);
+
+    background:
+        rgba(0,0,0,.20);
+
+    border-radius:12px;
+
+    text-align:center;
+}
+
+.result-meta span{
+    display:block;
+
+    margin-bottom:8px;
+
+    color:var(--sub);
+
+    font-size:11px;
+
+    letter-spacing:2px;
+}
+
+.result-meta strong{
+    color:var(--white);
+
+    font-size:17px;
+
+    letter-spacing:1px;
+}
+
+
+/*==================================================
+    TERMINAL
+==================================================*/
+
+#terminal{
+    height:calc(100vh - 180px);
+
+    overflow-y:auto;
+
+    font-family:var(--font-mono);
+
+    font-size:14px;
+
+    line-height:1.8;
+
+    color:#9EFFC7;
+}
+
+#terminal::after{
+    content:"_";
+
+    animation:cursorBlink .9s infinite;
+}
+
+
+/*==================================================
+    SCROLL BAR
+==================================================*/
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius:8px;
+
+    background:
+        linear-gradient(
+            var(--primary),
+            var(--secondary)
+        );
+}
+/*==================================================
+    DATABASE ACTIONS
+==================================================*/
+
+.database-actions{
+    display:flex;
+    justify-content:flex-end;
+
+    margin-bottom:18px;
+}
+
+#clearAllButton{
+    min-width:120px;
+    height:38px;
+
+    border-radius:var(--radius-sm);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.85),
+            var(--warning)
+        );
+
+    color:#1A1200;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    transition:.25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+#clearAllButton:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 18px rgba(255,214,92,.55);
+}

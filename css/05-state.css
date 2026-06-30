@@ -1,0 +1,261 @@
+/*==================================================
+
+    Project SHIZ
+    A.M.S.S. v0.7
+    Cinematic Lock Update
+
+    05-state.css
+    State Styles
+
+==================================================*/
+
+
+/*==================================================
+    BUTTON STATES
+==================================================*/
+
+#startButton:disabled,
+#resetButton:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
+}
+
+body:not([data-state="RESULT"]) #resetButton{
+    display:none;
+}
+
+body[data-state="RESULT"] #resetButton{
+    display:block;
+}
+
+body[data-state="RESULT"] #startButton{
+    display:none;
+}
+
+
+/*==================================================
+    AI RING STATES
+==================================================*/
+
+#ring.ring-idle::before{
+    animation:ringRotate 30s linear infinite;
+}
+
+#ring.ring-idle::after{
+    animation:ringReverse 18s linear infinite;
+}
+
+#ring.ring-boot::before{
+    animation:ringRotate 14s linear infinite;
+
+    box-shadow:
+        0 0 25px rgba(123,232,255,.55),
+        0 0 55px rgba(123,232,255,.25);
+}
+
+#ring.ring-boot::after{
+    animation:ringReverse 9s linear infinite;
+}
+
+#ring.ring-scan::before{
+    animation:ringRotate 4s linear infinite;
+
+    border-color:#FFFFFF;
+
+    box-shadow:
+        0 0 35px rgba(123,232,255,.75),
+        0 0 75px rgba(123,232,255,.35);
+}
+
+#ring.ring-scan::after{
+    animation:ringReverse 2.2s linear infinite;
+
+    border-color:var(--primary);
+}
+
+#ring.ring-lock{
+    animation:lockPulse .6s ease-in-out infinite;
+}
+
+#ring.ring-lock::before{
+    animation:ringRotate 1.2s linear infinite;
+
+    border-color:#FFFFFF;
+
+    box-shadow:var(--shadow-white);
+}
+
+#ring.ring-lock::after{
+    animation:ringReverse 1s linear infinite;
+}
+
+
+/*==================================================
+    BODY STATE FLASH
+==================================================*/
+
+body[data-state="BOOT"] main,
+body[data-state="AUTH"] main,
+body[data-state="DATABASE"] main,
+body[data-state="SCAN"] main,
+body[data-state="LOCK"] main,
+body[data-state="RESULT"] main{
+    animation:stateFlash .35s ease;
+}
+
+
+/*==================================================
+    SYSTEM MESSAGE STATES
+==================================================*/
+
+body[data-state="SCAN"] #systemMessage{
+    animation:messageFlicker .45s infinite;
+}
+
+body[data-state="LOCK"] #systemMessage{
+    color:#FFFFFF;
+
+    text-shadow:
+        0 0 14px #FFFFFF,
+        0 0 34px var(--primary),
+        0 0 70px var(--primary);
+
+    animation:lockTextPulse .35s infinite;
+}
+
+body[data-state="RESULT"] #systemMessage{
+    opacity:0;
+    pointer-events:none;
+}
+
+
+/*==================================================
+    RESULT PANEL STATE
+==================================================*/
+
+body[data-state="RESULT"] .result-panel{
+    opacity:1;
+
+    pointer-events:auto;
+
+    animation:resultPanelIn .45s ease forwards;
+}
+
+body[data-state="RESULT"] .result-title{
+    animation:
+        resultNoise .18s ease,
+        resultTitleGlow .9s ease-in-out infinite;
+}
+
+body[data-state="RESULT"] #ring{
+    opacity:.95;
+
+    filter:brightness(1.35);
+}
+
+
+/*==================================================
+    MOVIE CARD STATES
+==================================================*/
+
+.movieCard.is-checking{
+    border-left-color:var(--warning);
+
+    box-shadow:
+        0 0 12px rgba(255,214,92,.30);
+}
+
+.movieCard.is-checking .movieStatus{
+    color:var(--warning);
+}
+
+.movieCard.is-checking .movieBar{
+    background:
+        linear-gradient(
+            90deg,
+            var(--warning),
+            transparent
+        );
+
+    background-size:120px 100%;
+
+    animation:barScan .7s linear infinite;
+}
+
+
+.movieCard.is-scanning{
+    border-left-color:var(--secondary);
+
+    background:
+        rgba(123,232,255,.08);
+
+    box-shadow:
+        0 0 14px rgba(123,232,255,.25);
+}
+
+.movieCard.is-scanning .movieStatus{
+    color:var(--primary);
+}
+
+.movieCard.is-scanning .movieBar{
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--primary),
+            transparent
+        );
+
+    background-size:120px 100%;
+
+    animation:barScan .45s linear infinite;
+}
+
+
+.movieCard.is-locked{
+    border-color:#FFFFFF;
+    border-left-color:#FFFFFF;
+
+    background:
+        rgba(255,255,255,.14);
+
+    box-shadow:var(--shadow-white);
+
+    animation:lockedCardPulse .45s infinite;
+}
+
+.movieCard.is-locked .movieTitle{
+    color:#FFFFFF;
+
+    text-shadow:
+        0 0 10px #FFFFFF,
+        0 0 30px var(--primary);
+}
+
+.movieCard.is-locked .movieStatus{
+    color:#FFFFFF;
+}
+
+.movieCard.is-locked .movieBar{
+    background:
+        linear-gradient(
+            90deg,
+            #FFFFFF,
+            var(--primary),
+            #FFFFFF
+        );
+
+    box-shadow:
+        0 0 12px var(--primary);
+}
+
+
+/*==================================================
+    TERMINAL
+==================================================*/
+
+#terminal div{
+    animation:terminalLine .18s ease;
+}

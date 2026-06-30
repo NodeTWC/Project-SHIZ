@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Project SHIZ - A.M.S.S.</title>
+
+    <link rel="stylesheet" href="css/01-theme.css">
+    <link rel="stylesheet" href="css/02-layout.css">
+    <link rel="stylesheet" href="css/03-components.css">
+    <link rel="stylesheet" href="css/04-animation.css">
+    <link rel="stylesheet" href="css/05-state.css">
+
+</head>
+
+<body>
+
+<div class="hud"></div>
+
+<header>
+
+    <div class="logo">
+        A.M.S.S.
+    </div>
+
+    <div class="status">
+        <span class="online"></span>
+        ONLINE
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- ===================== -->
+    <!-- DATABASE -->
+    <!-- ===================== -->
+
+    <section id="databasePanel">
+
+        <h2>DATABASE</h2>
+
+        <div class="counter">
+
+            <div>
+                Movies
+                <strong id="movieCount">0</strong>
+            </div>
+
+            <div>
+                Members
+                <strong id="memberCount">0</strong>
+            </div>
+
+        </div>
+
+        <div class="register">
+            <input
+                id="movieInput"
+                type="text"
+                placeholder="Movie Title">
+
+            <button id="addMovie">
+                ADD
+            </button>
+        </div>
+
+        <div class="database-actions">
+            <button id="clearAllButton">
+                CLEAR ALL
+            </button>
+        </div>
+
+        <div id="movieCards"></div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- AI CORE -->
+    <!-- ===================== -->
+
+    <section id="corePanel">
+
+        <div id="ring">
+
+            <div class="ring2"></div>
+            <div class="ring3"></div>
+
+        </div>
+
+        <div id="systemMessage">
+            <span>A.M.S.S.</span>
+            <span>SYSTEM READY</span>
+        </div>
+
+        <div id="resultPanel" class="result-panel">
+
+            <div class="result-label">
+                TARGET LOCK
+            </div>
+
+            <div id="resultTitle" class="result-title">
+                ---
+            </div>
+
+            <div class="result-meta">
+
+                <div>
+                    <span>DATABASE ID</span>
+                    <strong id="resultId">----</strong>
+                </div>
+
+                <div>
+                    <span>AI CONFIDENCE</span>
+                    <strong id="resultConfidence">--.--%</strong>
+                </div>
+
+                <div>
+                    <span>STATUS</span>
+                    <strong id="resultStatus">LOCKED</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="control-row">
+
+            <button id="startButton">
+                START
+            </button>
+
+            <button id="resetButton">
+                RESET
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== -->
+    <!-- SYSTEM -->
+    <!-- ===================== -->
+
+    <section id="systemPanel">
+
+        <h2>SYSTEM</h2>
+
+        <div id="terminal"></div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    Project SHIZ / AI Movie Selection System
+</footer>
+
+
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+/*==================================================
+
+    Project SHIZ
+    A.M.S.S. v0.7
+    Cinematic Lock Update
+
+    01-theme.css
+    Theme / Design Tokens
+
+==================================================*/
+
+
+:root{
+
+    /* Background */
+    --bg:#06111B;
+    --bg-soft:#08131E;
+    --bg-deep:#050A11;
+    --bg-highlight:#173C57;
+
+    /* Panel */
+    --panel:rgba(255,255,255,.08);
+    --panel-strong:rgba(255,255,255,.14);
+    --panel-dark:rgba(0,0,0,.22);
+    --panel-deep:rgba(0,10,18,.62);
+
+    /* Border */
+    --panel-border:rgba(123,232,255,.25);
+    --panel-border-strong:rgba(123,232,255,.48);
+
+    /* Main Colors */
+    --primary:#79E8FF;
+    --secondary:#52C9F2;
+    --white:#FFFFFF;
+
+    /* Text */
+    --text:#F5FCFF;
+    --sub:#C5EEFF;
+    --muted:#A4DCEA;
+
+    /* Status */
+    --success:#7DFFB6;
+    --warning:#FFD65C;
+    --danger:#FF6B8A;
+
+    /* Result */
+    --result-bg:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.13),
+            rgba(0,10,18,.72)
+        );
+
+    --result-line:rgba(255,255,255,.68);
+
+    /* Effects */
+    --shadow:
+        0 0 12px rgba(123,232,255,.20),
+        0 0 30px rgba(123,232,255,.10);
+
+    --shadow-strong:
+        0 0 24px rgba(123,232,255,.45),
+        0 0 60px rgba(123,232,255,.22);
+
+    --shadow-white:
+        0 0 18px rgba(255,255,255,.65),
+        0 0 55px rgba(123,232,255,.45);
+
+    --shadow-result:
+        0 0 26px rgba(255,255,255,.38),
+        0 0 78px rgba(123,232,255,.42),
+        inset 0 0 28px rgba(123,232,255,.16);
+
+    /* Radius */
+    --radius-sm:10px;
+    --radius-md:16px;
+    --radius-lg:30px;
+
+    /* Layout */
+    --header-height:72px;
+    --footer-height:48px;
+
+    --side-left:360px;
+    --side-right:320px;
+    --gap:22px;
+
+    /* Font */
+    --font-main:
+        "Segoe UI",
+        "Yu Gothic UI",
+        "Meiryo",
+        sans-serif;
+
+    --font-mono:
+        Consolas,
+        "Courier New",
+        monospace;
+
+}
