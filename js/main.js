@@ -2,23 +2,14 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v0.7
-    Cinematic Lock Update
+    A.M.S.S. v1.0.1
 
     js/main.js
 ==================================================*/
 
 
-/*==================================================
-    STORAGE
-==================================================*/
-
 const STORAGE_KEY = "amss_movies_v1";
 
-
-/*==================================================
-    APP STATE
-==================================================*/
 
 const App = {
     state: "READY",
@@ -33,10 +24,6 @@ const App = {
 };
 
 
-/*==================================================
-    DOM
-==================================================*/
-
 const DOM = {
     movieInput: document.getElementById("movieInput"),
     addMovie: document.getElementById("addMovie"),
@@ -44,7 +31,6 @@ const DOM = {
     movieCards: document.getElementById("movieCards"),
 
     movieCount: document.getElementById("movieCount"),
-    memberCount: document.getElementById("memberCount"),
 
     startButton: document.getElementById("startButton"),
     resetButton: document.getElementById("resetButton"),
@@ -60,10 +46,6 @@ const DOM = {
     resultStatus: document.getElementById("resultStatus")
 };
 
-
-/*==================================================
-    TERMINAL
-==================================================*/
 
 const Terminal = {
     write(message, type = "INFO") {
@@ -108,27 +90,12 @@ const Terminal = {
 };
 
 
-/*==================================================
-    SOUND PLACEHOLDER
-==================================================*/
-
 function playSound(name) {
     if (!App.config.soundEnabled) return;
-
-    /*
-        v0.8予定：
-        const audio = new Audio(`assets/sound/${name}.mp3`);
-        audio.volume = 0.6;
-        audio.play();
-    */
 
     console.log(`sound:${name}`);
 }
 
-
-/*==================================================
-    DATABASE
-==================================================*/
 
 function saveMovies() {
     localStorage.setItem(
@@ -136,6 +103,7 @@ function saveMovies() {
         JSON.stringify(App.movies)
     );
 }
+
 
 function loadMovies() {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -157,6 +125,7 @@ function loadMovies() {
         Terminal.warn("Failed to load movie database.");
     }
 }
+
 
 function addMovie() {
     const title = DOM.movieInput.value.trim();
@@ -182,8 +151,8 @@ function addMovie() {
     Terminal.database(`Registered : ${title}`);
 }
 
-function removeMovie(id) {
 
+function removeMovie(id) {
     if (App.isRunning) return;
 
     const movie = App.movies.find(item => item.id === id);
@@ -197,6 +166,7 @@ function removeMovie(id) {
         Terminal.database(`Removed : ${movie.title}`);
     }
 }
+
 
 function clearAllMovies() {
     if (App.isRunning) return;
@@ -225,19 +195,17 @@ function clearAllMovies() {
     Terminal.database("All movie records cleared.");
 }
 
-/*==================================================
-    RENDER
-==================================================*/
 
 function render() {
     renderCounters();
     renderMovieCards();
 }
 
+
 function renderCounters() {
     DOM.movieCount.textContent = App.movies.length;
-    DOM.memberCount.textContent = Math.floor(App.movies.length / 2);
 }
+
 
 function renderMovieCards() {
     DOM.movieCards.innerHTML = "";
@@ -264,6 +232,7 @@ function renderMovieCards() {
     });
 }
 
+
 function getStatusClass(status) {
     switch (status) {
         case "CHECKING":
@@ -278,18 +247,16 @@ function getStatusClass(status) {
 }
 
 
-/*==================================================
-    UI CONTROL
-==================================================*/
-
 function setSystemMessage(message) {
     DOM.systemMessage.textContent = message;
 }
+
 
 function setAppState(state) {
     App.state = state;
     document.body.dataset.state = state;
 }
+
 
 function setRingMode(mode) {
     DOM.ring.classList.remove(
@@ -302,6 +269,7 @@ function setRingMode(mode) {
     DOM.ring.classList.add(`ring-${mode}`);
 }
 
+
 function setAllMovieStatus(status) {
     App.movies.forEach(movie => {
         movie.status = status;
@@ -309,6 +277,7 @@ function setAllMovieStatus(status) {
 
     renderMovieCards();
 }
+
 
 function setMovieStatus(id, status) {
     const movie = App.movies.find(item => item.id === id);
@@ -320,6 +289,7 @@ function setMovieStatus(id, status) {
     renderMovieCards();
 }
 
+
 function resetMovieStatus() {
     App.movies.forEach(movie => {
         movie.status = "READY";
@@ -328,12 +298,14 @@ function resetMovieStatus() {
     renderMovieCards();
 }
 
+
 function resetResultPanel() {
     DOM.resultTitle.textContent = "---";
     DOM.resultId.textContent = "----";
     DOM.resultConfidence.textContent = "--.--%";
     DOM.resultStatus.textContent = "LOCKED";
 }
+
 
 function resetSystem() {
     if (App.isRunning) return;
@@ -351,10 +323,6 @@ function resetSystem() {
     Terminal.system("System reset.");
 }
 
-
-/*==================================================
-    AI ENGINE
-==================================================*/
 
 const AIEngine = {
     async start() {
@@ -441,8 +409,7 @@ const AIEngine = {
 
         await sleep(650);
 
-        Terminal.database(`Movies : ${App.movies.length}`);
-        Terminal.database(`Members : ${Math.floor(App.movies.length / 2)}`);
+        Terminal.database(`Registered Titles : ${App.movies.length}`);
 
         await checkCards();
 
@@ -519,10 +486,6 @@ const AIEngine = {
 };
 
 
-/*==================================================
-    CARD CHECK SEQUENCE
-==================================================*/
-
 async function checkCards() {
     for (const movie of App.movies) {
         setMovieStatus(movie.id, "CHECKING");
@@ -534,10 +497,6 @@ async function checkCards() {
     setAllMovieStatus("READY");
 }
 
-
-/*==================================================
-    RESULT TITLE REVEAL
-==================================================*/
 
 async function revealResultTitle(title) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
@@ -556,7 +515,8 @@ async function revealResultTitle(title) {
             await sleep(28);
         }
 
-        display = finalText.slice(0, i + 1) +
+        display =
+            finalText.slice(0, i + 1) +
             "□".repeat(Math.max(finalText.length - i - 1, 0));
 
         DOM.resultTitle.textContent = display;
@@ -568,21 +528,20 @@ async function revealResultTitle(title) {
 }
 
 
-/*==================================================
-    UTILITY
-==================================================*/
-
 function randomMovie() {
     return App.movies[randomIndex()];
 }
+
 
 function randomIndex() {
     return Math.floor(Math.random() * App.movies.length);
 }
 
+
 function formatId(index) {
     return String(index + 1).padStart(4, "0");
 }
+
 
 function createConfidence() {
     if (Math.random() < 0.01) {
@@ -594,9 +553,11 @@ function createConfidence() {
     return value.toFixed(2);
 }
 
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 
 function createId() {
     if (crypto.randomUUID) {
@@ -606,16 +567,13 @@ function createId() {
     return `movie-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+
 function escapeHTML(text) {
     const div = document.createElement("div");
     div.textContent = text;
     return div.innerHTML;
 }
 
-
-/*==================================================
-    EVENTS
-==================================================*/
 
 DOM.addMovie.addEventListener("click", addMovie);
 
@@ -633,10 +591,6 @@ DOM.startButton.addEventListener("click", () => {
 
 DOM.resetButton.addEventListener("click", resetSystem);
 
-
-/*==================================================
-    INIT
-==================================================*/
 
 function init() {
     setAppState("READY");
