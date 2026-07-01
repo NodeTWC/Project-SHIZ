@@ -821,14 +821,18 @@ button{
     min-height:0;
 }
 
+#systemPanel h2{
+    flex:0 0 auto;
+}
+
 #terminal{
-    flex:1;
+    flex:1 1 auto;
     min-height:0;
 
     overflow-y:auto;
     overflow-x:hidden;
 
-    padding-bottom:48px;
+    padding-bottom:80px;
 
     font-family:var(--font-mono);
     font-size:14px;
@@ -844,10 +848,11 @@ button{
 
 #terminal::after{
     content:"_";
+    display:block;
+    height:32px;
 
     animation:cursorBlink .9s infinite;
 }
-
 /*==================================================
     SCROLL BAR
 ==================================================*/
