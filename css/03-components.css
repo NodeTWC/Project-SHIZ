@@ -1,8 +1,7 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v0.7
-    Cinematic Lock Update
+    A.M.S.S. v1.0.1
 
     03-components.css
     Components
@@ -45,6 +44,10 @@
     color:var(--primary);
 }
 
+.single-counter div{
+    width:100%;
+}
+
 
 /*==================================================
     REGISTER FORM
@@ -54,7 +57,7 @@
     display:flex;
     gap:10px;
 
-    margin-bottom:24px;
+    margin-bottom:14px;
 }
 
 .register input{
@@ -89,6 +92,18 @@
 
 
 /*==================================================
+    DATABASE ACTIONS
+==================================================*/
+
+.database-actions{
+    display:flex;
+    justify-content:flex-end;
+
+    margin-bottom:18px;
+}
+
+
+/*==================================================
     BUTTON BASE
 ==================================================*/
 
@@ -104,7 +119,8 @@ button{
 
 #addMovie,
 #startButton,
-#resetButton{
+#resetButton,
+#clearAllButton{
     background:
         linear-gradient(
             135deg,
@@ -127,7 +143,8 @@ button{
 
 #addMovie:hover,
 #startButton:hover,
-#resetButton:hover{
+#resetButton:hover,
+#clearAllButton:hover{
     transform:translateY(-3px);
 
     box-shadow:
@@ -136,7 +153,8 @@ button{
 
 #addMovie:active,
 #startButton:active,
-#resetButton:active{
+#resetButton:active,
+#clearAllButton:active{
     transform:scale(.97);
 }
 
@@ -144,6 +162,29 @@ button{
     min-width:72px;
 
     border-radius:var(--radius-sm);
+}
+
+#clearAllButton{
+    min-width:120px;
+    height:38px;
+
+    border-radius:var(--radius-sm);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.85),
+            var(--warning)
+        );
+
+    color:#1A1200;
+
+    font-size:13px;
+}
+
+#clearAllButton:hover{
+    box-shadow:
+        0 0 18px rgba(255,214,92,.55);
 }
 
 #startButton,
@@ -185,7 +226,8 @@ button{
 
 #startButton::before,
 #resetButton::before,
-#addMovie::before{
+#addMovie::before,
+#clearAllButton::before{
     content:"";
 
     position:absolute;
@@ -207,7 +249,8 @@ button{
 
 #startButton:hover::before,
 #resetButton:hover::before,
-#addMovie:hover::before{
+#addMovie:hover::before,
+#clearAllButton:hover::before{
     animation:buttonShine .8s linear;
 }
 
@@ -217,7 +260,7 @@ button{
 ==================================================*/
 
 #movieCards{
-    height:calc(100vh - 315px);
+    height:calc(100vh - 345px);
 
     overflow-y:auto;
 
@@ -608,47 +651,4 @@ button{
             var(--primary),
             var(--secondary)
         );
-}
-/*==================================================
-    DATABASE ACTIONS
-==================================================*/
-
-.database-actions{
-    display:flex;
-    justify-content:flex-end;
-
-    margin-bottom:18px;
-}
-
-#clearAllButton{
-    min-width:120px;
-    height:38px;
-
-    border-radius:var(--radius-sm);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.85),
-            var(--warning)
-        );
-
-    color:#1A1200;
-
-    font-weight:700;
-
-    letter-spacing:1px;
-
-    transition:.25s;
-
-    position:relative;
-
-    overflow:hidden;
-}
-
-#clearAllButton:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 0 18px rgba(255,214,92,.55);
 }
