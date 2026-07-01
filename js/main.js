@@ -2,8 +2,8 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v2.1
-    Operation Sequence Update
+    A.M.S.S.
+    CLEAR LOG Update
 
     js/main.js
 ==================================================*/
@@ -27,6 +27,7 @@ const DOM = {
     movieInput: document.getElementById("movieInput"),
     addMovie: document.getElementById("addMovie"),
     clearAllButton: document.getElementById("clearAllButton"),
+    clearLogButton: document.getElementById("clearLogButton"),
     movieCards: document.getElementById("movieCards"),
     movieCount: document.getElementById("movieCount"),
 
@@ -58,6 +59,11 @@ const Terminal = {
 
         DOM.terminal.appendChild(line);
         DOM.terminal.scrollTop = DOM.terminal.scrollHeight;
+    },
+
+    clear() {
+        DOM.terminal.innerHTML = "";
+        this.system("Log cleared.");
     },
 
     system(message) {
@@ -621,6 +627,9 @@ function escapeHTML(text) {
 
 DOM.addMovie.addEventListener("click", addMovie);
 DOM.clearAllButton.addEventListener("click", clearAllMovies);
+DOM.clearLogButton.addEventListener("click", () => {
+    Terminal.clear();
+});
 
 DOM.movieInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
