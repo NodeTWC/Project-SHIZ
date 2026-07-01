@@ -12,6 +12,22 @@
 ==================================================*/
 
 
+"use strict";
+
+/*==================================================
+
+    Project SHIZ
+    A.R.C.S.
+    Advanced Random Control System
+
+    Version 3.1
+    Operator Authorization
+
+    js/main.js
+
+==================================================*/
+
+
 /*==================================================
     SYSTEM
 ==================================================*/
@@ -20,11 +36,12 @@ const SYSTEM = {
     project: "PROJECT SHIZ",
     name: "A.R.C.S.",
     fullName: "Advanced Random Control System",
-    version: "3.0.0"
+    version: "3.1.0"
 };
 
 const STORAGE_KEY = "arcs_entries_v1";
 const SETTINGS_KEY = "arcs_settings_v1";
+
 
 /*==================================================
     APP STATE
@@ -32,19 +49,22 @@ const SETTINGS_KEY = "arcs_settings_v1";
 
 const App = {
     state: "READY",
+
     entries: [],
     selectedEntry: null,
     selectedIndex: -1,
+
     isRunning: false,
 
     settings: {
-        operatorName: "OPERATOR"
+        operatorName: "忠犬しず"
     },
 
     config: {
         soundEnabled: false
     }
 };
+
 
 /*==================================================
     DOM
@@ -64,6 +84,13 @@ const DOM = {
     startButton: document.getElementById("startButton"),
     resetButton: document.getElementById("resetButton"),
 
+    settingsButton: document.getElementById("settingsButton"),
+    settingsPanel: document.getElementById("settingsPanel"),
+    operatorName: document.getElementById("operatorName"),
+    operatorInput: document.getElementById("operatorInput"),
+    saveOperatorButton: document.getElementById("saveOperatorButton"),
+    closeSettingsButton: document.getElementById("closeSettingsButton"),
+
     systemMessage: document.querySelector("#systemMessage span:last-child"),
     terminal: document.getElementById("terminal"),
     ring: document.getElementById("ring"),
@@ -71,16 +98,8 @@ const DOM = {
     resultTitle: document.getElementById("resultTitle"),
     resultId: document.getElementById("resultId"),
     resultConfidence: document.getElementById("resultConfidence"),
-    resultStatus: document.getElementById("resultStatus"),
-
-    settingsButton: document.getElementById("settingsButton"),
-settingsPanel: document.getElementById("settingsPanel"),
-operatorName: document.getElementById("operatorName"),
-operatorInput: document.getElementById("operatorInput"),
-saveOperatorButton: document.getElementById("saveOperatorButton"),
-closeSettingsButton: document.getElementById("closeSettingsButton"),
+    resultStatus: document.getElementById("resultStatus")
 };
-
 
 /*==================================================
     TERMINAL
@@ -152,7 +171,7 @@ const Sound = {
 
 
 /*==================================================
-    STORAGE
+    STORAGE : ENTRIES
 ==================================================*/
 
 function saveEntries() {
@@ -182,6 +201,12 @@ function loadEntries() {
         Terminal.warn("Failed to load local archive.");
     }
 }
+
+
+/*==================================================
+    STORAGE : SETTINGS
+==================================================*/
+
 function saveSettings() {
     localStorage.setItem(
         SETTINGS_KEY,
@@ -203,6 +228,11 @@ function loadSettings() {
         Terminal.warn("Failed to load settings.");
     }
 }
+
+
+/*==================================================
+    SETTINGS UI
+==================================================*/
 
 function renderSettings() {
     DOM.operatorName.textContent = App.settings.operatorName;
@@ -229,28 +259,37 @@ function saveOperatorName() {
 
     Terminal.auth(`Operator updated : ${App.settings.operatorName}`);
     setSystemMessage("OPERATOR UPDATED");
+    Sound.play("auth");
 }
-}
-
 
 /*==================================================
     DATABASE CONTROL
 ==================================================*/
 
 function addEntry() {
+
     const title = DOM.entryInput.value.trim();
 
     if (!title) {
+
         Terminal.warn("Empty entry rejected.");
+
         setSystemMessage("NO DATA");
+
         Sound.play("error");
+
         return;
+
     }
 
     App.entries.push({
+
         id: createId(),
+
         title,
+
         status: "READY"
+
     });
 
     saveEntries();
@@ -260,46 +299,65 @@ function addEntry() {
     render();
 
     Terminal.database(`Record registered : ${title}`);
+
     Sound.play("add");
+
 }
 
+
+
 function removeEntry(id) {
+
     if (App.isRunning) return;
 
     const entry = App.entries.find(item => item.id === id);
 
+    if (!entry) return;
+
     App.entries = App.entries.filter(item => item.id !== id);
 
     saveEntries();
+
     render();
 
-    if (entry) {
-        Terminal.database(`Record removed : ${entry.title}`);
-        Sound.play("delete");
-    }
+    Terminal.database(`Record removed : ${entry.title}`);
+
+    Sound.play("delete");
+
 }
 
+
+
 function clearAllEntries() {
+
     if (App.isRunning) return;
 
     if (App.entries.length === 0) {
+
         Terminal.warn("Archive already empty.");
+
         return;
+
     }
 
-    const confirmed = confirm("登録データをすべて削除しますか？");
+    if (!confirm("登録データをすべて削除しますか？")) {
 
-    if (!confirmed) return;
+        return;
+
+    }
 
     App.entries = [];
 
     saveEntries();
+
     render();
 
+    resetSystem();
+
     Terminal.database("All records cleared.");
+
     Sound.play("clear");
 
-    resetSystem();
 }
 
 
@@ -308,51 +366,99 @@ function clearAllEntries() {
 ==================================================*/
 
 function render() {
+
     renderCounters();
+
     renderEntryCards();
+
 }
+
+
 
 function renderCounters() {
+
     DOM.entryCount.textContent = App.entries.length;
+
 }
 
+
+
 function renderEntryCards() {
+
     DOM.entryCards.innerHTML = "";
 
     App.entries.forEach((entry, index) => {
+
         const card = document.createElement("div");
 
         card.className = `movieCard ${getStatusClass(entry.status)}`;
+
         card.dataset.id = entry.id;
 
         card.innerHTML = `
-            <div class="movieTitle">◆ ${escapeHTML(entry.title)}</div>
-            <div class="movieStatus">
-                ID : ${formatId(index)} / STATUS : ${entry.status}
+
+            <div class="movieTitle">
+
+                ◆ ${escapeHTML(entry.title)}
+
             </div>
+
+            <div class="movieStatus">
+
+                ID : ${formatId(index)}
+
+                /
+
+                STATUS : ${entry.status}
+
+            </div>
+
             <div class="movieBar"></div>
+
         `;
 
         card.addEventListener("dblclick", () => {
+
             removeEntry(entry.id);
+
         });
 
         DOM.entryCards.appendChild(card);
+
     });
+
 }
 
+
+
+/*==================================================
+    STATUS CLASS
+==================================================*/
+
 function getStatusClass(status) {
+
     switch (status) {
+
         case "CHECKING":
+
             return "is-checking";
+
         case "SCANNING":
+
             return "is-scanning";
+
         case "TARGET LOCK":
+
             return "is-locked";
+
         default:
+
             return "";
+
     }
+
 }
+
 
 
 /*==================================================
@@ -360,34 +466,59 @@ function getStatusClass(status) {
 ==================================================*/
 
 function setSystemMessage(message) {
+
     DOM.systemMessage.textContent = message;
+
 }
+
+
 
 function setAppState(state) {
+
     App.state = state;
+
     document.body.dataset.state = state;
+
 }
 
+
+
 function setRingMode(mode) {
+
     DOM.ring.classList.remove(
+
         "ring-idle",
+
         "ring-boot",
+
         "ring-scan",
+
         "ring-lock"
+
     );
 
     DOM.ring.classList.add(`ring-${mode}`);
+
 }
 
+
+
 function setAllEntryStatus(status) {
+
     App.entries.forEach(entry => {
+
         entry.status = status;
+
     });
 
     renderEntryCards();
+
 }
 
+
+
 function setEntryStatus(id, status) {
+
     const entry = App.entries.find(item => item.id === id);
 
     if (!entry) return;
@@ -395,48 +526,72 @@ function setEntryStatus(id, status) {
     entry.status = status;
 
     renderEntryCards();
+
 }
 
+
+
 function resetEntryStatus() {
+
     App.entries.forEach(entry => {
+
         entry.status = "READY";
+
     });
 
     renderEntryCards();
+
 }
+
+
 
 function resetResultPanel() {
+
     DOM.resultTitle.textContent = "---";
+
     DOM.resultId.textContent = "----";
+
     DOM.resultConfidence.textContent = "--.--%";
+
     DOM.resultStatus.textContent = "LOCKED";
+
 }
 
+
+
 function resetSystem() {
+
     if (App.isRunning) return;
 
     App.selectedEntry = null;
+
     App.selectedIndex = -1;
 
     resetEntryStatus();
+
     resetResultPanel();
 
     setAppState("READY");
+
     setRingMode("idle");
+
     setSystemMessage("SYSTEM READY");
 
-    Terminal.system("Operation reset. Awaiting command.");
-}
+    Terminal.system("Operation reset.");
 
+}
 
 /*==================================================
     CINEMATIC SCENES
 ==================================================*/
 
 const Scene = {
+
     async boot() {
+
         setAppState("BOOT");
         setRingMode("boot");
+
         Sound.play("boot");
 
         Terminal.system(`${SYSTEM.project}`);
@@ -449,42 +604,105 @@ const Scene = {
         await sceneStep("A.R.C.S. CORE", "A.R.C.S. Core..........ONLINE", "system", 360);
         await sceneStep("TARGET ENGINE", "Target Engine..........STANDBY", "system", 360);
         await sceneStep("A.R.C.S. ONLINE", "A.R.C.S. online.", "system", 520);
+
     },
 
+
+
     async auth() {
+
         setAppState("AUTH");
+
         Sound.play("auth");
 
         Terminal.auth("Operator verification started.");
 
-        await sceneStep("AUTHENTICATING", "Operator signature.....SCANNING", "auth", 480);
         await sceneStep(
-    App.settings.operatorName,
-    `Operator...............${App.settings.operatorName}`,
-    "auth",
-    600
-);
-        await sceneStep("ACCESS GRANTED", "Access level...........GRANTED", "auth", 620);
+            "AUTHENTICATING",
+            "Operator signature.....SCANNING",
+            "auth",
+            480
+        );
+
+        await sceneStep(
+            App.settings.operatorName,
+            `Operator...............${App.settings.operatorName}`,
+            "auth",
+            620
+        );
+
+        await sceneStep(
+            "SIGNATURE MATCH",
+            "Signature..............MATCH",
+            "auth",
+            420
+        );
+
+        await sceneStep(
+            "ACCESS GRANTED",
+            "Access level...........GRANTED",
+            "auth",
+            520
+        );
+
+        await sceneStep(
+            `WELCOME`,
+            `Welcome, ${App.settings.operatorName}.`,
+            "auth",
+            420
+        );
+
     },
 
+
+
     async database() {
+
         setAppState("DATABASE");
+
         Sound.play("database");
 
         Terminal.database("Archive link established.");
 
-        await sceneStep("DATABASE LINK", "Archive connection.....OK", "database", 420);
-        await sceneStep("VERIFYING", `Registered Entries.....${App.entries.length}`, "database", 420);
-        await sceneStep("RECORD CHECK", "Record integrity.......RUNNING", "database", 300);
+        await sceneStep(
+            "DATABASE LINK",
+            "Archive connection.....OK",
+            "database",
+            420
+        );
+
+        await sceneStep(
+            "VERIFYING",
+            `Registered Entries.....${App.entries.length}`,
+            "database",
+            420
+        );
+
+        await sceneStep(
+            "RECORD CHECK",
+            "Record integrity.......RUNNING",
+            "database",
+            300
+        );
 
         await checkCards();
 
-        await sceneStep("DATABASE READY", "Record integrity.......OK", "database", 560);
+        await sceneStep(
+            "DATABASE READY",
+            "Record integrity.......OK",
+            "database",
+            560
+        );
+
     },
 
+
+
     async scan() {
+
         setAppState("SCAN");
         setRingMode("scan");
+
         Sound.play("scan_loop");
 
         setAllEntryStatus("SCANNING");
@@ -513,18 +731,26 @@ const Scene = {
         const steps = 62;
 
         for (let i = 0; i < steps; i++) {
+
             if (i % 13 === 0) {
+
                 const entry = randomEntry();
                 setSystemMessage(entry.title);
+
             } else {
+
                 setSystemMessage(sequence[i % sequence.length]);
+
             }
 
             if (i % 12 === 0 && logs[Math.floor(i / 12)]) {
+
                 Terminal.ai(logs[Math.floor(i / 12)]);
+
             }
 
             await sleep(26 + i * 2);
+
         }
 
         App.selectedIndex = randomIndex();
@@ -533,9 +759,13 @@ const Scene = {
         Terminal.ai("Candidate selected.");
 
         await sleep(300);
+
     },
 
+
+
     async lock() {
+
         setAppState("LOCK");
         setRingMode("lock");
 
@@ -547,13 +777,35 @@ const Scene = {
 
         Terminal.lock("Target signature detected.");
 
-        await sceneStep("TARGET FOUND", "Target signature........FOUND", "lock", 320);
-        await sceneStep("IDENTIFYING", `Database ID.............${formatId(App.selectedIndex)}`, "lock", 320);
-        await sceneStep("LOCK COMPLETE", `Target locked : ${App.selectedEntry.title}`, "lock", 620);
+        await sceneStep(
+            "TARGET FOUND",
+            "Target signature........FOUND",
+            "lock",
+            320
+        );
+
+        await sceneStep(
+            "IDENTIFYING",
+            `Database ID.............${formatId(App.selectedIndex)}`,
+            "lock",
+            320
+        );
+
+        await sceneStep(
+            "LOCK COMPLETE",
+            `Target locked : ${App.selectedEntry.title}`,
+            "lock",
+            620
+        );
+
     },
 
+
+
     async result() {
+
         setAppState("RESULT");
+
         Sound.play("result");
 
         const idText = formatId(App.selectedIndex);
@@ -571,40 +823,59 @@ const Scene = {
         await revealResultTitle(App.selectedEntry.title);
 
         Terminal.result("Selection complete.");
+
     }
+
 };
 
+
+
 async function sceneStep(display, logMessage, logType, wait) {
+
     setSystemMessage(display);
 
     if (logMessage) {
+
         writeSceneLog(logMessage, logType);
+
     }
 
     await sleep(wait);
+
 }
 
+
+
 function writeSceneLog(message, type) {
+
     switch (type) {
+
         case "auth":
             Terminal.auth(message);
             break;
+
         case "database":
             Terminal.database(message);
             break;
+
         case "ai":
             Terminal.ai(message);
             break;
+
         case "lock":
             Terminal.lock(message);
             break;
+
         case "result":
             Terminal.result(message);
             break;
+
         default:
             Terminal.system(message);
             break;
+
     }
+
 }
 
 
@@ -613,14 +884,18 @@ function writeSceneLog(message, type) {
 ==================================================*/
 
 const Engine = {
+
     async start() {
+
         if (App.isRunning) return;
 
         if (App.entries.length === 0) {
+
             Terminal.warn("No entry data found.");
             setSystemMessage("NO DATA");
             Sound.play("error");
             return;
+
         }
 
         App.isRunning = true;
@@ -631,35 +906,45 @@ const Engine = {
         resetResultPanel();
 
         try {
+
             await Scene.boot();
             await Scene.auth();
             await Scene.database();
             await Scene.scan();
             await Scene.lock();
             await Scene.result();
+
         } finally {
+
             App.isRunning = false;
 
             DOM.startButton.disabled = false;
             DOM.resetButton.disabled = false;
-        }
-    }
-};
 
+        }
+
+    }
+
+};
 
 /*==================================================
     CARD CHECK
 ==================================================*/
 
 async function checkCards() {
+
     for (const entry of App.entries) {
+
         setEntryStatus(entry.id, "CHECKING");
+
         await sleep(42);
+
     }
 
     await sleep(220);
 
     setAllEntryStatus("READY");
+
 }
 
 
@@ -668,11 +953,15 @@ async function checkCards() {
 ==================================================*/
 
 async function revealResultTitle(title) {
+
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
+
     const finalText = title;
 
     for (let i = 0; i < finalText.length; i++) {
+
         for (let j = 0; j < 3; j++) {
+
             const display =
                 finalText.slice(0, i) +
                 chars[Math.floor(Math.random() * chars.length)] +
@@ -681,6 +970,7 @@ async function revealResultTitle(title) {
             DOM.resultTitle.textContent = display;
 
             await sleep(28);
+
         }
 
         DOM.resultTitle.textContent =
@@ -688,9 +978,11 @@ async function revealResultTitle(title) {
             "□".repeat(Math.max(finalText.length - i - 1, 0));
 
         await sleep(32);
+
     }
 
     DOM.resultTitle.textContent = finalText;
+
 }
 
 
@@ -699,12 +991,17 @@ async function revealResultTitle(title) {
 ==================================================*/
 
 function closeBootScreen() {
+
     if (!DOM.bootScreen) return;
 
     setTimeout(() => {
+
         DOM.bootScreen.classList.add("is-hidden");
+
         Terminal.system("Boot screen closed.");
+
     }, 2300);
+
 }
 
 
@@ -713,43 +1010,75 @@ function closeBootScreen() {
 ==================================================*/
 
 function randomEntry() {
+
     return App.entries[randomIndex()];
+
 }
+
+
 
 function randomIndex() {
+
     return Math.floor(Math.random() * App.entries.length);
+
 }
+
+
 
 function formatId(index) {
+
     return String(index + 1).padStart(4, "0");
+
 }
 
+
+
 function createConfidence() {
+
     if (Math.random() < 0.01) {
+
         return "100.00";
+
     }
 
     const value = 96 + Math.random() * 3.99;
 
     return value.toFixed(2);
+
 }
+
+
 
 function sleep(ms) {
+
     return new Promise(resolve => setTimeout(resolve, ms));
+
 }
 
+
+
 function createId() {
+
     if (crypto.randomUUID) {
+
         return crypto.randomUUID();
+
     }
 
     return `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
 }
 
+
+
 function escapeHTML(text) {
+
     const div = document.createElement("div");
+
     div.textContent = text;
+
     return div.innerHTML;
+
 }
 
 
@@ -762,58 +1091,85 @@ DOM.addEntryButton.addEventListener("click", addEntry);
 DOM.clearAllButton.addEventListener("click", clearAllEntries);
 
 DOM.clearLogButton.addEventListener("click", () => {
+
     Terminal.clear();
+
 });
 
 DOM.entryInput.addEventListener("keydown", event => {
+
     if (event.key === "Enter") {
+
         addEntry();
+
     }
+
 });
 
 DOM.startButton.addEventListener("click", () => {
+
     Engine.start();
+
 });
 
 DOM.resetButton.addEventListener("click", resetSystem);
 
+
+
 DOM.settingsButton.addEventListener("click", openSettings);
+
 DOM.closeSettingsButton.addEventListener("click", closeSettings);
+
 DOM.saveOperatorButton.addEventListener("click", saveOperatorName);
 
 DOM.operatorInput.addEventListener("keydown", event => {
+
     if (event.key === "Enter") {
+
         saveOperatorName();
+
     }
+
 });
 
 DOM.settingsPanel.addEventListener("click", event => {
+
     if (event.target === DOM.settingsPanel) {
+
         closeSettings();
+
     }
+
 });
+
 
 /*==================================================
     INIT
 ==================================================*/
 
 function init() {
+
     setAppState("READY");
+
     setRingMode("idle");
+
     resetResultPanel();
 
     Terminal.system(`${SYSTEM.project} interface online.`);
     Terminal.system(`${SYSTEM.name} standby.`);
 
     loadSettings();
+
     renderSettings();
 
     loadEntries();
+
     render();
 
     Terminal.system("System ready.");
 
     closeBootScreen();
+
 }
 
 init();
