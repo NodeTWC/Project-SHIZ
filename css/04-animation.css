@@ -328,3 +328,20 @@
         filter:brightness(1);
     }
 }
+@keyframes bootBar{
+    0%{
+        width:0%;
+    }
+
+    45%{
+        width:58%;
+    }
+
+    72%{
+        width:84%;
+    }
+
+    100%{
+        width:100%;
+    }
+}
