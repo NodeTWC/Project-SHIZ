@@ -2,15 +2,13 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v1.2
-    Boot Screen Update
+    A.M.S.S. v2.0
+    Cinematic Sequence Refactor
 
     js/main.js
 ==================================================*/
 
-
 const STORAGE_KEY = "amss_movies_v1";
-
 
 const App = {
     state: "READY",
@@ -18,12 +16,10 @@ const App = {
     selectedMovie: null,
     selectedIndex: -1,
     isRunning: false,
-
     config: {
         soundEnabled: false
     }
 };
-
 
 const DOM = {
     bootScreen: document.getElementById("bootScreen"),
@@ -32,7 +28,6 @@ const DOM = {
     addMovie: document.getElementById("addMovie"),
     clearAllButton: document.getElementById("clearAllButton"),
     movieCards: document.getElementById("movieCards"),
-
     movieCount: document.getElementById("movieCount"),
 
     startButton: document.getElementById("startButton"),
@@ -40,7 +35,6 @@ const DOM = {
 
     systemMessage: document.querySelector("#systemMessage span:last-child"),
     terminal: document.getElementById("terminal"),
-
     ring: document.getElementById("ring"),
 
     resultTitle: document.getElementById("resultTitle"),
@@ -49,6 +43,9 @@ const DOM = {
     resultStatus: document.getElementById("resultStatus")
 };
 
+/*==================================================
+    TERMINAL
+==================================================*/
 
 const Terminal = {
     write(message, type = "INFO") {
@@ -92,21 +89,22 @@ const Terminal = {
     }
 };
 
+/*==================================================
+    SOUND PLACEHOLDER
+==================================================*/
 
 function playSound(name) {
     if (!App.config.soundEnabled) return;
-
     console.log(`sound:${name}`);
 }
 
+/*==================================================
+    DATABASE
+==================================================*/
 
 function saveMovies() {
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(App.movies)
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(App.movies));
 }
-
 
 function loadMovies() {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -129,7 +127,6 @@ function loadMovies() {
     }
 }
 
-
 function addMovie() {
     const title = DOM.movieInput.value.trim();
 
@@ -146,14 +143,11 @@ function addMovie() {
     });
 
     saveMovies();
-
     DOM.movieInput.value = "";
-
     render();
 
     Terminal.database(`Registered : ${title}`);
 }
-
 
 function removeMovie(id) {
     if (App.isRunning) return;
@@ -170,7 +164,6 @@ function removeMovie(id) {
     }
 }
 
-
 function clearAllMovies() {
     if (App.isRunning) return;
 
@@ -179,9 +172,7 @@ function clearAllMovies() {
         return;
     }
 
-    const confirmed = confirm(
-        "登録作品をすべて削除しますか？"
-    );
+    const confirmed = confirm("登録作品をすべて削除しますか？");
 
     if (!confirmed) return;
 
@@ -198,17 +189,18 @@ function clearAllMovies() {
     Terminal.database("All movie records cleared.");
 }
 
+/*==================================================
+    RENDER
+==================================================*/
 
 function render() {
     renderCounters();
     renderMovieCards();
 }
 
-
 function renderCounters() {
     DOM.movieCount.textContent = App.movies.length;
 }
-
 
 function renderMovieCards() {
     DOM.movieCards.innerHTML = "";
@@ -235,7 +227,6 @@ function renderMovieCards() {
     });
 }
 
-
 function getStatusClass(status) {
     switch (status) {
         case "CHECKING":
@@ -249,17 +240,18 @@ function getStatusClass(status) {
     }
 }
 
+/*==================================================
+    UI CONTROL
+==================================================*/
 
 function setSystemMessage(message) {
     DOM.systemMessage.textContent = message;
 }
 
-
 function setAppState(state) {
     App.state = state;
     document.body.dataset.state = state;
 }
-
 
 function setRingMode(mode) {
     DOM.ring.classList.remove(
@@ -272,7 +264,6 @@ function setRingMode(mode) {
     DOM.ring.classList.add(`ring-${mode}`);
 }
 
-
 function setAllMovieStatus(status) {
     App.movies.forEach(movie => {
         movie.status = status;
@@ -281,17 +272,14 @@ function setAllMovieStatus(status) {
     renderMovieCards();
 }
 
-
 function setMovieStatus(id, status) {
     const movie = App.movies.find(item => item.id === id);
 
     if (!movie) return;
 
     movie.status = status;
-
     renderMovieCards();
 }
-
 
 function resetMovieStatus() {
     App.movies.forEach(movie => {
@@ -301,14 +289,12 @@ function resetMovieStatus() {
     renderMovieCards();
 }
 
-
 function resetResultPanel() {
     DOM.resultTitle.textContent = "---";
     DOM.resultId.textContent = "----";
     DOM.resultConfidence.textContent = "--.--%";
     DOM.resultStatus.textContent = "LOCKED";
 }
-
 
 function resetSystem() {
     if (App.isRunning) return;
@@ -326,106 +312,59 @@ function resetSystem() {
     Terminal.system("System reset.");
 }
 
+/*==================================================
+    CINEMATIC SCENES
+==================================================*/
 
-const AIEngine = {
-    async start() {
-        if (App.isRunning) return;
-
-        if (App.movies.length === 0) {
-            Terminal.warn("No movie data found.");
-            setSystemMessage("NO DATA");
-            playSound("error");
-            return;
-        }
-
-        App.isRunning = true;
-
-        DOM.startButton.disabled = true;
-        DOM.resetButton.disabled = true;
-
-        resetResultPanel();
-
-        try {
-            await this.boot();
-            await this.auth();
-            await this.database();
-            await this.scan();
-            await this.lock();
-            await this.result();
-        } finally {
-            App.isRunning = false;
-            DOM.startButton.disabled = false;
-            DOM.resetButton.disabled = false;
-        }
-    },
-
+const Scene = {
     async boot() {
         setAppState("BOOT");
         setRingMode("boot");
-
         playSound("boot");
 
-        setSystemMessage("INITIALIZING...");
-        Terminal.system("Project SHIZ boot sequence started.");
+        Terminal.system("Boot sequence started.");
 
-        await sleep(650);
-
-        setSystemMessage("A.M.S.S.");
-        Terminal.system("AI Movie Selection System online.");
-
-        await sleep(650);
-
-        setSystemMessage("MODULE CHECK");
-        Terminal.system("Interface modules verified.");
-
-        await sleep(650);
+        await sceneMessage("POWER CORE", 420);
+        await sceneMessage("AI MODULE", 420);
+        await sceneMessage("TARGET ENGINE", 420);
+        await sceneMessage("SYSTEM ONLINE", 520);
     },
 
     async auth() {
         setAppState("AUTH");
-
         playSound("auth");
 
-        setSystemMessage("AUTHENTICATING...");
         Terminal.auth("Operator verification started.");
 
-        await sleep(700);
+        await sceneMessage("AUTHENTICATING", 520);
+        await sceneMessage("忠犬しず", 620);
 
-        setSystemMessage("忠犬しず");
         Terminal.auth("Operator : 忠犬しず");
-
-        await sleep(700);
-
-        setSystemMessage("ACCESS GRANTED");
         Terminal.auth("Access granted.");
 
-        await sleep(650);
+        await sceneMessage("ACCESS GRANTED", 560);
     },
 
     async database() {
         setAppState("DATABASE");
-
         playSound("connect");
 
-        setSystemMessage("DATABASE LINK");
-        Terminal.database("Connecting movie database.");
-
-        await sleep(650);
-
+        Terminal.database("Database link established.");
         Terminal.database(`Registered Titles : ${App.movies.length}`);
+
+        await sceneMessage("DATABASE LINK", 500);
+        await sceneMessage("VERIFYING RECORDS", 420);
 
         await checkCards();
 
-        setSystemMessage("DATABASE READY");
         Terminal.database("All movie records verified.");
 
-        await sleep(650);
+        await sceneMessage("DATABASE READY", 560);
     },
 
     async scan() {
         setAppState("SCAN");
         setRingMode("scan");
-
         playSound("scan");
 
         setAllMovieStatus("SCANNING");
@@ -433,12 +372,24 @@ const AIEngine = {
         Terminal.ai("AI randomizer online.");
         Terminal.ai("Scanning candidate records.");
 
+        const messages = [
+            "SEARCHING",
+            "ANALYZING",
+            "FILTERING",
+            "TARGET TRACE",
+            "LOCKING"
+        ];
+
         const steps = 62;
 
         for (let i = 0; i < steps; i++) {
             const movie = randomMovie();
 
-            setSystemMessage(movie.title);
+            if (i % 9 === 0) {
+                setSystemMessage(movie.title);
+            } else {
+                setSystemMessage(messages[i % messages.length]);
+            }
 
             await sleep(26 + i * 2);
         }
@@ -452,23 +403,19 @@ const AIEngine = {
     async lock() {
         setAppState("LOCK");
         setRingMode("lock");
-
         playSound("lock");
 
         setAllMovieStatus("READY");
-
         setMovieStatus(App.selectedMovie.id, "TARGET LOCK");
-
-        setSystemMessage("TARGET LOCK");
 
         Terminal.lock(`Target locked : ${App.selectedMovie.title}`);
 
-        await sleep(850);
+        await sceneMessage("TARGET ACQUIRED", 340);
+        await sceneMessage("TARGET LOCK", 620);
     },
 
     async result() {
         setAppState("RESULT");
-
         playSound("result");
 
         const idText = formatId(App.selectedIndex);
@@ -488,6 +435,50 @@ const AIEngine = {
     }
 };
 
+async function sceneMessage(message, wait) {
+    setSystemMessage(message);
+    await sleep(wait);
+}
+
+/*==================================================
+    AI ENGINE
+==================================================*/
+
+const AIEngine = {
+    async start() {
+        if (App.isRunning) return;
+
+        if (App.movies.length === 0) {
+            Terminal.warn("No movie data found.");
+            setSystemMessage("NO DATA");
+            playSound("error");
+            return;
+        }
+
+        App.isRunning = true;
+        DOM.startButton.disabled = true;
+        DOM.resetButton.disabled = true;
+
+        resetResultPanel();
+
+        try {
+            await Scene.boot();
+            await Scene.auth();
+            await Scene.database();
+            await Scene.scan();
+            await Scene.lock();
+            await Scene.result();
+        } finally {
+            App.isRunning = false;
+            DOM.startButton.disabled = false;
+            DOM.resetButton.disabled = false;
+        }
+    }
+};
+
+/*==================================================
+    CARD CHECK SEQUENCE
+==================================================*/
 
 async function checkCards() {
     for (const movie of App.movies) {
@@ -496,19 +487,20 @@ async function checkCards() {
     }
 
     await sleep(220);
-
     setAllMovieStatus("READY");
 }
 
+/*==================================================
+    RESULT TITLE REVEAL
+==================================================*/
 
 async function revealResultTitle(title) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
     const finalText = title;
-    let display = "";
 
     for (let i = 0; i < finalText.length; i++) {
         for (let j = 0; j < 3; j++) {
-            display =
+            const display =
                 finalText.slice(0, i) +
                 chars[Math.floor(Math.random() * chars.length)] +
                 "□".repeat(Math.max(finalText.length - i - 1, 0));
@@ -518,11 +510,9 @@ async function revealResultTitle(title) {
             await sleep(28);
         }
 
-        display =
+        DOM.resultTitle.textContent =
             finalText.slice(0, i + 1) +
             "□".repeat(Math.max(finalText.length - i - 1, 0));
-
-        DOM.resultTitle.textContent = display;
 
         await sleep(32);
     }
@@ -530,6 +520,9 @@ async function revealResultTitle(title) {
     DOM.resultTitle.textContent = finalText;
 }
 
+/*==================================================
+    BOOT SCREEN
+==================================================*/
 
 function closeBootScreen() {
     if (!DOM.bootScreen) return;
@@ -540,21 +533,21 @@ function closeBootScreen() {
     }, 2300);
 }
 
+/*==================================================
+    UTILITY
+==================================================*/
 
 function randomMovie() {
     return App.movies[randomIndex()];
 }
 
-
 function randomIndex() {
     return Math.floor(Math.random() * App.movies.length);
 }
 
-
 function formatId(index) {
     return String(index + 1).padStart(4, "0");
 }
-
 
 function createConfidence() {
     if (Math.random() < 0.01) {
@@ -566,11 +559,9 @@ function createConfidence() {
     return value.toFixed(2);
 }
 
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 
 function createId() {
     if (crypto.randomUUID) {
@@ -580,16 +571,17 @@ function createId() {
     return `movie-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-
 function escapeHTML(text) {
     const div = document.createElement("div");
     div.textContent = text;
     return div.innerHTML;
 }
 
+/*==================================================
+    EVENTS
+==================================================*/
 
 DOM.addMovie.addEventListener("click", addMovie);
-
 DOM.clearAllButton.addEventListener("click", clearAllMovies);
 
 DOM.movieInput.addEventListener("keydown", event => {
@@ -604,6 +596,9 @@ DOM.startButton.addEventListener("click", () => {
 
 DOM.resetButton.addEventListener("click", resetSystem);
 
+/*==================================================
+    INIT
+==================================================*/
 
 function init() {
     setAppState("READY");
