@@ -265,10 +265,19 @@ button{
     MOVIE LIST
 ==================================================*/
 
+#databasePanel{
+    display:flex;
+    flex-direction:column;
+}
+
 #movieCards{
-    height:calc(100vh - 345px);
+    flex:1;
+    min-height:0;
+
     overflow-y:auto;
+
     padding-right:6px;
+    padding-bottom:24px;
 }
 
 
