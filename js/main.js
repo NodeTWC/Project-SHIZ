@@ -2,8 +2,10 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v2.1
-    Terminal Cinematic Update
+    A.M.S.S. v2.0
+    Cinematic Sequence Refactor
+
+    js/main.js
 ==================================================*/
 
 const STORAGE_KEY = "amss_movies_v1";
@@ -15,8 +17,7 @@ const App = {
     selectedIndex: -1,
     isRunning: false,
     config: {
-        soundEnabled: false,
-        terminalTypeSpeed: 8
+        soundEnabled: false
     }
 };
 
@@ -53,19 +54,10 @@ const Terminal = {
         });
 
         const line = document.createElement("div");
-        const prefix = document.createElement("span");
-        const body = document.createElement("span");
-
-        prefix.textContent = `[${time}] [${type}] `;
-        body.textContent = "";
-
-        line.appendChild(prefix);
-        line.appendChild(body);
+        line.textContent = `[${time}] [${type}] ${message}`;
 
         DOM.terminal.appendChild(line);
         DOM.terminal.scrollTop = DOM.terminal.scrollHeight;
-
-        typeText(body, message, App.config.terminalTypeSpeed);
     },
 
     system(message) {
@@ -97,23 +89,8 @@ const Terminal = {
     }
 };
 
-function typeText(element, text, speed) {
-    let index = 0;
-
-    const timer = setInterval(() => {
-        element.textContent += text[index];
-        index++;
-
-        DOM.terminal.scrollTop = DOM.terminal.scrollHeight;
-
-        if (index >= text.length) {
-            clearInterval(timer);
-        }
-    }, speed);
-}
-
 /*==================================================
-    SOUND
+    SOUND PLACEHOLDER
 ==================================================*/
 
 function playSound(name) {
@@ -176,6 +153,7 @@ function removeMovie(id) {
     if (App.isRunning) return;
 
     const movie = App.movies.find(item => item.id === id);
+
     App.movies = App.movies.filter(item => item.id !== id);
 
     saveMovies();
@@ -263,7 +241,7 @@ function getStatusClass(status) {
 }
 
 /*==================================================
-    UI
+    UI CONTROL
 ==================================================*/
 
 function setSystemMessage(message) {
@@ -345,15 +323,10 @@ const Scene = {
         playSound("boot");
 
         Terminal.system("Boot sequence started.");
-        Terminal.system("Power core initialized.");
-        Terminal.system("AI module standby.");
 
         await sceneMessage("POWER CORE", 420);
         await sceneMessage("AI MODULE", 420);
         await sceneMessage("TARGET ENGINE", 420);
-
-        Terminal.system("All core systems online.");
-
         await sceneMessage("SYSTEM ONLINE", 520);
     },
 
@@ -378,7 +351,6 @@ const Scene = {
 
         Terminal.database("Database link established.");
         Terminal.database(`Registered Titles : ${App.movies.length}`);
-        Terminal.database("Record integrity scan started.");
 
         await sceneMessage("DATABASE LINK", 500);
         await sceneMessage("VERIFYING RECORDS", 420);
@@ -386,7 +358,6 @@ const Scene = {
         await checkCards();
 
         Terminal.database("All movie records verified.");
-        Terminal.database("Archive integrity : OK.");
 
         await sceneMessage("DATABASE READY", 560);
     },
@@ -399,8 +370,7 @@ const Scene = {
         setAllMovieStatus("SCANNING");
 
         Terminal.ai("AI randomizer online.");
-        Terminal.ai("Pattern analysis running.");
-        Terminal.ai("Candidate records scanning.");
+        Terminal.ai("Scanning candidate records.");
 
         const messages = [
             "SEARCHING",
@@ -427,8 +397,6 @@ const Scene = {
         App.selectedIndex = randomIndex();
         App.selectedMovie = App.movies[App.selectedIndex];
 
-        Terminal.ai("Candidate lock prepared.");
-
         await sleep(300);
     },
 
@@ -440,7 +408,6 @@ const Scene = {
         setAllMovieStatus("READY");
         setMovieStatus(App.selectedMovie.id, "TARGET LOCK");
 
-        Terminal.lock("Target detected.");
         Terminal.lock(`Target locked : ${App.selectedMovie.title}`);
 
         await sceneMessage("TARGET ACQUIRED", 340);
@@ -510,7 +477,7 @@ const AIEngine = {
 };
 
 /*==================================================
-    CARD CHECK
+    CARD CHECK SEQUENCE
 ==================================================*/
 
 async function checkCards() {
@@ -524,7 +491,7 @@ async function checkCards() {
 }
 
 /*==================================================
-    RESULT REVEAL
+    RESULT TITLE REVEAL
 ==================================================*/
 
 async function revealResultTitle(title) {
@@ -588,6 +555,7 @@ function createConfidence() {
     }
 
     const value = 96 + Math.random() * 3.99;
+
     return value.toFixed(2);
 }
 
