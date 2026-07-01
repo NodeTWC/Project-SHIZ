@@ -2,7 +2,8 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v1.0.1
+    A.M.S.S. v1.2
+    Boot Screen Update
 
     js/main.js
 ==================================================*/
@@ -25,6 +26,8 @@ const App = {
 
 
 const DOM = {
+    bootScreen: document.getElementById("bootScreen"),
+
     movieInput: document.getElementById("movieInput"),
     addMovie: document.getElementById("addMovie"),
     clearAllButton: document.getElementById("clearAllButton"),
@@ -528,6 +531,16 @@ async function revealResultTitle(title) {
 }
 
 
+function closeBootScreen() {
+    if (!DOM.bootScreen) return;
+
+    setTimeout(() => {
+        DOM.bootScreen.classList.add("is-hidden");
+        Terminal.system("Boot screen closed.");
+    }, 2300);
+}
+
+
 function randomMovie() {
     return App.movies[randomIndex()];
 }
@@ -603,6 +616,8 @@ function init() {
     render();
 
     Terminal.system("A.M.S.S. ready.");
+
+    closeBootScreen();
 }
 
 init();
