@@ -846,3 +846,23 @@ button{
             var(--secondary)
         );
 }
+/*==================================================
+    CLICK LAYER FIX
+==================================================*/
+
+#ring,
+#systemMessage{
+    pointer-events:none;
+}
+
+.result-panel{
+    pointer-events:none;
+}
+
+body[data-state="RESULT"] .result-panel{
+    pointer-events:none;
+}
+
+.control-row{
+    z-index:50;
+}
