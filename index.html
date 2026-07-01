@@ -79,6 +79,10 @@
 
     </div>
 
+    <button id="settingsButton" class="settings-button">
+        ⚙
+    </button>
+
     <div class="status">
 
         <span class="online"></span>
@@ -208,7 +212,39 @@
     </section>
 
 </main>
+    
+<div id="settingsPanel" class="settings-panel">
 
+    <div class="settings-box">
+
+        <div class="settings-header">
+            SYSTEM SETTINGS
+        </div>
+
+        <label for="operatorInput">
+            OPERATOR NAME
+        </label>
+
+        <input
+            id="operatorInput"
+            type="text"
+            placeholder="Operator Name">
+
+        <div class="settings-actions">
+
+            <button id="saveOperatorButton">
+                SAVE
+            </button>
+
+            <button id="closeSettingsButton">
+                CLOSE
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 <footer>
     PROJECT SHIZ | Powered by A.R.C.S.
