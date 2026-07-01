@@ -1,8 +1,8 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v1.1
-    High-Impact Visual Update
+    A.M.S.S. v1.3
+    Cinematic Military HUD Update
 
     05-state.css
     State Styles
@@ -40,73 +40,72 @@ body[data-state="RESULT"] #startButton{
 ==================================================*/
 
 #ring.ring-idle::before{
-    animation:ringRotate 30s linear infinite;
+    animation:ringRotate 34s linear infinite;
 }
 
 #ring.ring-idle::after{
-    animation:ringReverse 18s linear infinite;
+    animation:ringReverse 22s linear infinite;
 }
 
 #ring.ring-boot{
-    filter:brightness(1.25);
+    filter:brightness(1.08);
 }
 
 #ring.ring-boot::before{
-    animation:ringRotate 12s linear infinite;
+    animation:ringRotate 18s linear infinite;
 
     box-shadow:
-        0 0 32px rgba(123,232,255,.65),
-        0 0 72px rgba(123,232,255,.28),
-        inset 0 0 26px rgba(123,232,255,.12);
+        0 0 22px rgba(123,232,255,.34),
+        inset 0 0 22px rgba(123,232,255,.08);
 }
 
 #ring.ring-boot::after{
-    animation:ringReverse 7s linear infinite;
+    animation:ringReverse 12s linear infinite;
 }
 
 #ring.ring-scan{
-    animation:scanFlash .55s ease-in-out infinite;
+    animation:scanFlash .82s ease-in-out infinite;
 }
 
 #ring.ring-scan::before{
-    animation:ringRotate 2.6s linear infinite;
+    animation:ringRotate 4s linear infinite;
 
-    border-color:#FFFFFF;
+    border-color:rgba(255,255,255,.72);
 
     box-shadow:
-        0 0 46px rgba(255,255,255,.55),
-        0 0 95px rgba(123,232,255,.55),
-        inset 0 0 34px rgba(123,232,255,.18);
+        0 0 34px rgba(255,255,255,.26),
+        0 0 76px rgba(123,232,255,.30),
+        inset 0 0 26px rgba(123,232,255,.12);
 }
 
 #ring.ring-scan::after{
-    animation:ringReverse 1.4s linear infinite;
+    animation:ringReverse 2.5s linear infinite;
 
-    border-color:var(--primary);
+    border-color:rgba(123,232,255,.72);
 
     box-shadow:
-        0 0 32px rgba(123,232,255,.38);
+        0 0 22px rgba(123,232,255,.20);
 }
 
 #ring.ring-lock{
     animation:
-        lockPulse .45s ease-in-out infinite,
-        ringShock .5s ease-out 1;
+        ringShock .42s ease-out 1,
+        lockPulse .52s ease-in-out infinite .42s;
 }
 
 #ring.ring-lock::before{
-    animation:ringRotate .9s linear infinite;
+    animation:ringRotate 1.1s linear infinite;
 
     border-color:#FFFFFF;
 
     box-shadow:
-        0 0 60px rgba(255,255,255,.9),
-        0 0 130px rgba(123,232,255,.72),
-        inset 0 0 46px rgba(255,255,255,.18);
+        0 0 54px rgba(255,255,255,.72),
+        0 0 118px rgba(123,232,255,.62),
+        inset 0 0 40px rgba(255,255,255,.12);
 }
 
 #ring.ring-lock::after{
-    animation:ringReverse .75s linear infinite;
+    animation:ringReverse .9s linear infinite;
 
     border-color:#FFFFFF;
 }
@@ -118,11 +117,20 @@ body[data-state="RESULT"] #startButton{
 
 body[data-state="BOOT"] main,
 body[data-state="AUTH"] main,
-body[data-state="DATABASE"] main,
-body[data-state="SCAN"] main,
-body[data-state="LOCK"] main,
+body[data-state="DATABASE"] main{
+    animation:stateFlash .24s ease;
+}
+
+body[data-state="SCAN"] main{
+    animation:stateFlash .18s ease;
+}
+
+body[data-state="LOCK"] main{
+    animation:lockFlash .42s ease-out;
+}
+
 body[data-state="RESULT"] main{
-    animation:stateFlash .28s ease;
+    animation:stateFlash .20s ease;
 }
 
 
@@ -132,23 +140,22 @@ body[data-state="RESULT"] main{
 
 body[data-state="DATABASE"] #databasePanel{
     box-shadow:
-        0 0 22px rgba(123,232,255,.32),
-        0 0 52px rgba(123,232,255,.12),
-        inset 0 0 22px rgba(123,232,255,.08);
+        0 0 16px rgba(123,232,255,.20),
+        inset 0 0 18px rgba(123,232,255,.055);
 }
 
 body[data-state="SCAN"] #corePanel{
     box-shadow:
-        0 0 38px rgba(123,232,255,.35),
-        0 0 90px rgba(123,232,255,.16),
-        inset 0 0 32px rgba(123,232,255,.10);
+        0 0 26px rgba(123,232,255,.22),
+        0 0 70px rgba(123,232,255,.08),
+        inset 0 0 26px rgba(123,232,255,.08);
 }
 
 body[data-state="LOCK"] #corePanel{
     box-shadow:
-        0 0 60px rgba(255,255,255,.42),
-        0 0 120px rgba(123,232,255,.32),
-        inset 0 0 42px rgba(255,255,255,.08);
+        0 0 54px rgba(255,255,255,.34),
+        0 0 118px rgba(123,232,255,.26),
+        inset 0 0 40px rgba(255,255,255,.08);
 }
 
 
@@ -157,11 +164,11 @@ body[data-state="LOCK"] #corePanel{
 ==================================================*/
 
 body[data-state="SCAN"] #systemMessage{
-    animation:messageFlicker .36s infinite;
+    animation:messageFlicker .48s infinite;
 
     text-shadow:
-        0 0 14px rgba(255,255,255,.75),
-        0 0 42px var(--primary);
+        0 0 12px rgba(255,255,255,.50),
+        0 0 32px rgba(123,232,255,.46);
 }
 
 body[data-state="LOCK"] #systemMessage{
@@ -169,10 +176,10 @@ body[data-state="LOCK"] #systemMessage{
 
     text-shadow:
         0 0 18px #FFFFFF,
-        0 0 44px var(--primary),
-        0 0 90px var(--primary);
+        0 0 46px var(--primary),
+        0 0 86px rgba(123,232,255,.72);
 
-    animation:lockTextPulse .28s infinite;
+    animation:lockTextPulse .34s infinite;
 }
 
 body[data-state="RESULT"] #systemMessage{
@@ -190,24 +197,24 @@ body[data-state="RESULT"] .result-panel{
 
     pointer-events:auto;
 
-    animation:resultPanelIn .38s ease forwards;
+    animation:resultPanelIn .42s ease forwards;
 }
 
 body[data-state="RESULT"] .result-panel::before,
 body[data-state="RESULT"] .result-panel::after{
-    animation:resultFramePulse .9s ease-in-out infinite;
+    animation:resultFramePulse 1.15s ease-in-out infinite;
 }
 
 body[data-state="RESULT"] .result-title{
     animation:
-        resultNoise .16s ease,
-        resultTitleGlow .82s ease-in-out infinite;
+        resultNoise .18s ease,
+        resultTitleGlow 1.05s ease-in-out infinite;
 }
 
 body[data-state="RESULT"] #ring{
-    opacity:1;
+    opacity:.9;
 
-    filter:brightness(1.55);
+    filter:brightness(1.2);
 }
 
 
@@ -219,8 +226,8 @@ body[data-state="RESULT"] #ring{
     border-left-color:var(--warning);
 
     box-shadow:
-        0 0 16px rgba(255,214,92,.36),
-        inset 0 0 14px rgba(255,214,92,.06);
+        0 0 11px rgba(255,214,92,.24),
+        inset 0 0 10px rgba(255,214,92,.045);
 }
 
 .movieCard.is-checking .movieStatus{
@@ -238,10 +245,10 @@ body[data-state="RESULT"] #ring{
 
     background-size:120px 100%;
 
-    animation:barScan .6s linear infinite;
+    animation:barScan .75s linear infinite;
 
     box-shadow:
-        0 0 10px rgba(255,214,92,.45);
+        0 0 8px rgba(255,214,92,.32);
 }
 
 
@@ -251,13 +258,13 @@ body[data-state="RESULT"] #ring{
     background:
         linear-gradient(
             135deg,
-            rgba(123,232,255,.11),
-            rgba(0,22,38,.26)
+            rgba(123,232,255,.075),
+            rgba(0,22,38,.24)
         );
 
     box-shadow:
-        0 0 18px rgba(123,232,255,.35),
-        inset 0 0 18px rgba(123,232,255,.08);
+        0 0 14px rgba(123,232,255,.22),
+        inset 0 0 14px rgba(123,232,255,.055);
 }
 
 .movieCard.is-scanning .movieStatus{
@@ -275,10 +282,10 @@ body[data-state="RESULT"] #ring{
 
     background-size:120px 100%;
 
-    animation:barScan .32s linear infinite;
+    animation:barScan .46s linear infinite;
 
     box-shadow:
-        0 0 12px rgba(123,232,255,.55);
+        0 0 9px rgba(123,232,255,.40);
 }
 
 
@@ -289,16 +296,16 @@ body[data-state="RESULT"] #ring{
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.18),
-            rgba(123,232,255,.12)
+            rgba(255,255,255,.15),
+            rgba(123,232,255,.10)
         );
 
     box-shadow:
-        0 0 26px rgba(255,255,255,.62),
-        0 0 62px rgba(123,232,255,.48),
-        inset 0 0 24px rgba(255,255,255,.10);
+        0 0 24px rgba(255,255,255,.50),
+        0 0 56px rgba(123,232,255,.38),
+        inset 0 0 20px rgba(255,255,255,.08);
 
-    animation:lockedCardPulse .36s infinite;
+    animation:lockedCardPulse .42s infinite;
 }
 
 .movieCard.is-locked .movieTitle{
@@ -306,8 +313,7 @@ body[data-state="RESULT"] #ring{
 
     text-shadow:
         0 0 12px #FFFFFF,
-        0 0 34px var(--primary),
-        0 0 70px rgba(123,232,255,.55);
+        0 0 32px rgba(123,232,255,.76);
 }
 
 .movieCard.is-locked .movieStatus{
@@ -324,8 +330,8 @@ body[data-state="RESULT"] #ring{
         );
 
     box-shadow:
-        0 0 14px var(--primary),
-        0 0 28px rgba(255,255,255,.35);
+        0 0 12px var(--primary),
+        0 0 22px rgba(255,255,255,.24);
 }
 
 
@@ -334,5 +340,5 @@ body[data-state="RESULT"] #ring{
 ==================================================*/
 
 #terminal div{
-    animation:terminalLine .14s ease;
+    animation:terminalLine .16s ease;
 }
