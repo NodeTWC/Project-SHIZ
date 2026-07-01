@@ -2,7 +2,7 @@
 
 ① index.htmlを開く
 
-② Movie Titleにタイトルを入力して、ADDを押すかEnterでデータベースに登録
+② Movie Titleにタイトルを入力して、ADDボタンを押すかEnterでデータベースに登録
 
 ③ STARTで抽選開始
 
