@@ -71,7 +71,7 @@ const DOM = {
     resultTitle: document.getElementById("resultTitle"),
     resultId: document.getElementById("resultId"),
     resultConfidence: document.getElementById("resultConfidence"),
-    resultStatus: document.getElementById("resultStatus")
+    resultStatus: document.getElementById("resultStatus"),
 
     settingsButton: document.getElementById("settingsButton"),
 settingsPanel: document.getElementById("settingsPanel"),
@@ -181,7 +181,8 @@ function loadEntries() {
         App.entries = [];
         Terminal.warn("Failed to load local archive.");
     }
-    function saveSettings() {
+}
+function saveSettings() {
     localStorage.setItem(
         SETTINGS_KEY,
         JSON.stringify(App.settings)
