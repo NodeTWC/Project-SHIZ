@@ -1295,3 +1295,207 @@ button{
         );
 
 }
+
+/*==================================================
+
+    SYSTEM SETTINGS
+
+==================================================*/
+
+.settings-button{
+
+    width:42px;
+    height:42px;
+
+    margin-right:16px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    color:var(--primary);
+
+    font-size:22px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    border:
+        1px solid rgba(123,232,255,.25);
+
+    box-shadow:
+        0 0 12px rgba(123,232,255,.15);
+
+    transition:.25s;
+
+}
+
+.settings-button:hover{
+
+    transform:rotate(45deg);
+
+    color:#ffffff;
+
+    box-shadow:
+        0 0 20px rgba(123,232,255,.45);
+
+}
+
+
+
+.settings-panel{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:blur(10px);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.25s;
+
+    z-index:999;
+
+}
+
+.settings-panel.open{
+
+    opacity:1;
+    visibility:visible;
+
+}
+
+
+
+.settings-box{
+
+    width:420px;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    border:
+        1px solid rgba(123,232,255,.28);
+
+    background:
+
+        linear-gradient(
+
+            180deg,
+
+            rgba(18,30,45,.96),
+
+            rgba(8,14,22,.98)
+
+        );
+
+    box-shadow:
+
+        0 0 30px rgba(123,232,255,.22);
+
+}
+
+
+
+.settings-header{
+
+    margin-bottom:24px;
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    letter-spacing:4px;
+
+    color:var(--primary);
+
+    text-shadow:
+        0 0 12px rgba(123,232,255,.45);
+
+}
+
+
+
+.settings-box label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:var(--sub);
+
+    letter-spacing:2px;
+
+}
+
+
+
+.settings-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:
+        1px solid rgba(123,232,255,.25);
+
+    background:
+        rgba(0,20,35,.45);
+
+    color:#fff;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.2s;
+
+}
+
+.settings-box input:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:
+        0 0 12px rgba(123,232,255,.35);
+
+}
+
+
+
+.settings-actions{
+
+    margin-top:26px;
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+
+.settings-actions button{
+
+    flex:1;
+
+    height:46px;
+
+    border-radius:10px;
+
+}
