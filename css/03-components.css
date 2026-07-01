@@ -814,21 +814,32 @@ button{
     TERMINAL
 ==================================================*/
 
+#systemPanel{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    min-height:0;
+}
+
 #terminal{
-    height:calc(100vh - 180px);
+    flex:1;
+    min-height:0;
 
     overflow-y:auto;
+    overflow-x:hidden;
+
+    padding-bottom:48px;
 
     font-family:var(--font-mono);
-
     font-size:14px;
-
     line-height:1.8;
 
     color:#9EFFC7;
 
     text-shadow:
         0 0 7px rgba(125,255,182,.12);
+
+    scrollbar-gutter:stable;
 }
 
 #terminal::after{
@@ -836,7 +847,6 @@ button{
 
     animation:cursorBlink .9s infinite;
 }
-
 
 /*==================================================
     SCROLL BAR
