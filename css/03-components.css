@@ -1,7 +1,8 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v1.0.1
+    A.M.S.S. v1.1
+    High-Impact Visual Update
 
     03-components.css
     Components
@@ -21,27 +22,28 @@
 
 .counter div{
     flex:1;
-
     padding:15px;
-
     text-align:center;
-
-    border:
-        1px solid rgba(123,232,255,.18);
-
+    border:1px solid rgba(123,232,255,.22);
     border-radius:var(--radius-sm);
-
-    background:rgba(255,255,255,.05);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.07),
+            rgba(0,20,35,.18)
+        );
+    box-shadow:
+        inset 0 0 18px rgba(123,232,255,.06);
 }
 
 .counter strong{
     display:block;
-
     margin-top:12px;
-
-    font-size:34px;
-
+    font-size:38px;
     color:var(--primary);
+    text-shadow:
+        0 0 10px rgba(123,232,255,.85),
+        0 0 26px rgba(123,232,255,.35);
 }
 
 .single-counter div{
@@ -56,26 +58,17 @@
 .register{
     display:flex;
     gap:10px;
-
     margin-bottom:14px;
 }
 
 .register input{
     flex:1;
-
     padding:13px;
-
-    border:
-        1px solid rgba(123,232,255,.18);
-
+    border:1px solid rgba(123,232,255,.22);
     border-radius:var(--radius-sm);
-
     outline:none;
-
-    background:var(--panel-dark);
-
+    background:rgba(0,14,24,.38);
     color:var(--text);
-
     transition:.25s;
 }
 
@@ -85,9 +78,9 @@
 
 .register input:focus{
     border-color:var(--primary);
-
     box-shadow:
-        0 0 12px rgba(123,232,255,.35);
+        0 0 12px rgba(123,232,255,.45),
+        inset 0 0 14px rgba(123,232,255,.08);
 }
 
 
@@ -98,7 +91,6 @@
 .database-actions{
     display:flex;
     justify-content:flex-end;
-
     margin-bottom:18px;
 }
 
@@ -109,11 +101,8 @@
 
 button{
     border:none;
-
     font-family:var(--font-main);
-
     cursor:pointer;
-
     user-select:none;
 }
 
@@ -124,21 +113,19 @@ button{
     background:
         linear-gradient(
             135deg,
-            var(--primary),
-            var(--secondary)
+            #ffffff 0%,
+            var(--primary) 42%,
+            var(--secondary) 100%
         );
-
     color:#00131E;
-
-    font-weight:700;
-
+    font-weight:800;
     letter-spacing:2px;
-
-    transition:.25s;
-
+    transition:.22s;
     position:relative;
-
     overflow:hidden;
+    box-shadow:
+        0 0 16px rgba(123,232,255,.42),
+        inset 0 0 10px rgba(255,255,255,.38);
 }
 
 #addMovie:hover,
@@ -146,9 +133,10 @@ button{
 #resetButton:hover,
 #clearAllButton:hover{
     transform:translateY(-3px);
-
     box-shadow:
-        0 0 24px rgba(123,232,255,.62);
+        0 0 26px rgba(123,232,255,.72),
+        0 0 52px rgba(123,232,255,.28),
+        inset 0 0 12px rgba(255,255,255,.55);
 }
 
 #addMovie:active,
@@ -160,50 +148,43 @@ button{
 
 #addMovie{
     min-width:72px;
-
     border-radius:var(--radius-sm);
 }
 
 #clearAllButton{
     min-width:120px;
     height:38px;
-
     border-radius:var(--radius-sm);
-
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.85),
+            rgba(255,255,255,.92),
             var(--warning)
         );
-
     color:#1A1200;
-
     font-size:13px;
 }
 
 #clearAllButton:hover{
     box-shadow:
-        0 0 18px rgba(255,214,92,.55);
+        0 0 18px rgba(255,214,92,.7),
+        0 0 42px rgba(255,214,92,.25);
 }
 
 #startButton,
 #resetButton{
     width:190px;
     height:56px;
-
     border-radius:var(--radius-lg);
-
     font-size:18px;
 }
 
 #resetButton{
     display:none;
-
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.95),
+            rgba(255,255,255,.96),
             var(--primary)
         );
 }
@@ -211,11 +192,8 @@ button{
 #startButton:disabled,
 #resetButton:disabled{
     opacity:.45;
-
     cursor:not-allowed;
-
     transform:none;
-
     box-shadow:none;
 }
 
@@ -229,20 +207,16 @@ button{
 #addMovie::before,
 #clearAllButton::before{
     content:"";
-
     position:absolute;
-
     top:0;
     left:-120%;
-
     width:42%;
     height:100%;
-
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.7),
+            rgba(255,255,255,.85),
             transparent
         );
 }
@@ -251,7 +225,7 @@ button{
 #resetButton:hover::before,
 #addMovie:hover::before,
 #clearAllButton:hover::before{
-    animation:buttonShine .8s linear;
+    animation:buttonShine .65s linear;
 }
 
 
@@ -261,9 +235,7 @@ button{
 
 #movieCards{
     height:calc(100vh - 345px);
-
     overflow-y:auto;
-
     padding-right:6px;
 }
 
@@ -274,61 +246,72 @@ button{
 
 .movieCard{
     position:relative;
-
     overflow:hidden;
-
     margin-bottom:12px;
-
     padding:14px;
-
-    border:
-        1px solid rgba(123,232,255,.18);
-
-    border-left:
-        4px solid var(--primary);
-
+    border:1px solid rgba(123,232,255,.22);
+    border-left:4px solid var(--primary);
     border-radius:12px;
-
-    background:rgba(255,255,255,.04);
-
-    transition:.25s;
-
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.055),
+            rgba(0,22,38,.18)
+        );
+    transition:.22s;
     animation:fadeIn .35s ease;
+}
+
+.movieCard::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            110deg,
+            transparent 0%,
+            rgba(123,232,255,.08) 45%,
+            transparent 70%
+        );
+    transform:translateX(-120%);
+    pointer-events:none;
 }
 
 .movieCard:hover{
     transform:translateX(6px);
+    box-shadow:
+        0 0 18px rgba(123,232,255,.28),
+        inset 0 0 16px rgba(123,232,255,.08);
+}
 
-    box-shadow:var(--shadow);
+.movieCard:hover::before{
+    animation:cardSweep .55s linear;
 }
 
 .movieTitle{
     font-size:18px;
-
-    font-weight:700;
+    font-weight:800;
 }
 
 .movieStatus{
     margin-top:10px;
-
     color:var(--sub);
-
     font-size:13px;
+    letter-spacing:.5px;
 }
 
 .movieBar{
     margin-top:12px;
-
     height:4px;
-
     border-radius:10px;
-
     background:
         linear-gradient(
             90deg,
             var(--primary),
             transparent
         );
+    box-shadow:
+        0 0 8px rgba(123,232,255,.35);
 }
 
 
@@ -338,79 +321,54 @@ button{
 
 #ring{
     position:absolute;
-
-    width:440px;
-    height:440px;
-
+    width:500px;
+    height:500px;
     border-radius:50%;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
-    opacity:.72;
-
+    opacity:.78;
     z-index:1;
 }
 
 #ring::before{
     content:"";
-
     position:absolute;
-
     inset:0;
-
     border-radius:50%;
-
-    border:
-        2px solid rgba(123,232,255,.65);
-
+    border:2px solid rgba(123,232,255,.72);
     box-shadow:
-        0 0 20px rgba(123,232,255,.35);
-
+        0 0 26px rgba(123,232,255,.42),
+        inset 0 0 22px rgba(123,232,255,.10);
     animation:ringRotate 30s linear infinite;
 }
 
 #ring::after{
     content:"";
-
     position:absolute;
-
-    inset:28px;
-
+    inset:34px;
     border-radius:50%;
-
-    border:
-        2px dashed rgba(123,232,255,.45);
-
+    border:2px dashed rgba(123,232,255,.52);
+    box-shadow:
+        0 0 18px rgba(123,232,255,.16);
     animation:ringReverse 18s linear infinite;
 }
 
 .ring2{
     position:absolute;
-
-    inset:70px;
-
+    inset:82px;
     border-radius:50%;
-
-    border:
-        1px solid rgba(255,255,255,.45);
-
+    border:1px solid rgba(255,255,255,.52);
+    box-shadow:
+        0 0 12px rgba(255,255,255,.18);
     animation:ringRotate 12s linear infinite;
 }
 
 .ring3{
     position:absolute;
-
-    inset:120px;
-
+    inset:140px;
     border-radius:50%;
-
-    border:
-        2px dotted rgba(123,232,255,.55);
-
+    border:2px dotted rgba(123,232,255,.65);
     animation:ringReverse 9s linear infinite;
 }
 
@@ -421,38 +379,27 @@ button{
 
 #systemMessage{
     position:absolute;
-
     z-index:8;
-
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
-
     text-align:center;
-
     letter-spacing:3px;
-
     color:var(--primary);
-
     text-shadow:
-        0 0 10px rgba(123,232,255,.8);
+        0 0 10px rgba(123,232,255,.9),
+        0 0 28px rgba(123,232,255,.35);
 }
 
 #systemMessage span:first-child{
-    font-size:30px;
-
-    font-weight:700;
+    font-size:32px;
+    font-weight:800;
 }
 
 #systemMessage span:last-child{
     margin-top:8px;
-
     font-size:14px;
-
     color:var(--sub);
 }
 
@@ -462,146 +409,110 @@ button{
 ==================================================*/
 
 .result-panel{
-    width:min(720px, 88%);
-
-    min-height:310px;
-
-    padding:34px 40px;
-
+    width:min(760px, 90%);
+    min-height:330px;
+    padding:36px 44px;
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
-
-    border:
-        1px solid var(--result-line);
-
+    border:1px solid var(--result-line);
     border-radius:22px;
-
-    background:var(--result-bg);
-
-    box-shadow:var(--shadow-result);
-
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.16),
+            rgba(0,10,18,.78)
+        );
+    box-shadow:
+        0 0 32px rgba(255,255,255,.42),
+        0 0 92px rgba(123,232,255,.50),
+        inset 0 0 34px rgba(123,232,255,.18);
     opacity:0;
-
     pointer-events:none;
 }
 
 .result-panel::before,
 .result-panel::after{
     content:"";
-
     position:absolute;
-
-    width:38px;
-    height:38px;
-
+    width:46px;
+    height:46px;
     border-color:var(--primary);
     border-style:solid;
-
-    opacity:.9;
+    opacity:1;
+    filter:drop-shadow(0 0 8px var(--primary));
 }
 
 .result-panel::before{
     top:14px;
     left:14px;
-
-    border-width:2px 0 0 2px;
+    border-width:3px 0 0 3px;
 }
 
 .result-panel::after{
     right:14px;
     bottom:14px;
-
-    border-width:0 2px 2px 0;
+    border-width:0 3px 3px 0;
 }
 
 .result-label{
-    margin-bottom:22px;
-
+    margin-bottom:24px;
     color:var(--white);
-
-    font-size:16px;
-
-    letter-spacing:6px;
-
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:8px;
     text-shadow:
-        0 0 12px var(--white),
-        0 0 28px var(--primary);
+        0 0 14px var(--white),
+        0 0 32px var(--primary);
 }
 
 .result-title{
     width:100%;
-
     color:var(--white);
-
-    font-size:54px;
-
-    font-weight:800;
-
-    line-height:1.15;
-
+    font-size:58px;
+    font-weight:900;
+    line-height:1.12;
     text-align:center;
-
     word-break:keep-all;
     overflow-wrap:anywhere;
-
     text-shadow:
-        0 0 14px var(--white),
-        0 0 42px var(--primary);
+        0 0 16px var(--white),
+        0 0 48px var(--primary),
+        0 0 90px rgba(123,232,255,.45);
 }
 
 .result-meta{
     width:100%;
-
-    margin-top:30px;
-
+    margin-top:32px;
     padding-top:22px;
-
     display:grid;
-
     grid-template-columns:1fr 1fr 1fr;
-
     gap:14px;
-
-    border-top:
-        1px solid rgba(255,255,255,.22);
+    border-top:1px solid rgba(255,255,255,.28);
 }
 
 .result-meta div{
-    padding:12px;
-
-    border:
-        1px solid rgba(123,232,255,.18);
-
-    background:
-        rgba(0,0,0,.20);
-
+    padding:13px;
+    border:1px solid rgba(123,232,255,.24);
+    background:rgba(0,0,0,.26);
     border-radius:12px;
-
     text-align:center;
+    box-shadow:
+        inset 0 0 14px rgba(123,232,255,.08);
 }
 
 .result-meta span{
     display:block;
-
     margin-bottom:8px;
-
     color:var(--sub);
-
     font-size:11px;
-
     letter-spacing:2px;
 }
 
 .result-meta strong{
     color:var(--white);
-
-    font-size:17px;
-
+    font-size:18px;
     letter-spacing:1px;
 }
 
@@ -612,21 +523,17 @@ button{
 
 #terminal{
     height:calc(100vh - 180px);
-
     overflow-y:auto;
-
     font-family:var(--font-mono);
-
     font-size:14px;
-
     line-height:1.8;
-
     color:#9EFFC7;
+    text-shadow:
+        0 0 8px rgba(125,255,182,.18);
 }
 
 #terminal::after{
     content:"_";
-
     animation:cursorBlink .9s infinite;
 }
 
@@ -645,7 +552,6 @@ button{
 
 ::-webkit-scrollbar-thumb{
     border-radius:8px;
-
     background:
         linear-gradient(
             var(--primary),
