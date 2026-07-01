@@ -183,16 +183,13 @@ function clearAllMovies() {
     if (!confirmed) return;
 
     App.movies = [];
-    App.selectedMovie = null;
-    App.selectedIndex = -1;
 
     saveMovies();
     render();
 
-    resetResultPanel();
-    setSystemMessage("SYSTEM READY");
-
     Terminal.database("All records cleared.");
+
+    resetSystem();
 }
 
 /*==================================================
