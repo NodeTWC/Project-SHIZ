@@ -1,8 +1,8 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v1.3
-    Cinematic Military HUD Update
+    A.R.C.S. v3.0
+    Advanced Random Control System
 
     05-state.css
     State Styles
@@ -195,7 +195,7 @@ body[data-state="RESULT"] #systemMessage{
 body[data-state="RESULT"] .result-panel{
     opacity:1;
 
-    pointer-events:auto;
+    pointer-events:none;
 
     animation:resultPanelIn .42s ease forwards;
 }
@@ -219,7 +219,7 @@ body[data-state="RESULT"] #ring{
 
 
 /*==================================================
-    MOVIE CARD STATES
+    ENTRY CARD STATES
 ==================================================*/
 
 .movieCard.is-checking{
