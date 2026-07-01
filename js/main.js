@@ -2,8 +2,8 @@
 
 /*==================================================
     Project SHIZ
-    A.M.S.S. v2.0
-    Cinematic Sequence Refactor
+    A.M.S.S. v2.1
+    Operation Sequence Update
 
     js/main.js
 ==================================================*/
@@ -61,11 +61,11 @@ const Terminal = {
     },
 
     system(message) {
-        this.write(message, "SYSTEM");
+        this.write(message, "SYS");
     },
 
     database(message) {
-        this.write(message, "DATABASE");
+        this.write(message, "DB");
     },
 
     ai(message) {
@@ -120,10 +120,10 @@ function loadMovies() {
             }
         });
 
-        Terminal.database("Movie database loaded.");
+        Terminal.database("Local archive loaded.");
     } catch {
         App.movies = [];
-        Terminal.warn("Failed to load movie database.");
+        Terminal.warn("Failed to load local archive.");
     }
 }
 
@@ -131,7 +131,7 @@ function addMovie() {
     const title = DOM.movieInput.value.trim();
 
     if (!title) {
-        Terminal.warn("Movie title is empty.");
+        Terminal.warn("Empty title rejected.");
         setSystemMessage("NO DATA");
         return;
     }
@@ -146,7 +146,7 @@ function addMovie() {
     DOM.movieInput.value = "";
     render();
 
-    Terminal.database(`Registered : ${title}`);
+    Terminal.database(`Record registered : ${title}`);
 }
 
 function removeMovie(id) {
@@ -160,7 +160,7 @@ function removeMovie(id) {
     render();
 
     if (movie) {
-        Terminal.database(`Removed : ${movie.title}`);
+        Terminal.database(`Record removed : ${movie.title}`);
     }
 }
 
@@ -168,7 +168,7 @@ function clearAllMovies() {
     if (App.isRunning) return;
 
     if (App.movies.length === 0) {
-        Terminal.warn("Movie database is already empty.");
+        Terminal.warn("Archive already empty.");
         return;
     }
 
@@ -186,7 +186,7 @@ function clearAllMovies() {
     resetResultPanel();
     setSystemMessage("SYSTEM READY");
 
-    Terminal.database("All movie records cleared.");
+    Terminal.database("All records cleared.");
 }
 
 /*==================================================
@@ -309,7 +309,7 @@ function resetSystem() {
     setRingMode("idle");
     setSystemMessage("SYSTEM READY");
 
-    Terminal.system("System reset.");
+    Terminal.system("Operation reset. Awaiting command.");
 }
 
 /*==================================================
@@ -322,12 +322,13 @@ const Scene = {
         setRingMode("boot");
         playSound("boot");
 
-        Terminal.system("Boot sequence started.");
+        Terminal.system("Boot sequence initiated.");
 
-        await sceneMessage("POWER CORE", 420);
-        await sceneMessage("AI MODULE", 420);
-        await sceneMessage("TARGET ENGINE", 420);
-        await sceneMessage("SYSTEM ONLINE", 520);
+        await sceneStep("POWER CORE", "Power Core..............OK", "system", 310);
+        await sceneStep("HUD LINK", "HUD Interface..........OK", "system", 310);
+        await sceneStep("AI MODULE", "AI Module..............ONLINE", "system", 360);
+        await sceneStep("TARGET ENGINE", "Target Engine..........STANDBY", "system", 360);
+        await sceneStep("SYSTEM ONLINE", "A.M.S.S. online.", "system", 520);
     },
 
     async auth() {
@@ -336,30 +337,24 @@ const Scene = {
 
         Terminal.auth("Operator verification started.");
 
-        await sceneMessage("AUTHENTICATING", 520);
-        await sceneMessage("忠犬しず", 620);
-
-        Terminal.auth("Operator : 忠犬しず");
-        Terminal.auth("Access granted.");
-
-        await sceneMessage("ACCESS GRANTED", 560);
+        await sceneStep("AUTHENTICATING", "Operator signature.....SCANNING", "auth", 480);
+        await sceneStep("忠犬しず", "Operator : 忠犬しず", "auth", 600);
+        await sceneStep("ACCESS GRANTED", "Access level...........GRANTED", "auth", 620);
     },
 
     async database() {
         setAppState("DATABASE");
         playSound("connect");
 
-        Terminal.database("Database link established.");
-        Terminal.database(`Registered Titles : ${App.movies.length}`);
+        Terminal.database("Archive link established.");
 
-        await sceneMessage("DATABASE LINK", 500);
-        await sceneMessage("VERIFYING RECORDS", 420);
+        await sceneStep("DATABASE LINK", "Archive connection.....OK", "database", 420);
+        await sceneStep("VERIFYING", `Registered Titles......${App.movies.length}`, "database", 420);
+        await sceneStep("RECORD CHECK", "Record integrity.......RUNNING", "database", 300);
 
         await checkCards();
 
-        Terminal.database("All movie records verified.");
-
-        await sceneMessage("DATABASE READY", 560);
+        await sceneStep("DATABASE READY", "Record integrity.......OK", "database", 560);
     },
 
     async scan() {
@@ -369,26 +364,39 @@ const Scene = {
 
         setAllMovieStatus("SCANNING");
 
-        Terminal.ai("AI randomizer online.");
-        Terminal.ai("Scanning candidate records.");
+        Terminal.ai("Selection engine activated.");
+        Terminal.ai("Candidate analysis started.");
 
-        const messages = [
-            "SEARCHING",
-            "ANALYZING",
-            "FILTERING",
-            "TARGET TRACE",
-            "LOCKING"
+        const sequence = [
+            "PATTERN MATCH",
+            "GENRE TRACE",
+            "BALANCE CHECK",
+            "RANDOM SEED",
+            "TARGET SEARCH",
+            "DECISION PATH"
+        ];
+
+        const logs = [
+            "Pattern matching........RUNNING",
+            "Genre trace.............RUNNING",
+            "Viewer balance..........CALCULATING",
+            "Random seed.............GENERATED",
+            "Candidate matrix........ACTIVE",
+            "Decision path...........LOCKING"
         ];
 
         const steps = 62;
 
         for (let i = 0; i < steps; i++) {
-            const movie = randomMovie();
-
-            if (i % 9 === 0) {
+            if (i % 13 === 0) {
+                const movie = randomMovie();
                 setSystemMessage(movie.title);
             } else {
-                setSystemMessage(messages[i % messages.length]);
+                setSystemMessage(sequence[i % sequence.length]);
+            }
+
+            if (i % 12 === 0 && logs[Math.floor(i / 12)]) {
+                Terminal.ai(logs[Math.floor(i / 12)]);
             }
 
             await sleep(26 + i * 2);
@@ -397,6 +405,7 @@ const Scene = {
         App.selectedIndex = randomIndex();
         App.selectedMovie = App.movies[App.selectedIndex];
 
+        Terminal.ai("Candidate selected.");
         await sleep(300);
     },
 
@@ -408,10 +417,11 @@ const Scene = {
         setAllMovieStatus("READY");
         setMovieStatus(App.selectedMovie.id, "TARGET LOCK");
 
-        Terminal.lock(`Target locked : ${App.selectedMovie.title}`);
+        Terminal.lock("Target signature detected.");
 
-        await sceneMessage("TARGET ACQUIRED", 340);
-        await sceneMessage("TARGET LOCK", 620);
+        await sceneStep("TARGET FOUND", "Target signature........FOUND", "lock", 320);
+        await sceneStep("IDENTIFYING", `Database ID.............${formatId(App.selectedIndex)}`, "lock", 320);
+        await sceneStep("LOCK COMPLETE", `Target locked : ${App.selectedMovie.title}`, "lock", 620);
     },
 
     async result() {
@@ -425,19 +435,48 @@ const Scene = {
         DOM.resultConfidence.textContent = `${confidence}%`;
         DOM.resultStatus.textContent = "LOCKED";
 
+        Terminal.result("Operation result received.");
         Terminal.result(`Mission target : ${App.selectedMovie.title}`);
         Terminal.result(`Database ID : ${idText}`);
         Terminal.result(`AI Confidence : ${confidence}%`);
 
         await revealResultTitle(App.selectedMovie.title);
 
-        Terminal.result("Mission start.");
+        Terminal.result("Mission ready.");
     }
 };
 
-async function sceneMessage(message, wait) {
-    setSystemMessage(message);
+async function sceneStep(display, logMessage, logType, wait) {
+    setSystemMessage(display);
+
+    if (logMessage) {
+        writeSceneLog(logMessage, logType);
+    }
+
     await sleep(wait);
+}
+
+function writeSceneLog(message, type) {
+    switch (type) {
+        case "auth":
+            Terminal.auth(message);
+            break;
+        case "database":
+            Terminal.database(message);
+            break;
+        case "ai":
+            Terminal.ai(message);
+            break;
+        case "lock":
+            Terminal.lock(message);
+            break;
+        case "result":
+            Terminal.result(message);
+            break;
+        default:
+            Terminal.system(message);
+            break;
+    }
 }
 
 /*==================================================
@@ -555,7 +594,6 @@ function createConfidence() {
     }
 
     const value = 96 + Math.random() * 3.99;
-
     return value.toFixed(2);
 }
 
