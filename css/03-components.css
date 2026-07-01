@@ -1,13 +1,29 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v1.3
-    Cinematic Military HUD Update
-
+    A.M.S.S.
     03-components.css
     Components
 
 ==================================================*/
+
+
+/*==================================================
+    PANEL LAYOUT
+==================================================*/
+
+#databasePanel,
+#systemPanel{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    min-height:0;
+}
+
+#databasePanel h2,
+#systemPanel h2{
+    flex:0 0 auto;
+}
 
 
 /*==================================================
@@ -24,17 +40,14 @@
     flex:1;
     padding:15px;
     text-align:center;
-
     border:1px solid rgba(123,232,255,.18);
     border-radius:var(--radius-sm);
-
     background:
         linear-gradient(
             180deg,
             rgba(255,255,255,.045),
             rgba(0,18,32,.26)
         );
-
     box-shadow:
         inset 0 0 14px rgba(123,232,255,.045);
 }
@@ -42,11 +55,8 @@
 .counter strong{
     display:block;
     margin-top:12px;
-
     font-size:36px;
-
     color:var(--primary);
-
     text-shadow:
         0 0 8px rgba(123,232,255,.55);
 }
@@ -68,18 +78,12 @@
 
 .register input{
     flex:1;
-
     padding:13px;
-
     border:1px solid rgba(123,232,255,.18);
     border-radius:var(--radius-sm);
-
     outline:none;
-
     background:rgba(0,14,24,.42);
-
     color:var(--text);
-
     transition:.22s;
 }
 
@@ -89,21 +93,9 @@
 
 .register input:focus{
     border-color:rgba(123,232,255,.55);
-
     box-shadow:
         0 0 10px rgba(123,232,255,.28),
         inset 0 0 12px rgba(123,232,255,.06);
-}
-
-
-/*==================================================
-    DATABASE ACTIONS
-==================================================*/
-
-.database-actions{
-    display:flex;
-    justify-content:flex-end;
-    margin-bottom:18px;
 }
 
 
@@ -113,9 +105,7 @@
 
 button{
     border:none;
-
     font-family:var(--font-main);
-
     cursor:pointer;
     user-select:none;
 }
@@ -123,15 +113,13 @@ button{
 #addMovie,
 #startButton,
 #resetButton,
-#clearAllButton{
+#clearAllButton,
+#clearLogButton{
     position:relative;
     overflow:hidden;
-
     font-weight:800;
     letter-spacing:2px;
-
     color:#00131E;
-
     background:
         linear-gradient(
             135deg,
@@ -139,20 +127,18 @@ button{
             var(--primary) 54%,
             var(--secondary) 100%
         );
-
     box-shadow:
         0 0 12px rgba(123,232,255,.30),
         inset 0 0 8px rgba(255,255,255,.25);
-
     transition:.22s;
 }
 
 #addMovie:hover,
 #startButton:hover,
 #resetButton:hover,
-#clearAllButton:hover{
+#clearAllButton:hover,
+#clearLogButton:hover{
     transform:translateY(-2px);
-
     box-shadow:
         0 0 20px rgba(123,232,255,.46),
         inset 0 0 10px rgba(255,255,255,.42);
@@ -161,7 +147,8 @@ button{
 #addMovie:active,
 #startButton:active,
 #resetButton:active,
-#clearAllButton:active{
+#clearAllButton:active,
+#clearLogButton:active{
     transform:scale(.98);
 }
 
@@ -170,23 +157,22 @@ button{
     border-radius:var(--radius-sm);
 }
 
-#clearAllButton{
-    min-width:120px;
+#clearAllButton,
+#clearLogButton{
+    width:100%;
     height:38px;
-
     border-radius:var(--radius-sm);
-
-    color:#1A1200;
-
     font-size:13px;
+}
 
+#clearAllButton{
+    color:#1A1200;
     background:
         linear-gradient(
             135deg,
             rgba(255,255,255,.86),
             rgba(255,214,92,.88)
         );
-
     box-shadow:
         0 0 10px rgba(255,214,92,.22);
 }
@@ -196,19 +182,20 @@ button{
         0 0 16px rgba(255,214,92,.48);
 }
 
+#clearLogButton{
+    color:#00131E;
+}
+
 #startButton,
 #resetButton{
     width:190px;
     height:56px;
-
     border-radius:var(--radius-lg);
-
     font-size:18px;
 }
 
 #resetButton{
     display:none;
-
     background:
         linear-gradient(
             135deg,
@@ -233,17 +220,14 @@ button{
 #startButton::before,
 #resetButton::before,
 #addMovie::before,
-#clearAllButton::before{
+#clearAllButton::before,
+#clearLogButton::before{
     content:"";
-
     position:absolute;
-
     top:0;
     left:-120%;
-
     width:42%;
     height:100%;
-
     background:
         linear-gradient(
             90deg,
@@ -256,7 +240,8 @@ button{
 #startButton:hover::before,
 #resetButton:hover::before,
 #addMovie:hover::before,
-#clearAllButton:hover::before{
+#clearAllButton:hover::before,
+#clearLogButton:hover::before{
     animation:buttonShine .75s linear;
 }
 
@@ -265,25 +250,27 @@ button{
     MOVIE LIST
 ==================================================*/
 
-#databasePanel{
-    display:flex;
-    flex-direction:column;
-    height:100%;
-    min-height:0;
-}
-
 #movieCards{
-    flex:1;
+    flex:1 1 auto;
     min-height:0;
-
     overflow-y:auto;
     overflow-x:hidden;
-
     padding-right:6px;
-    padding-bottom:48px;
-
     scrollbar-gutter:stable;
 }
+
+
+/*==================================================
+    PANEL ACTIONS
+==================================================*/
+
+.panel-actions{
+    flex:0 0 auto;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid rgba(123,232,255,.15);
+}
+
 
 /*==================================================
     MOVIE CARD
@@ -292,33 +279,25 @@ button{
 .movieCard{
     position:relative;
     overflow:hidden;
-
     margin-bottom:12px;
     padding:14px;
-
     border:1px solid rgba(123,232,255,.16);
     border-left:4px solid rgba(123,232,255,.68);
-
     border-radius:12px;
-
     background:
         linear-gradient(
             135deg,
             rgba(255,255,255,.038),
             rgba(0,22,38,.20)
         );
-
     transition:.22s;
-
     animation:fadeIn .35s ease;
 }
 
 .movieCard::before{
     content:"";
-
     position:absolute;
     inset:0;
-
     background:
         linear-gradient(
             110deg,
@@ -326,15 +305,12 @@ button{
             rgba(123,232,255,.055) 45%,
             transparent 70%
         );
-
     transform:translateX(-120%);
-
     pointer-events:none;
 }
 
 .movieCard:hover{
     transform:translateX(5px);
-
     box-shadow:
         0 0 14px rgba(123,232,255,.18),
         inset 0 0 12px rgba(123,232,255,.045);
@@ -351,27 +327,21 @@ button{
 
 .movieStatus{
     margin-top:10px;
-
     color:var(--sub);
-
     font-size:13px;
     letter-spacing:.5px;
 }
 
 .movieBar{
     margin-top:12px;
-
     height:4px;
-
     border-radius:10px;
-
     background:
         linear-gradient(
             90deg,
             rgba(123,232,255,.85),
             transparent
         );
-
     box-shadow:
         0 0 6px rgba(123,232,255,.22);
 }
@@ -383,76 +353,55 @@ button{
 
 #ring{
     position:absolute;
-
     width:500px;
     height:500px;
-
     border-radius:50%;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     opacity:.62;
-
     z-index:1;
+    pointer-events:none;
 }
 
 #ring::before{
     content:"";
-
     position:absolute;
     inset:0;
-
     border-radius:50%;
-
     border:2px solid rgba(123,232,255,.50);
-
     box-shadow:
         0 0 18px rgba(123,232,255,.24),
         inset 0 0 18px rgba(123,232,255,.08);
-
     animation:ringRotate 30s linear infinite;
 }
 
 #ring::after{
     content:"";
-
     position:absolute;
     inset:34px;
-
     border-radius:50%;
-
     border:2px dashed rgba(123,232,255,.34);
-
     box-shadow:
         0 0 14px rgba(123,232,255,.10);
-
     animation:ringReverse 18s linear infinite;
 }
 
 .ring2{
     position:absolute;
     inset:82px;
-
     border-radius:50%;
-
     border:1px solid rgba(255,255,255,.34);
-
     box-shadow:
         0 0 10px rgba(255,255,255,.10);
-
     animation:ringRotate 12s linear infinite;
 }
 
 .ring3{
     position:absolute;
     inset:140px;
-
     border-radius:50%;
-
     border:2px dotted rgba(123,232,255,.44);
-
     animation:ringReverse 9s linear infinite;
 }
 
@@ -463,23 +412,18 @@ button{
 
 #systemMessage{
     position:absolute;
-
     z-index:8;
-
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
     text-align:center;
-
     letter-spacing:3px;
-
     color:var(--primary);
-
     text-shadow:
         0 0 9px rgba(123,232,255,.72),
         0 0 20px rgba(123,232,255,.20);
+    pointer-events:none;
 }
 
 #systemMessage span:first-child{
@@ -489,9 +433,7 @@ button{
 
 #systemMessage span:last-child{
     margin-top:8px;
-
     font-size:14px;
-
     color:var(--sub);
 }
 
@@ -503,49 +445,36 @@ button{
 .result-panel{
     width:min(760px, 90%);
     min-height:330px;
-
     padding:36px 44px;
-
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-
     border:1px solid rgba(255,255,255,.48);
-
     border-radius:18px;
-
     background:
         linear-gradient(
             180deg,
             rgba(255,255,255,.11),
             rgba(0,10,18,.80)
         );
-
     box-shadow:
         0 0 24px rgba(255,255,255,.24),
         0 0 70px rgba(123,232,255,.30),
         inset 0 0 30px rgba(123,232,255,.12);
-
     opacity:0;
-
     pointer-events:none;
 }
 
 .result-panel::before,
 .result-panel::after{
     content:"";
-
     position:absolute;
-
     width:46px;
     height:46px;
-
     border-color:rgba(123,232,255,.92);
     border-style:solid;
-
     opacity:.9;
-
     filter:
         drop-shadow(0 0 6px rgba(123,232,255,.55));
 }
@@ -553,27 +482,21 @@ button{
 .result-panel::before{
     top:14px;
     left:14px;
-
     border-width:3px 0 0 3px;
 }
 
 .result-panel::after{
     right:14px;
     bottom:14px;
-
     border-width:0 3px 3px 0;
 }
 
 .result-label{
     margin-bottom:24px;
-
     color:var(--white);
-
     font-size:17px;
     font-weight:800;
-
     letter-spacing:8px;
-
     text-shadow:
         0 0 10px rgba(255,255,255,.74),
         0 0 28px rgba(123,232,255,.52);
@@ -581,19 +504,13 @@ button{
 
 .result-title{
     width:100%;
-
     color:var(--white);
-
     font-size:58px;
     font-weight:900;
-
     line-height:1.12;
-
     text-align:center;
-
     word-break:keep-all;
     overflow-wrap:anywhere;
-
     text-shadow:
         0 0 14px rgba(255,255,255,.75),
         0 0 40px rgba(123,232,255,.62),
@@ -602,51 +519,35 @@ button{
 
 .result-meta{
     width:100%;
-
     margin-top:32px;
     padding-top:22px;
-
     display:grid;
-
     grid-template-columns:1fr 1fr 1fr;
-
     gap:14px;
-
     border-top:1px solid rgba(255,255,255,.24);
 }
 
 .result-meta div{
     padding:13px;
-
     border:1px solid rgba(123,232,255,.20);
-
     background:rgba(0,0,0,.30);
-
     border-radius:10px;
-
     text-align:center;
-
     box-shadow:
         inset 0 0 12px rgba(123,232,255,.06);
 }
 
 .result-meta span{
     display:block;
-
     margin-bottom:8px;
-
     color:var(--sub);
-
     font-size:11px;
-
     letter-spacing:2px;
 }
 
 .result-meta strong{
     color:var(--white);
-
     font-size:18px;
-
     letter-spacing:1px;
 }
 
@@ -658,22 +559,17 @@ button{
 .boot-screen{
     position:fixed;
     inset:0;
-
     z-index:9999;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     background:
         radial-gradient(
             circle at center,
             rgba(18,48,70,.96),
             rgba(3,8,14,.98) 72%
         );
-
     color:var(--text);
-
     transition:
         opacity .7s ease,
         visibility .7s ease;
@@ -687,125 +583,94 @@ button{
 
 .boot-frame{
     width:520px;
-
     padding:42px;
-
     border:1px solid rgba(123,232,255,.34);
-
     background:
         linear-gradient(
             180deg,
             rgba(255,255,255,.065),
             rgba(0,12,22,.74)
         );
-
     box-shadow:
         0 0 24px rgba(123,232,255,.20),
         inset 0 0 22px rgba(123,232,255,.06);
-
     text-align:center;
-
     position:relative;
 }
 
 .boot-frame::before,
 .boot-frame::after{
     content:"";
-
     position:absolute;
-
     width:42px;
     height:42px;
-
     border-color:var(--primary);
     border-style:solid;
-
     opacity:.8;
 }
 
 .boot-frame::before{
     top:12px;
     left:12px;
-
     border-width:2px 0 0 2px;
 }
 
 .boot-frame::after{
     right:12px;
     bottom:12px;
-
     border-width:0 2px 2px 0;
 }
 
 .boot-title{
     font-size:34px;
     font-weight:800;
-
     letter-spacing:6px;
-
     color:var(--primary);
-
     text-shadow:
         0 0 10px rgba(123,232,255,.64);
 }
 
 .boot-subtitle{
     margin-top:14px;
-
     font-size:18px;
-
     letter-spacing:5px;
-
     color:var(--white);
 }
 
 .boot-message{
     margin-top:34px;
-
     font-size:13px;
-
     letter-spacing:3px;
-
     color:var(--sub);
 }
 
 .boot-bar{
     margin:22px auto 0;
-
     width:100%;
     height:6px;
-
     background:rgba(255,255,255,.075);
-
     overflow:hidden;
 }
 
 .boot-bar span{
     display:block;
-
     width:0%;
     height:100%;
-
     background:
         linear-gradient(
             90deg,
             var(--primary),
             #ffffff
         );
-
     box-shadow:
         0 0 12px rgba(123,232,255,.75);
-
     animation:bootBar 2.1s ease forwards;
 }
 
 .boot-status{
     margin-top:24px;
-
     font-size:12px;
-
     letter-spacing:3px;
-
     color:var(--muted);
 }
 
@@ -814,45 +679,42 @@ button{
     TERMINAL
 ==================================================*/
 
-#systemPanel{
-    display:flex;
-    flex-direction:column;
-    height:100%;
-    min-height:0;
-}
-
-#systemPanel h2{
-    flex:0 0 auto;
-}
-
 #terminal{
     flex:1 1 auto;
     min-height:0;
-
     overflow-y:auto;
     overflow-x:hidden;
-
-    padding-bottom:80px;
-
+    padding-right:6px;
     font-family:var(--font-mono);
     font-size:14px;
     line-height:1.8;
-
     color:#9EFFC7;
-
     text-shadow:
         0 0 7px rgba(125,255,182,.12);
-
     scrollbar-gutter:stable;
 }
 
 #terminal::after{
     content:"_";
-    display:block;
-    height:32px;
-
     animation:cursorBlink .9s infinite;
 }
+
+
+/*==================================================
+    CLICK LAYER FIX
+==================================================*/
+
+.control-row{
+    z-index:50;
+}
+
+#ring,
+#systemMessage,
+.result-panel{
+    pointer-events:none;
+}
+
+
 /*==================================================
     SCROLL BAR
 ==================================================*/
@@ -867,30 +729,9 @@ button{
 
 ::-webkit-scrollbar-thumb{
     border-radius:8px;
-
     background:
         linear-gradient(
             var(--primary),
             var(--secondary)
         );
-}
-/*==================================================
-    CLICK LAYER FIX
-==================================================*/
-
-#ring,
-#systemMessage{
-    pointer-events:none;
-}
-
-.result-panel{
-    pointer-events:none;
-}
-
-body[data-state="RESULT"] .result-panel{
-    pointer-events:none;
-}
-
-.control-row{
-    z-index:50;
 }
