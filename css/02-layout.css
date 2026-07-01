@@ -192,9 +192,16 @@ header{
         0 0 10px rgba(123,232,255,.48);
 }
 
-.status{
+.system-controls{
     justify-self:end;
 
+    display:flex;
+    align-items:center;
+
+    gap:16px;
+}
+
+.status{
     display:flex;
     align-items:center;
 
@@ -219,7 +226,6 @@ header{
 
     animation:onlinePulse 2s infinite;
 }
-
 
 /*==================================================
     MAIN
