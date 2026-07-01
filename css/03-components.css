@@ -735,3 +735,124 @@ button{
             var(--secondary)
         );
 }
+/*==================================================
+    QUALITY POLISH
+    Panel Headers / Footer Actions / HUD Scrollbar
+==================================================*/
+
+/* Panel headers */
+#databasePanel h2,
+#systemPanel h2{
+    font-size:23px;
+    letter-spacing:4px;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid rgba(123,232,255,.16);
+
+    text-shadow:
+        0 0 10px rgba(123,232,255,.46);
+}
+
+/* Footer action area */
+.panel-actions{
+    position:relative;
+
+    margin-top:16px;
+    padding-top:16px;
+
+    border-top:1px solid rgba(123,232,255,.22);
+
+    box-shadow:
+        inset 0 8px 14px rgba(123,232,255,.035);
+}
+
+.panel-actions::before{
+    content:"";
+
+    position:absolute;
+
+    top:-1px;
+    left:0;
+
+    width:42%;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            transparent
+        );
+
+    box-shadow:
+        0 0 8px rgba(123,232,255,.55);
+}
+
+/* Footer buttons */
+#clearAllButton,
+#clearLogButton{
+    height:42px;
+
+    letter-spacing:2.5px;
+
+    box-shadow:
+        0 0 14px rgba(123,232,255,.22),
+        inset 0 0 10px rgba(255,255,255,.22);
+}
+
+#clearAllButton{
+    box-shadow:
+        0 0 14px rgba(255,214,92,.32),
+        inset 0 0 10px rgba(255,255,255,.20);
+}
+
+#clearLogButton:hover{
+    box-shadow:
+        0 0 22px rgba(123,232,255,.52),
+        inset 0 0 12px rgba(255,255,255,.36);
+}
+
+/* HUD scrollbar */
+#movieCards::-webkit-scrollbar,
+#terminal::-webkit-scrollbar{
+    width:10px;
+}
+
+#movieCards::-webkit-scrollbar-track,
+#terminal::-webkit-scrollbar-track{
+    background:
+        linear-gradient(
+            180deg,
+            rgba(123,232,255,.06),
+            rgba(0,0,0,.12)
+        );
+
+    border-radius:10px;
+}
+
+#movieCards::-webkit-scrollbar-thumb,
+#terminal::-webkit-scrollbar-thumb{
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.88),
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 10px rgba(123,232,255,.55);
+}
+
+#movieCards::-webkit-scrollbar-thumb:hover,
+#terminal::-webkit-scrollbar-thumb:hover{
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            var(--primary)
+        );
+}
