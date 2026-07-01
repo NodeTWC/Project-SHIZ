@@ -1,35 +1,62 @@
 "use strict";
 
 /*==================================================
-    Project SHIZ
-    A.M.S.S.
-    CLEAR LOG Update
 
+    Project SHIZ
+    A.R.C.S.
+    Advanced Random Control System
+
+    Version 3.0 Professional
     js/main.js
+
 ==================================================*/
 
-const STORAGE_KEY = "amss_movies_v1";
+
+/*==================================================
+    SYSTEM
+==================================================*/
+
+const SYSTEM = {
+    project: "PROJECT SHIZ",
+    name: "A.R.C.S.",
+    fullName: "Advanced Random Control System",
+    version: "3.0.0"
+};
+
+const STORAGE_KEY = "arcs_entries_v1";
+
+
+/*==================================================
+    APP STATE
+==================================================*/
 
 const App = {
     state: "READY",
-    movies: [],
-    selectedMovie: null,
+    entries: [],
+    selectedEntry: null,
     selectedIndex: -1,
     isRunning: false,
+
     config: {
         soundEnabled: false
     }
 };
 
+
+/*==================================================
+    DOM
+==================================================*/
+
 const DOM = {
     bootScreen: document.getElementById("bootScreen"),
 
-    movieInput: document.getElementById("movieInput"),
-    addMovie: document.getElementById("addMovie"),
+    entryInput: document.getElementById("movieInput"),
+    addEntryButton: document.getElementById("addMovie"),
     clearAllButton: document.getElementById("clearAllButton"),
     clearLogButton: document.getElementById("clearLogButton"),
-    movieCards: document.getElementById("movieCards"),
-    movieCount: document.getElementById("movieCount"),
+
+    entryCards: document.getElementById("movieCards"),
+    entryCount: document.getElementById("movieCount"),
 
     startButton: document.getElementById("startButton"),
     resetButton: document.getElementById("resetButton"),
@@ -43,6 +70,7 @@ const DOM = {
     resultConfidence: document.getElementById("resultConfidence"),
     resultStatus: document.getElementById("resultStatus")
 };
+
 
 /*==================================================
     TERMINAL
@@ -95,102 +123,126 @@ const Terminal = {
     }
 };
 
+
 /*==================================================
     SOUND PLACEHOLDER
 ==================================================*/
 
-function playSound(name) {
-    if (!App.config.soundEnabled) return;
-    console.log(`sound:${name}`);
-}
+const Sound = {
+    play(name) {
+        if (!App.config.soundEnabled) return;
+        console.log(`sound:${name}`);
+    },
+
+    stop(name) {
+        if (!App.config.soundEnabled) return;
+        console.log(`sound-stop:${name}`);
+    }
+};
+
 
 /*==================================================
-    DATABASE
+    STORAGE
 ==================================================*/
 
-function saveMovies() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(App.movies));
+function saveEntries() {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(App.entries)
+    );
 }
 
-function loadMovies() {
+function loadEntries() {
     const saved = localStorage.getItem(STORAGE_KEY);
 
     if (!saved) return;
 
     try {
-        App.movies = JSON.parse(saved);
+        App.entries = JSON.parse(saved);
 
-        App.movies.forEach(movie => {
-            if (!movie.status) {
-                movie.status = "READY";
+        App.entries.forEach(entry => {
+            if (!entry.status) {
+                entry.status = "READY";
             }
         });
 
         Terminal.database("Local archive loaded.");
     } catch {
-        App.movies = [];
+        App.entries = [];
         Terminal.warn("Failed to load local archive.");
     }
 }
 
-function addMovie() {
-    const title = DOM.movieInput.value.trim();
+
+/*==================================================
+    DATABASE CONTROL
+==================================================*/
+
+function addEntry() {
+    const title = DOM.entryInput.value.trim();
 
     if (!title) {
-        Terminal.warn("Empty title rejected.");
+        Terminal.warn("Empty entry rejected.");
         setSystemMessage("NO DATA");
+        Sound.play("error");
         return;
     }
 
-    App.movies.push({
+    App.entries.push({
         id: createId(),
         title,
         status: "READY"
     });
 
-    saveMovies();
-    DOM.movieInput.value = "";
+    saveEntries();
+
+    DOM.entryInput.value = "";
+
     render();
 
     Terminal.database(`Record registered : ${title}`);
+    Sound.play("add");
 }
 
-function removeMovie(id) {
+function removeEntry(id) {
     if (App.isRunning) return;
 
-    const movie = App.movies.find(item => item.id === id);
+    const entry = App.entries.find(item => item.id === id);
 
-    App.movies = App.movies.filter(item => item.id !== id);
+    App.entries = App.entries.filter(item => item.id !== id);
 
-    saveMovies();
+    saveEntries();
     render();
 
-    if (movie) {
-        Terminal.database(`Record removed : ${movie.title}`);
+    if (entry) {
+        Terminal.database(`Record removed : ${entry.title}`);
+        Sound.play("delete");
     }
 }
 
-function clearAllMovies() {
+function clearAllEntries() {
     if (App.isRunning) return;
 
-    if (App.movies.length === 0) {
+    if (App.entries.length === 0) {
         Terminal.warn("Archive already empty.");
         return;
     }
 
-    const confirmed = confirm("登録作品をすべて削除しますか？");
+    const confirmed = confirm("登録データをすべて削除しますか？");
 
     if (!confirmed) return;
 
-    App.movies = [];
+    App.entries = [];
 
-    saveMovies();
+    saveEntries();
     render();
 
     Terminal.database("All records cleared.");
+    Sound.play("clear");
 
     resetSystem();
 }
+
 
 /*==================================================
     RENDER
@@ -198,35 +250,35 @@ function clearAllMovies() {
 
 function render() {
     renderCounters();
-    renderMovieCards();
+    renderEntryCards();
 }
 
 function renderCounters() {
-    DOM.movieCount.textContent = App.movies.length;
+    DOM.entryCount.textContent = App.entries.length;
 }
 
-function renderMovieCards() {
-    DOM.movieCards.innerHTML = "";
+function renderEntryCards() {
+    DOM.entryCards.innerHTML = "";
 
-    App.movies.forEach((movie, index) => {
+    App.entries.forEach((entry, index) => {
         const card = document.createElement("div");
 
-        card.className = `movieCard ${getStatusClass(movie.status)}`;
-        card.dataset.id = movie.id;
+        card.className = `movieCard ${getStatusClass(entry.status)}`;
+        card.dataset.id = entry.id;
 
         card.innerHTML = `
-            <div class="movieTitle">◆ ${escapeHTML(movie.title)}</div>
+            <div class="movieTitle">◆ ${escapeHTML(entry.title)}</div>
             <div class="movieStatus">
-                ID : ${formatId(index)} / STATUS : ${movie.status}
+                ID : ${formatId(index)} / STATUS : ${entry.status}
             </div>
             <div class="movieBar"></div>
         `;
 
         card.addEventListener("dblclick", () => {
-            removeMovie(movie.id);
+            removeEntry(entry.id);
         });
 
-        DOM.movieCards.appendChild(card);
+        DOM.entryCards.appendChild(card);
     });
 }
 
@@ -242,6 +294,7 @@ function getStatusClass(status) {
             return "";
     }
 }
+
 
 /*==================================================
     UI CONTROL
@@ -267,29 +320,30 @@ function setRingMode(mode) {
     DOM.ring.classList.add(`ring-${mode}`);
 }
 
-function setAllMovieStatus(status) {
-    App.movies.forEach(movie => {
-        movie.status = status;
+function setAllEntryStatus(status) {
+    App.entries.forEach(entry => {
+        entry.status = status;
     });
 
-    renderMovieCards();
+    renderEntryCards();
 }
 
-function setMovieStatus(id, status) {
-    const movie = App.movies.find(item => item.id === id);
+function setEntryStatus(id, status) {
+    const entry = App.entries.find(item => item.id === id);
 
-    if (!movie) return;
+    if (!entry) return;
 
-    movie.status = status;
-    renderMovieCards();
+    entry.status = status;
+
+    renderEntryCards();
 }
 
-function resetMovieStatus() {
-    App.movies.forEach(movie => {
-        movie.status = "READY";
+function resetEntryStatus() {
+    App.entries.forEach(entry => {
+        entry.status = "READY";
     });
 
-    renderMovieCards();
+    renderEntryCards();
 }
 
 function resetResultPanel() {
@@ -302,10 +356,10 @@ function resetResultPanel() {
 function resetSystem() {
     if (App.isRunning) return;
 
-    App.selectedMovie = null;
+    App.selectedEntry = null;
     App.selectedIndex = -1;
 
-    resetMovieStatus();
+    resetEntryStatus();
     resetResultPanel();
 
     setAppState("READY");
@@ -315,6 +369,7 @@ function resetSystem() {
     Terminal.system("Operation reset. Awaiting command.");
 }
 
+
 /*==================================================
     CINEMATIC SCENES
 ==================================================*/
@@ -323,36 +378,39 @@ const Scene = {
     async boot() {
         setAppState("BOOT");
         setRingMode("boot");
-        playSound("boot");
+        Sound.play("boot");
 
-        Terminal.system("Boot sequence initiated.");
+        Terminal.system(`${SYSTEM.project}`);
+        Terminal.system(`Launching ${SYSTEM.name}...`);
+        Terminal.system(`${SYSTEM.fullName}`);
+        Terminal.system(`Version ${SYSTEM.version}`);
 
         await sceneStep("POWER CORE", "Power Core..............OK", "system", 310);
         await sceneStep("HUD LINK", "HUD Interface..........OK", "system", 310);
-        await sceneStep("AI MODULE", "AI Module..............ONLINE", "system", 360);
+        await sceneStep("A.R.C.S. CORE", "A.R.C.S. Core..........ONLINE", "system", 360);
         await sceneStep("TARGET ENGINE", "Target Engine..........STANDBY", "system", 360);
-        await sceneStep("SYSTEM ONLINE", "A.M.S.S. online.", "system", 520);
+        await sceneStep("A.R.C.S. ONLINE", "A.R.C.S. online.", "system", 520);
     },
 
     async auth() {
         setAppState("AUTH");
-        playSound("auth");
+        Sound.play("auth");
 
         Terminal.auth("Operator verification started.");
 
         await sceneStep("AUTHENTICATING", "Operator signature.....SCANNING", "auth", 480);
-        await sceneStep("忠犬しず", "Operator : 忠犬しず", "auth", 600);
+        await sceneStep("OPERATOR", "Operator...............VERIFIED", "auth", 600);
         await sceneStep("ACCESS GRANTED", "Access level...........GRANTED", "auth", 620);
     },
 
     async database() {
         setAppState("DATABASE");
-        playSound("connect");
+        Sound.play("database");
 
         Terminal.database("Archive link established.");
 
         await sceneStep("DATABASE LINK", "Archive connection.....OK", "database", 420);
-        await sceneStep("VERIFYING", `Registered Titles......${App.movies.length}`, "database", 420);
+        await sceneStep("VERIFYING", `Registered Entries.....${App.entries.length}`, "database", 420);
         await sceneStep("RECORD CHECK", "Record integrity.......RUNNING", "database", 300);
 
         await checkCards();
@@ -363,16 +421,16 @@ const Scene = {
     async scan() {
         setAppState("SCAN");
         setRingMode("scan");
-        playSound("scan");
+        Sound.play("scan_loop");
 
-        setAllMovieStatus("SCANNING");
+        setAllEntryStatus("SCANNING");
 
         Terminal.ai("Selection engine activated.");
         Terminal.ai("Candidate analysis started.");
 
         const sequence = [
             "PATTERN MATCH",
-            "GENRE TRACE",
+            "TRACE DATA",
             "BALANCE CHECK",
             "RANDOM SEED",
             "TARGET SEARCH",
@@ -381,8 +439,8 @@ const Scene = {
 
         const logs = [
             "Pattern matching........RUNNING",
-            "Genre trace.............RUNNING",
-            "Viewer balance..........CALCULATING",
+            "Trace analysis..........RUNNING",
+            "Balance check...........CALCULATING",
             "Random seed.............GENERATED",
             "Candidate matrix........ACTIVE",
             "Decision path...........LOCKING"
@@ -392,8 +450,8 @@ const Scene = {
 
         for (let i = 0; i < steps; i++) {
             if (i % 13 === 0) {
-                const movie = randomMovie();
-                setSystemMessage(movie.title);
+                const entry = randomEntry();
+                setSystemMessage(entry.title);
             } else {
                 setSystemMessage(sequence[i % sequence.length]);
             }
@@ -406,30 +464,33 @@ const Scene = {
         }
 
         App.selectedIndex = randomIndex();
-        App.selectedMovie = App.movies[App.selectedIndex];
+        App.selectedEntry = App.entries[App.selectedIndex];
 
         Terminal.ai("Candidate selected.");
+
         await sleep(300);
     },
 
     async lock() {
         setAppState("LOCK");
         setRingMode("lock");
-        playSound("lock");
 
-        setAllMovieStatus("READY");
-        setMovieStatus(App.selectedMovie.id, "TARGET LOCK");
+        Sound.stop("scan_loop");
+        Sound.play("lock");
+
+        setAllEntryStatus("READY");
+        setEntryStatus(App.selectedEntry.id, "TARGET LOCK");
 
         Terminal.lock("Target signature detected.");
 
         await sceneStep("TARGET FOUND", "Target signature........FOUND", "lock", 320);
         await sceneStep("IDENTIFYING", `Database ID.............${formatId(App.selectedIndex)}`, "lock", 320);
-        await sceneStep("LOCK COMPLETE", `Target locked : ${App.selectedMovie.title}`, "lock", 620);
+        await sceneStep("LOCK COMPLETE", `Target locked : ${App.selectedEntry.title}`, "lock", 620);
     },
 
     async result() {
         setAppState("RESULT");
-        playSound("result");
+        Sound.play("result");
 
         const idText = formatId(App.selectedIndex);
         const confidence = createConfidence();
@@ -439,13 +500,13 @@ const Scene = {
         DOM.resultStatus.textContent = "LOCKED";
 
         Terminal.result("Operation result received.");
-        Terminal.result(`Mission target : ${App.selectedMovie.title}`);
+        Terminal.result(`Selected target : ${App.selectedEntry.title}`);
         Terminal.result(`Database ID : ${idText}`);
         Terminal.result(`AI Confidence : ${confidence}%`);
 
-        await revealResultTitle(App.selectedMovie.title);
+        await revealResultTitle(App.selectedEntry.title);
 
-        Terminal.result("Mission ready.");
+        Terminal.result("Selection complete.");
     }
 };
 
@@ -482,22 +543,24 @@ function writeSceneLog(message, type) {
     }
 }
 
+
 /*==================================================
-    AI ENGINE
+    ENGINE
 ==================================================*/
 
-const AIEngine = {
+const Engine = {
     async start() {
         if (App.isRunning) return;
 
-        if (App.movies.length === 0) {
-            Terminal.warn("No movie data found.");
+        if (App.entries.length === 0) {
+            Terminal.warn("No entry data found.");
             setSystemMessage("NO DATA");
-            playSound("error");
+            Sound.play("error");
             return;
         }
 
         App.isRunning = true;
+
         DOM.startButton.disabled = true;
         DOM.resetButton.disabled = true;
 
@@ -512,25 +575,29 @@ const AIEngine = {
             await Scene.result();
         } finally {
             App.isRunning = false;
+
             DOM.startButton.disabled = false;
             DOM.resetButton.disabled = false;
         }
     }
 };
 
+
 /*==================================================
-    CARD CHECK SEQUENCE
+    CARD CHECK
 ==================================================*/
 
 async function checkCards() {
-    for (const movie of App.movies) {
-        setMovieStatus(movie.id, "CHECKING");
+    for (const entry of App.entries) {
+        setEntryStatus(entry.id, "CHECKING");
         await sleep(42);
     }
 
     await sleep(220);
-    setAllMovieStatus("READY");
+
+    setAllEntryStatus("READY");
 }
+
 
 /*==================================================
     RESULT TITLE REVEAL
@@ -562,6 +629,7 @@ async function revealResultTitle(title) {
     DOM.resultTitle.textContent = finalText;
 }
 
+
 /*==================================================
     BOOT SCREEN
 ==================================================*/
@@ -575,16 +643,17 @@ function closeBootScreen() {
     }, 2300);
 }
 
+
 /*==================================================
     UTILITY
 ==================================================*/
 
-function randomMovie() {
-    return App.movies[randomIndex()];
+function randomEntry() {
+    return App.entries[randomIndex()];
 }
 
 function randomIndex() {
-    return Math.floor(Math.random() * App.movies.length);
+    return Math.floor(Math.random() * App.entries.length);
 }
 
 function formatId(index) {
@@ -597,6 +666,7 @@ function createConfidence() {
     }
 
     const value = 96 + Math.random() * 3.99;
+
     return value.toFixed(2);
 }
 
@@ -609,7 +679,7 @@ function createId() {
         return crypto.randomUUID();
     }
 
-    return `movie-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    return `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function escapeHTML(text) {
@@ -618,27 +688,31 @@ function escapeHTML(text) {
     return div.innerHTML;
 }
 
+
 /*==================================================
     EVENTS
 ==================================================*/
 
-DOM.addMovie.addEventListener("click", addMovie);
-DOM.clearAllButton.addEventListener("click", clearAllMovies);
+DOM.addEntryButton.addEventListener("click", addEntry);
+
+DOM.clearAllButton.addEventListener("click", clearAllEntries);
+
 DOM.clearLogButton.addEventListener("click", () => {
     Terminal.clear();
 });
 
-DOM.movieInput.addEventListener("keydown", event => {
+DOM.entryInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
-        addMovie();
+        addEntry();
     }
 });
 
 DOM.startButton.addEventListener("click", () => {
-    AIEngine.start();
+    Engine.start();
 });
 
 DOM.resetButton.addEventListener("click", resetSystem);
+
 
 /*==================================================
     INIT
@@ -649,12 +723,13 @@ function init() {
     setRingMode("idle");
     resetResultPanel();
 
-    Terminal.system("Project SHIZ interface online.");
+    Terminal.system(`${SYSTEM.project} interface online.`);
+    Terminal.system(`${SYSTEM.name} standby.`);
 
-    loadMovies();
+    loadEntries();
     render();
 
-    Terminal.system("A.M.S.S. ready.");
+    Terminal.system("System ready.");
 
     closeBootScreen();
 }
