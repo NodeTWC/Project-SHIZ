@@ -24,7 +24,7 @@ const SYSTEM = {
 };
 
 const STORAGE_KEY = "arcs_entries_v1";
-
+const SETTINGS_KEY = "arcs_settings_v1";
 
 /*==================================================
     APP STATE
@@ -37,11 +37,14 @@ const App = {
     selectedIndex: -1,
     isRunning: false,
 
+    settings: {
+        operatorName: "OPERATOR"
+    },
+
     config: {
         soundEnabled: false
     }
 };
-
 
 /*==================================================
     DOM
@@ -69,6 +72,13 @@ const DOM = {
     resultId: document.getElementById("resultId"),
     resultConfidence: document.getElementById("resultConfidence"),
     resultStatus: document.getElementById("resultStatus")
+
+    settingsButton: document.getElementById("settingsButton"),
+settingsPanel: document.getElementById("settingsPanel"),
+operatorName: document.getElementById("operatorName"),
+operatorInput: document.getElementById("operatorInput"),
+saveOperatorButton: document.getElementById("saveOperatorButton"),
+closeSettingsButton: document.getElementById("closeSettingsButton"),
 };
 
 
@@ -171,6 +181,54 @@ function loadEntries() {
         App.entries = [];
         Terminal.warn("Failed to load local archive.");
     }
+    function saveSettings() {
+    localStorage.setItem(
+        SETTINGS_KEY,
+        JSON.stringify(App.settings)
+    );
+}
+
+function loadSettings() {
+    const saved = localStorage.getItem(SETTINGS_KEY);
+
+    if (!saved) return;
+
+    try {
+        App.settings = {
+            ...App.settings,
+            ...JSON.parse(saved)
+        };
+    } catch {
+        Terminal.warn("Failed to load settings.");
+    }
+}
+
+function renderSettings() {
+    DOM.operatorName.textContent = App.settings.operatorName;
+    DOM.operatorInput.value = App.settings.operatorName;
+}
+
+function openSettings() {
+    renderSettings();
+    DOM.settingsPanel.classList.add("open");
+}
+
+function closeSettings() {
+    DOM.settingsPanel.classList.remove("open");
+}
+
+function saveOperatorName() {
+    const name = DOM.operatorInput.value.trim();
+
+    App.settings.operatorName = name || "OPERATOR";
+
+    saveSettings();
+    renderSettings();
+    closeSettings();
+
+    Terminal.auth(`Operator updated : ${App.settings.operatorName}`);
+    setSystemMessage("OPERATOR UPDATED");
+}
 }
 
 
@@ -399,7 +457,12 @@ const Scene = {
         Terminal.auth("Operator verification started.");
 
         await sceneStep("AUTHENTICATING", "Operator signature.....SCANNING", "auth", 480);
-        await sceneStep("OPERATOR", "Operator...............VERIFIED", "auth", 600);
+        await sceneStep(
+    App.settings.operatorName,
+    `Operator...............${App.settings.operatorName}`,
+    "auth",
+    600
+);
         await sceneStep("ACCESS GRANTED", "Access level...........GRANTED", "auth", 620);
     },
 
@@ -713,6 +776,21 @@ DOM.startButton.addEventListener("click", () => {
 
 DOM.resetButton.addEventListener("click", resetSystem);
 
+DOM.settingsButton.addEventListener("click", openSettings);
+DOM.closeSettingsButton.addEventListener("click", closeSettings);
+DOM.saveOperatorButton.addEventListener("click", saveOperatorName);
+
+DOM.operatorInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        saveOperatorName();
+    }
+});
+
+DOM.settingsPanel.addEventListener("click", event => {
+    if (event.target === DOM.settingsPanel) {
+        closeSettings();
+    }
+});
 
 /*==================================================
     INIT
@@ -725,6 +803,9 @@ function init() {
 
     Terminal.system(`${SYSTEM.project} interface online.`);
     Terminal.system(`${SYSTEM.name} standby.`);
+
+    loadSettings();
+    renderSettings();
 
     loadEntries();
     render();
