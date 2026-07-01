@@ -1,8 +1,8 @@
 /*==================================================
 
     Project SHIZ
-    A.M.S.S. v1.1
-    High-Impact Visual Update
+    A.M.S.S. v1.3
+    Cinematic Military HUD Update
 
     04-animation.css
     Animations / Keyframes
@@ -16,17 +16,17 @@
 
 @keyframes onlinePulse{
     0%{
-        transform:scale(.82);
+        transform:scale(.88);
         opacity:.55;
     }
 
     50%{
-        transform:scale(1.22);
+        transform:scale(1.15);
         opacity:1;
     }
 
     100%{
-        transform:scale(.82);
+        transform:scale(.88);
         opacity:.55;
     }
 }
@@ -69,30 +69,32 @@
 @keyframes lockPulse{
     0%,100%{
         transform:scale(1);
+        filter:brightness(1.15);
     }
 
     50%{
-        transform:scale(1.075);
+        transform:scale(1.055);
+        filter:brightness(1.95);
     }
 }
 
 @keyframes ringShock{
     0%{
-        transform:scale(.96);
-        opacity:.65;
-        filter:brightness(1.8);
+        transform:scale(.98);
+        opacity:.7;
+        filter:brightness(1.2);
     }
 
-    50%{
-        transform:scale(1.08);
+    42%{
+        transform:scale(1.075);
         opacity:1;
-        filter:brightness(2.4);
+        filter:brightness(2.55);
     }
 
     100%{
         transform:scale(1);
         opacity:.95;
-        filter:brightness(1.35);
+        filter:brightness(1.25);
     }
 }
 
@@ -119,7 +121,7 @@
 @keyframes fadeIn{
     from{
         opacity:0;
-        transform:translateY(15px);
+        transform:translateY(12px);
     }
 
     to{
@@ -154,7 +156,7 @@
     }
 
     50%{
-        transform:translateX(6px) scale(1.015);
+        transform:translateX(4px) scale(1.008);
     }
 }
 
@@ -165,7 +167,7 @@
 
 @keyframes stateFlash{
     0%{
-        filter:brightness(2.2) contrast(1.1);
+        filter:brightness(1.45) contrast(1.04);
     }
 
     100%{
@@ -175,15 +177,29 @@
 
 @keyframes scanFlash{
     0%{
-        filter:brightness(1.2);
+        filter:brightness(1);
     }
 
     50%{
-        filter:brightness(1.65);
+        filter:brightness(1.38);
     }
 
     100%{
-        filter:brightness(1.2);
+        filter:brightness(1);
+    }
+}
+
+@keyframes lockFlash{
+    0%{
+        filter:brightness(1);
+    }
+
+    18%{
+        filter:brightness(2.75) contrast(1.16);
+    }
+
+    100%{
+        filter:brightness(1.08);
     }
 }
 
@@ -193,18 +209,18 @@
         transform:translateX(0);
     }
 
-    20%{
-        opacity:.65;
+    28%{
+        opacity:.72;
         transform:translateX(-1px);
     }
 
-    40%{
+    42%{
         opacity:1;
         transform:translateX(1px);
     }
 
-    60%{
-        opacity:.78;
+    64%{
+        opacity:.84;
         transform:translateX(0);
     }
 }
@@ -216,8 +232,8 @@
     }
 
     50%{
-        transform:scale(1.08);
-        filter:brightness(2.2);
+        transform:scale(1.055);
+        filter:brightness(2.05);
     }
 }
 
@@ -229,14 +245,14 @@
 @keyframes resultPanelIn{
     0%{
         opacity:0;
-        transform:translate(-50%,-50%) scale(.72);
-        filter:brightness(2.8) blur(2px);
+        transform:translate(-50%,-50%) scale(.86);
+        filter:brightness(1.7) blur(1px);
     }
 
-    40%{
+    34%{
         opacity:1;
-        transform:translate(-50%,-50%) scale(1.08);
-        filter:brightness(2.1) blur(0);
+        transform:translate(-50%,-50%) scale(1.035);
+        filter:brightness(1.55) blur(0);
     }
 
     100%{
@@ -254,7 +270,7 @@
 
     to{
         opacity:0;
-        transform:translate(-50%,-50%) scale(.86);
+        transform:translate(-50%,-50%) scale(.9);
     }
 }
 
@@ -262,26 +278,26 @@
     0%,100%{
         transform:scale(1);
         letter-spacing:1px;
-        filter:brightness(1.1);
+        filter:brightness(1.05);
     }
 
     50%{
-        transform:scale(1.035);
-        letter-spacing:4px;
-        filter:brightness(1.55);
+        transform:scale(1.018);
+        letter-spacing:2px;
+        filter:brightness(1.42);
     }
 }
 
 @keyframes resultNoise{
     0%{
-        opacity:.15;
-        filter:blur(3px) brightness(2.2);
-        transform:translateY(2px);
+        opacity:.2;
+        filter:blur(2px) brightness(1.7);
+        transform:translateY(1px);
     }
 
-    40%{
+    38%{
         opacity:1;
-        filter:blur(0) brightness(1.8);
+        filter:blur(0) brightness(1.55);
         transform:translateY(-1px);
     }
 
@@ -295,12 +311,35 @@
 @keyframes resultFramePulse{
     0%,100%{
         opacity:.75;
-        filter:drop-shadow(0 0 6px var(--primary));
+        filter:drop-shadow(0 0 5px var(--primary));
     }
 
     50%{
         opacity:1;
-        filter:drop-shadow(0 0 16px var(--primary));
+        filter:drop-shadow(0 0 12px var(--primary));
+    }
+}
+
+
+/*==================================================
+    BOOT SCREEN
+==================================================*/
+
+@keyframes bootBar{
+    0%{
+        width:0%;
+    }
+
+    42%{
+        width:54%;
+    }
+
+    72%{
+        width:82%;
+    }
+
+    100%{
+        width:100%;
     }
 }
 
@@ -318,30 +357,13 @@
 @keyframes terminalLine{
     from{
         opacity:0;
-        transform:translateX(-8px);
-        filter:brightness(1.8);
+        transform:translateX(-6px);
+        filter:brightness(1.45);
     }
 
     to{
         opacity:1;
         transform:translateX(0);
         filter:brightness(1);
-    }
-}
-@keyframes bootBar{
-    0%{
-        width:0%;
-    }
-
-    45%{
-        width:58%;
-    }
-
-    72%{
-        width:84%;
-    }
-
-    100%{
-        width:100%;
     }
 }
