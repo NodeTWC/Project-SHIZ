@@ -994,8 +994,8 @@ async function revealResultTitle(title) {
 
     fitResultTitle(DOM.resultTitle, {
         maxSize: 60,
-        minSize: 26,
-        maxLines: 3
+        minSize: 22,
+        maxLines: 4
     });
 
     for (let i = 0; i < finalText.length; i++) {
