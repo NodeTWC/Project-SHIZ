@@ -197,7 +197,7 @@ body[data-state="RESULT"] .result-panel{
 
     pointer-events:auto;
 
-    animation:resultPanelIn .42s ease forwards;
+    animation:none;
 }
 
 body[data-state="RESULT"] .result-actions,
