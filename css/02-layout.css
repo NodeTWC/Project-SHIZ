@@ -1,11 +1,11 @@
 /*==================================================
 
     Project SHIZ
-    A.R.C.S. v3.0
+    A.R.C.S. v3.2.1
     Advanced Random Control System
 
     02-layout.css
-    Layout
+    Layout / Responsive
 
 ==================================================*/
 
@@ -24,6 +24,10 @@ html,
 body{
     width:100%;
     height:100%;
+}
+
+html{
+    background:var(--bg-deep);
 }
 
 body{
@@ -227,6 +231,7 @@ header{
     animation:onlinePulse 2s infinite;
 }
 
+
 /*==================================================
     MAIN
 ==================================================*/
@@ -360,182 +365,231 @@ footer{
         1px solid rgba(123,232,255,.18);
 }
 
-/* ==============================
-   Version 3.2 Mobile Layout
-   for current A.R.C.S. structure
-   ============================== */
 
-@media (max-width: 768px) {
+/*==================================================
+
+    TABLET LAYOUT
+    769px - 1024px
+
+==================================================*/
+
+@media (min-width:769px) and (max-width:1024px){
+
+    body{
+        overflow-y:auto;
+    }
+
+    main{
+        height:auto;
+
+        min-height:
+            calc(
+                100dvh
+                - var(--header-height)
+                - var(--footer-height)
+            );
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    #corePanel{
+        grid-column:1 / -1;
+
+        min-height:520px;
+    }
+
+}
+
+
+/*==================================================
+
+    MOBILE LAYOUT
+    max 768px
+
+==================================================*/
+
+@media (max-width:768px){
+
     html,
-    body {
-        width: 100%;
-        min-height: 100%;
-        height: auto;
-        overflow-x: hidden;
+    body{
+        width:100%;
+        min-height:100%;
+        height:auto;
+
+        overflow-x:hidden;
     }
 
-    body {
-        overflow-y: auto;
+    body{
+        overflow-y:auto;
+
+        color:var(--text);
+
+        background:
+            radial-gradient(
+                circle at top,
+                var(--bg-highlight),
+                var(--bg-soft) 45%,
+                var(--bg-deep)
+            );
     }
 
-    header {
-        height: auto;
-        min-height: var(--header-height);
-        grid-template-columns: 1fr;
-        gap: 14px;
-        padding: 16px;
-        text-align: center;
+
+    /* HEADER */
+
+    header{
+        height:auto;
+        min-height:var(--header-height);
+
+        grid-template-columns:1fr;
+
+        gap:14px;
+
+        padding:16px;
+
+        text-align:center;
     }
-html {
-    background: var(--bg-deep);
-}
 
-body {
-    overflow-y: auto;
-    color: var(--text);
-    background:
-        radial-gradient(
-            circle at top,
-            var(--bg-highlight),
-            var(--bg-soft) 45%,
-            var(--bg-deep)
-        );
-}
-
-section {
-    color: var(--text);
-    background: var(--panel);
-    border: 1px solid var(--panel-border);
-}
     .logo,
     .operator-panel,
-    .system-controls {
-        justify-self: center;
+    .system-controls{
+        justify-self:center;
     }
 
-    .logo {
-        font-size: 26px;
+    .logo{
+        font-size:26px;
     }
 
-    .operator-panel {
-        width: 100%;
-        min-width: 0;
+    .operator-panel{
+        width:100%;
+        min-width:0;
     }
 
-    .system-controls {
-        width: 100%;
-        justify-content: center;
+    .system-controls{
+        width:100%;
+
+        justify-content:center;
     }
 
-    main {
-        height: auto;
-        min-height: calc(100dvh - var(--header-height) - var(--footer-height));
-        padding: 14px;
-        grid-template-columns: 1fr;
-        gap: 14px;
+
+    /* MAIN */
+
+    main{
+        height:auto;
+
+        min-height:
+            calc(
+                100dvh
+                - var(--header-height)
+                - var(--footer-height)
+            );
+
+        padding:14px;
+
+        grid-template-columns:1fr;
+
+        gap:14px;
     }
 
-    section {
-        min-height: auto;
+
+    /* PANELS */
+
+    section{
+        min-height:auto;
+
+        color:var(--text);
+
+        background:var(--panel);
+
+        border:
+            1px solid var(--panel-border);
     }
 
     #databasePanel,
-    #systemPanel {
-        padding: 18px;
+    #systemPanel{
+        padding:18px;
     }
 
-    #corePanel {
-        min-height: 420px;
-        padding: 18px;
+    #corePanel{
+        min-height:520px;
+
+        padding:18px;
+
+        align-items:center;
+        justify-content:flex-start;
+
+        overflow:hidden;
     }
 
-    .result-panel {
-        position: relative;
-        left: auto;
-        top: auto;
-        transform: scale(.9);
-        margin-top: 120px;
-        width: 100%;
-        max-width: 360px;
-    }
 
-    .control-row {
-        position: relative;
-        bottom: auto;
-        margin-top: 28px;
-        width: 100%;
-        justify-content: center;
-        gap: 12px;
-    }
+    /* RESULT PANEL */
 
-    .control-row button {
-        flex: 1;
-        min-height: 52px;
-    }
-
-    footer {
-        height: auto;
-        min-height: var(--footer-height);
-        padding: 14px;
-        text-align: center;
-        font-size: 11px;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    body {
-        overflow-y: auto;
-    }
-
-    main {
-        height: auto;
-        min-height: calc(100dvh - var(--header-height) - var(--footer-height));
-        grid-template-columns: 1fr 1fr;
-    }
-
-    #corePanel {
-        grid-column: 1 / -1;
-        min-height: 520px;
-    }
-}
-@media (max-width: 768px) {
-    body[data-state="RESULT"] .result-panel {
-        animation: none !important;
-        opacity: 1;
-        transform: none !important;
-    }
-}
     #resultPanel,
-    #resultPanel.is-active,
-    #resultPanel.active,
-    #resultPanel.show,
     .result-panel,
-    .result-panel.is-active,
-    .result-panel.active,
-    .result-panel.show {
-        left: auto !important;
-        top: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        transform: none !important;
-        width: 100% !important;
-        max-width: 360px;
-        margin: 110px auto 0;
+    body[data-state="RESULT"] .result-panel{
+        position:relative !important;
+
+        left:auto !important;
+        top:auto !important;
+        right:auto !important;
+        bottom:auto !important;
+
+        transform:none !important;
+
+        width:100% !important;
+        max-width:360px;
+
+        margin:110px auto 0;
+
+        min-height:auto;
+        max-height:none;
+
+        overflow:visible;
     }
 
-    .result-panel {
-        min-height: auto;
-        max-height: none;
-        overflow: visible;
+    body[data-state="RESULT"] .result-panel{
+        opacity:1;
+
+        animation:none !important;
+
+        pointer-events:none;
     }
 
-    #corePanel {
-        align-items: center;
-        justify-content: flex-start;
-        overflow: hidden;
+
+    /* BUTTON AREA */
+
+    .control-row{
+        position:relative;
+
+        bottom:auto;
+
+        width:100%;
+
+        margin-top:24px;
+
+        display:flex;
+        justify-content:center;
+
+        gap:12px;
     }
 
-    .control-row {
-        margin-top: 24px;
+    .control-row button{
+        flex:1;
+
+        min-height:52px;
     }
+
+
+    /* FOOTER */
+
+    footer{
+        height:auto;
+        min-height:var(--footer-height);
+
+        padding:14px;
+
+        text-align:center;
+
+        font-size:11px;
+    }
+
 }
