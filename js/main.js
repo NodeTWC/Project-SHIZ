@@ -6,8 +6,8 @@
     A.R.C.S.
     Advanced Random Control System
 
-    Version 3.3.0
-    Creator Edition
+    Version 3.3.3
+    Creator Edition / Fit Result Title
 
     js/main.js
 
@@ -22,7 +22,7 @@ const SYSTEM = {
     project: "PROJECT SHIZ",
     name: "A.R.C.S.",
     fullName: "Advanced Random Control System",
-    version: "3.3.0"
+    version: "3.3.3"
 };
 
 const STORAGE_KEY = "arcs_entries_v1";
@@ -430,11 +430,13 @@ function updateCreatorCard(entry, idText, confidence) {
     if (!DOM.creatorPanel) return;
 
     DOM.creatorResultTitle.textContent = entry.title;
+
     fitResultTitle(DOM.creatorResultTitle, {
-    maxSize: 56,
-    minSize: 24,
-    maxLines: 3
-});
+        maxSize: 56,
+        minSize: 24,
+        maxLines: 3
+    });
+
     DOM.creatorOperator.textContent = App.settings.operatorName;
     DOM.creatorResultId.textContent = idText;
     DOM.creatorConfidence.textContent = `${confidence}%`;
@@ -444,6 +446,8 @@ function resetCreatorCard() {
     if (!DOM.creatorPanel) return;
 
     DOM.creatorResultTitle.textContent = "---";
+    resetTitleFit(DOM.creatorResultTitle);
+
     DOM.creatorOperator.textContent = "---";
     DOM.creatorResultId.textContent = "----";
     DOM.creatorConfidence.textContent = "--.--%";
@@ -489,6 +493,9 @@ function createShareText() {
     ].join("\n");
 }
 
+main.js Part 2/2 です。
+Part 1 の続きにそのまま貼ってください。
+
 function shareToX() {
     const text = createShareText();
 
@@ -528,19 +535,24 @@ async function saveResultPng() {
     Terminal.system("PNG capture started.");
     setSystemMessage("PNG CAPTURE");
 
-    const canvas = await html2canvas(DOM.creatorCard, {
-        backgroundColor: null,
-        scale: 3,
-        useCORS: true
-    });
+    try {
+        const canvas = await html2canvas(DOM.creatorCard, {
+            backgroundColor: null,
+            scale: 3,
+            useCORS: true
+        });
 
-    const link = document.createElement("a");
-    link.download = createPngFileName();
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+        const link = document.createElement("a");
+        link.download = createPngFileName();
+        link.href = canvas.toDataURL("image/png");
+        link.click();
 
-    Terminal.system("PNG saved.");
-    setSystemMessage("PNG SAVED");
+        Terminal.system("PNG saved.");
+        setSystemMessage("PNG SAVED");
+    } catch {
+        Terminal.warn("PNG capture failed.");
+        setSystemMessage("PNG ERROR");
+    }
 }
 
 
@@ -617,6 +629,8 @@ function resetEntryStatus() {
 
 function resetResultPanel() {
     DOM.resultTitle.textContent = "---";
+    resetTitleFit(DOM.resultTitle);
+
     DOM.resultId.textContent = "----";
     DOM.resultConfidence.textContent = "--.--%";
     DOM.resultStatus.textContent = "LOCKED";
@@ -992,12 +1006,13 @@ async function revealResultTitle(title) {
     }
 
     DOM.resultTitle.textContent = finalText;
-    
-fitResultTitle(DOM.resultTitle, {
-    maxSize: 60,
-    minSize: 26,
-    maxLines: 3
-});
+
+    fitResultTitle(DOM.resultTitle, {
+        maxSize: 60,
+        minSize: 26,
+        maxLines: 3
+    });
+}
 
 
 /*==================================================
@@ -1052,6 +1067,18 @@ function createId() {
     return `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function createPngFileName() {
+    const now = new Date();
+
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(now.getDate()).padStart(2, "0");
+    const h = String(now.getHours()).padStart(2, "0");
+    const min = String(now.getMinutes()).padStart(2, "0");
+
+    return `arcs-result-${y}${m}${d}-${h}${min}.png`;
+}
+
 function escapeHTML(text) {
     const div = document.createElement("div");
 
@@ -1059,6 +1086,7 @@ function escapeHTML(text) {
 
     return div.innerHTML;
 }
+
 function fitResultTitle(element, options = {}) {
     if (!element) return;
 
@@ -1089,17 +1117,16 @@ function fitResultTitle(element, options = {}) {
     element.style.maxHeight = `${size * settings.maxLines * 1.14}px`;
     element.style.overflow = "hidden";
 }
-function createPngFileName() {
-    const now = new Date();
 
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, "0");
-    const d = String(now.getDate()).padStart(2, "0");
-    const h = String(now.getHours()).padStart(2, "0");
-    const min = String(now.getMinutes()).padStart(2, "0");
+function resetTitleFit(element) {
+    if (!element) return;
 
-    return `arcs-result-${y}${m}${d}-${h}${min}.png`;
+    element.style.fontSize = "";
+    element.style.lineHeight = "";
+    element.style.maxHeight = "";
+    element.style.overflow = "";
 }
+
 
 /*==================================================
     EVENTS
