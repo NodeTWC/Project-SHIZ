@@ -2317,3 +2317,44 @@ button{
     }
 
 }
+.result-actions{
+    margin-top:22px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+
+#openCreatorButton{
+    min-width:180px;
+    min-height:44px;
+    border-radius:14px;
+
+    color:#00131E;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.94),
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 14px rgba(123,232,255,.30),
+        inset 0 0 10px rgba(255,255,255,.22);
+}
+
+#openCreatorButton:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 22px rgba(123,232,255,.48),
+        inset 0 0 10px rgba(255,255,255,.38);
+}
+
+@media (max-width:768px){
+    #openCreatorButton{
+        width:100%;
+        min-height:50px;
+    }
+}
