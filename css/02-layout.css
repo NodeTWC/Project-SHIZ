@@ -345,6 +345,42 @@ section h2{
     z-index:50;
 }
 
+/*==================================================
+    PC RESULT STATE SPACING FIX
+==================================================*/
+
+@media (min-width:1025px){
+
+    body[data-state="RESULT"] #corePanel{
+        justify-content:flex-start;
+
+        padding-top:40px;
+        padding-bottom:140px;
+    }
+
+    body[data-state="RESULT"] .result-panel{
+        position:relative;
+
+        left:auto;
+        top:auto;
+
+        transform:scale(.85);
+
+        margin:auto;
+    }
+
+    body[data-state="RESULT"] .control-row{
+        position:relative;
+
+        left:auto;
+        bottom:auto;
+
+        transform:none;
+
+        margin-top:28px;
+    }
+
+}
 
 /*==================================================
     FOOTER
