@@ -430,6 +430,11 @@ function updateCreatorCard(entry, idText, confidence) {
     if (!DOM.creatorPanel) return;
 
     DOM.creatorResultTitle.textContent = entry.title;
+    fitResultTitle(DOM.creatorResultTitle, {
+    maxSize: 56,
+    minSize: 24,
+    maxLines: 3
+});
     DOM.creatorOperator.textContent = App.settings.operatorName;
     DOM.creatorResultId.textContent = idText;
     DOM.creatorConfidence.textContent = `${confidence}%`;
@@ -987,7 +992,12 @@ async function revealResultTitle(title) {
     }
 
     DOM.resultTitle.textContent = finalText;
-}
+    
+fitResultTitle(DOM.resultTitle, {
+    maxSize: 60,
+    minSize: 26,
+    maxLines: 3
+});
 
 
 /*==================================================
@@ -1048,6 +1058,36 @@ function escapeHTML(text) {
     div.textContent = text;
 
     return div.innerHTML;
+}
+function fitResultTitle(element, options = {}) {
+    if (!element) return;
+
+    const text = element.textContent.trim();
+
+    const settings = {
+        maxSize: options.maxSize || 60,
+        minSize: options.minSize || 26,
+        maxLines: options.maxLines || 3
+    };
+
+    let size = settings.maxSize;
+
+    if (text.length > 40) {
+        size = 28;
+    } else if (text.length > 30) {
+        size = 32;
+    } else if (text.length > 22) {
+        size = 38;
+    } else if (text.length > 14) {
+        size = 46;
+    }
+
+    size = Math.max(settings.minSize, Math.min(size, settings.maxSize));
+
+    element.style.fontSize = `${size}px`;
+    element.style.lineHeight = "1.14";
+    element.style.maxHeight = `${size * settings.maxLines * 1.14}px`;
+    element.style.overflow = "hidden";
 }
 function createPngFileName() {
     const now = new Date();
