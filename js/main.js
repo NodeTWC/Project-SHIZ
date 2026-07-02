@@ -86,6 +86,7 @@ const DOM = {
     resultConfidence: document.getElementById("resultConfidence"),
     resultStatus: document.getElementById("resultStatus"),
 
+    openCreatorButton: document.getElementById("openCreatorButton"),
     creatorPanel: document.getElementById("creatorPanel"),
     creatorCard: document.getElementById("creatorCard"),
     creatorResultTitle: document.getElementById("creatorResultTitle"),
@@ -445,6 +446,12 @@ function resetCreatorCard() {
 
 function openCreatorPanel() {
     if (!DOM.creatorPanel) return;
+
+    if (!App.selectedEntry) {
+        Terminal.warn("No result data available.");
+        setSystemMessage("NO RESULT");
+        return;
+    }
 
     DOM.creatorPanel.classList.add("open");
 }
@@ -815,9 +822,7 @@ const Scene = {
 
         await revealResultTitle(App.selectedEntry.title);
 
-        openCreatorPanel();
-
-        Terminal.result("Creator result card generated.");
+        Terminal.result("Creator result card ready.");
         Terminal.result("Selection complete.");
     }
 };
@@ -1056,6 +1061,8 @@ DOM.settingsPanel.addEventListener("click", event => {
         closeSettings();
     }
 });
+
+DOM.openCreatorButton.addEventListener("click", openCreatorPanel);
 
 DOM.closeCreatorButton.addEventListener("click", closeCreatorPanel);
 
