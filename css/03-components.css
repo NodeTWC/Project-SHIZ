@@ -1499,3 +1499,131 @@ button{
     border-radius:10px;
 
 }
+/*==================================================
+
+    Version 3.2.1
+    Responsive Polish
+
+==================================================*/
+
+@media (max-width: 768px) {
+
+    .register {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .register input,
+    #addMovie {
+        width: 100%;
+        min-height: 52px;
+        font-size: 16px;
+    }
+
+    .counter {
+        margin: 16px 0;
+    }
+
+    .counter div {
+        padding: 14px;
+    }
+
+    .counter strong {
+        font-size: 32px;
+    }
+
+    #startButton,
+    #resetButton {
+        width: auto;
+        height: 54px;
+        font-size: 16px;
+    }
+
+    .result-panel {
+        min-height: 280px;
+        padding: 28px 22px;
+    }
+
+    .result-label {
+        margin-bottom: 18px;
+        font-size: 13px;
+        letter-spacing: 5px;
+    }
+
+    .result-title {
+        font-size: clamp(32px, 12vw, 46px);
+    }
+
+    .result-meta {
+        margin-top: 24px;
+        padding-top: 18px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .result-meta div {
+        padding: 11px;
+    }
+
+    .result-meta span {
+        font-size: 10px;
+    }
+
+    .result-meta strong {
+        font-size: 15px;
+    }
+
+    #ring {
+        width: 330px;
+        height: 330px;
+    }
+
+    .ring2 {
+        inset: 58px;
+    }
+
+    .ring3 {
+        inset: 100px;
+    }
+
+    #systemMessage span:first-child {
+        font-size: 28px;
+        letter-spacing: 5px;
+    }
+
+    #systemMessage span:last-child {
+        font-size: 12px;
+    }
+
+    .settings-box {
+        width: calc(100% - 28px);
+        max-width: 420px;
+        padding: 24px 20px;
+    }
+
+    .settings-header {
+        font-size: 18px;
+        letter-spacing: 3px;
+    }
+
+    .settings-actions {
+        flex-direction: column;
+    }
+
+    .settings-actions button {
+        min-height: 50px;
+    }
+
+    .movieTitle {
+        font-size: 16px;
+    }
+
+    .movieStatus {
+        font-size: 12px;
+    }
+
+    button {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+}
