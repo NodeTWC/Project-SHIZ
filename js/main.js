@@ -493,9 +493,6 @@ function createShareText() {
     ].join("\n");
 }
 
-main.js Part 2/2 です。
-Part 1 の続きにそのまま貼ってください。
-
 function shareToX() {
     const text = createShareText();
 
