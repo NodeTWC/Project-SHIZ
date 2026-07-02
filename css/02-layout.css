@@ -1,7 +1,7 @@
 /*==================================================
 
     Project SHIZ
-    A.R.C.S. v3.2.1
+    A.R.C.S. v3.3.4
     Advanced Random Control System
 
     02-layout.css
@@ -163,8 +163,11 @@ header{
 
     text-align:center;
 
-    border-left:1px solid rgba(123,232,255,.18);
-    border-right:1px solid rgba(123,232,255,.18);
+    border-left:
+        1px solid rgba(123,232,255,.18);
+
+    border-right:
+        1px solid rgba(123,232,255,.18);
 
     background:
         linear-gradient(
@@ -233,7 +236,7 @@ header{
 
 
 /*==================================================
-    MAIN
+    MAIN LAYOUT
 ==================================================*/
 
 main{
@@ -252,7 +255,7 @@ main{
 
     grid-template-columns:
         var(--side-left)
-        1fr
+        minmax(0, 1fr)
         var(--side-right);
 
     gap:22px;
@@ -290,15 +293,15 @@ section h2{
     margin-bottom:20px;
 }
 
-
-/*==================================================
-    PANEL PADDING
-==================================================*/
-
 #databasePanel,
 #systemPanel{
     padding:22px;
 }
+
+
+/*==================================================
+    CORE PANEL
+==================================================*/
 
 #corePanel{
     position:relative;
@@ -309,6 +312,28 @@ section h2{
     flex-direction:column;
 
     overflow:hidden;
+}
+
+#ring{
+    position:absolute;
+
+    left:50%;
+    top:45%;
+
+    translate:-50% -50%;
+
+    z-index:1;
+}
+
+#systemMessage{
+    position:absolute;
+
+    left:50%;
+    top:45%;
+
+    translate:-50% -50%;
+
+    z-index:10;
 }
 
 
@@ -322,8 +347,8 @@ section h2{
     left:50%;
     top:45%;
 
-    transform:
-        translate(-50%,-50%) scale(.85);
+    translate:-50% -50%;
+    transform:scale(.85);
 
     z-index:20;
 }
@@ -336,7 +361,10 @@ section h2{
 .control-row{
     position:absolute;
 
+    left:50%;
     bottom:40px;
+
+    translate:-50% 0;
 
     display:flex;
 
@@ -345,46 +373,6 @@ section h2{
     z-index:50;
 }
 
-/*==================================================
-    PC RESULT STATE SPACING FIX
-==================================================*/
-
-@media (min-width:1025px){
-
-    body[data-state="RESULT"] #corePanel{
-        justify-content:center;
-        align-items:center;
-
-        padding:28px;
-
-        gap:24px;
-    }
-
-    body[data-state="RESULT"] .result-panel{
-        position:relative;
-
-        left:auto;
-        top:auto;
-
-        transform:none;
-
-        width:min(720px, 92%);
-
-        margin:0 auto;
-    }
-
-    body[data-state="RESULT"] .control-row{
-        position:relative;
-
-        left:auto;
-        bottom:auto;
-
-        transform:none;
-
-        margin-top:0;
-    }
-
-}
 
 /*==================================================
     FOOTER
@@ -429,13 +417,20 @@ footer{
                 - var(--footer-height)
             );
 
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    #databasePanel,
+    #systemPanel{
+        min-height:420px;
     }
 
     #corePanel{
         grid-column:1 / -1;
 
-        min-height:520px;
+        min-height:560px;
     }
 
 }
@@ -549,51 +544,47 @@ footer{
         padding:18px;
     }
 
+
+    /* CORE PANEL */
+
     #corePanel{
-    min-height:520px;
-    padding:18px;
+        min-height:520px;
 
-    align-items:center;
-    justify-content:center;
+        padding:18px;
 
-    overflow:hidden;
-}
+        align-items:center;
+        justify-content:center;
 
-#ring{
-    position:absolute;
-    left:50%;
-    top:42%;
+        overflow:hidden;
+    }
 
-    width:330px;
-    height:330px;
+    #ring{
+        position:absolute;
 
-    translate:-50% -50%;
-    transform:none;
-}
+        left:50%;
+        top:42%;
 
-#systemMessage{
-    position:absolute;
-    left:50%;
-    top:42%;
+        width:330px;
+        height:330px;
 
-    translate:-50% -50%;
-    transform:none;
+        translate:-50% -50%;
+        transform:none;
 
-    z-index:10;
-}
+        z-index:1;
+    }
 
-.control-row{
-    position:absolute;
+    #systemMessage{
+        position:absolute;
 
-    left:50%;
-    bottom:24px;
+        left:50%;
+        top:42%;
 
-    transform:translateX(-50%);
+        translate:-50% -50%;
+        transform:none;
 
-    width:calc(100% - 36px);
+        z-index:10;
+    }
 
-    margin-top:0;
-}
 
     /* RESULT PANEL */
 
@@ -607,6 +598,7 @@ footer{
         right:auto !important;
         bottom:auto !important;
 
+        translate:none !important;
         transform:none !important;
 
         width:100% !important;
@@ -618,14 +610,14 @@ footer{
         max-height:none;
 
         overflow:visible;
+
+        z-index:20;
     }
 
     body[data-state="RESULT"] .result-panel{
         opacity:1;
 
         animation:none !important;
-
-        pointer-events:none;
     }
 
 
@@ -634,7 +626,12 @@ footer{
     .control-row{
         position:relative;
 
+        left:auto;
+        right:auto;
         bottom:auto;
+
+        translate:none;
+        transform:none;
 
         width:100%;
 
