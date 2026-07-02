@@ -502,9 +502,34 @@ function shareToX() {
     Terminal.result("Share text generated for X.");
 }
 
-function saveResultPngPlaceholder() {
-    Terminal.system("SAVE PNG is scheduled for v3.3.1.");
-    setSystemMessage("PNG MODULE STANDBY");
+async function saveResultPng() {
+    if (!DOM.creatorCard) {
+        Terminal.warn("Creator card not found.");
+        return;
+    }
+
+    if (typeof html2canvas === "undefined") {
+        Terminal.warn("PNG module is not loaded.");
+        setSystemMessage("PNG MODULE ERROR");
+        return;
+    }
+
+    Terminal.system("PNG capture started.");
+    setSystemMessage("PNG CAPTURE");
+
+    const canvas = await html2canvas(DOM.creatorCard, {
+        backgroundColor: null,
+        scale: 3,
+        useCORS: true
+    });
+
+    const link = document.createElement("a");
+    link.download = createPngFileName();
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    Terminal.system("PNG saved.");
+    setSystemMessage("PNG SAVED");
 }
 
 
