@@ -524,10 +524,11 @@ footer{
     left:50%;
     top:42%;
 
-    transform:translate(-50%, -50%);
-
     width:330px;
     height:330px;
+
+    translate:-50% -50%;
+    transform:none;
 }
 
 #systemMessage{
@@ -535,7 +536,8 @@ footer{
     left:50%;
     top:42%;
 
-    transform:translate(-50%, -50%);
+    translate:-50% -50%;
+    transform:none;
 
     z-index:10;
 }
