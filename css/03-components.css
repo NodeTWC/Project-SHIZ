@@ -2043,3 +2043,25 @@ button{
             rgba(255,214,92,.92)
         );
 }
+/*==================================================
+
+    v3.3.5
+    Mobile Long Title Fix
+
+==================================================*/
+
+@media (max-width:768px){
+
+    .result-title{
+        min-height:170px;
+        padding:10px 8px;
+
+        font-size:clamp(24px, 8vw, 38px);
+        line-height:1.22;
+    }
+
+    .result-panel{
+        padding:28px 22px 34px;
+    }
+
+}
