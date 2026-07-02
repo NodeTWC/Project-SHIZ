@@ -983,6 +983,14 @@ async function revealResultTitle(title) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
     const finalText = title;
 
+        DOM.resultTitle.textContent = finalText;
+
+    fitResultTitle(DOM.resultTitle, {
+        maxSize: 60,
+        minSize: 26,
+        maxLines: 3
+    });
+
     for (let i = 0; i < finalText.length; i++) {
         for (let j = 0; j < 3; j++) {
             const display =
@@ -1004,11 +1012,6 @@ async function revealResultTitle(title) {
 
     DOM.resultTitle.textContent = finalText;
 
-    fitResultTitle(DOM.resultTitle, {
-        maxSize: 60,
-        minSize: 26,
-        maxLines: 3
-    });
 }
 
 
