@@ -7,9 +7,7 @@
     Advanced Random Control System
 
     Version 3.2.2
-    Entry Card V2
-
-    js/main.js
+    main.js
 
 ==================================================*/
 
@@ -218,7 +216,7 @@ function loadSettings() {
 
 
 /*==================================================
-    SETTINGS UI
+    SETTINGS
 ==================================================*/
 
 function renderSettings() {
@@ -251,7 +249,7 @@ function saveOperatorName() {
 
 
 /*==================================================
-    DATABASE CONTROL
+    DATABASE
 ==================================================*/
 
 function addEntry() {
@@ -294,17 +292,17 @@ function removeEntry(id) {
 
     App.entries = App.entries.filter(item => item.id !== id);
 
-    saveEntries();
-
     if (App.selectedEntry && App.selectedEntry.id === id) {
         App.selectedEntry = null;
         App.selectedIndex = -1;
+
         resetResultPanel();
         setAppState("READY");
         setRingMode("idle");
         setSystemMessage("SYSTEM READY");
     }
 
+    saveEntries();
     render();
 
     Terminal.database(`Record removed : ${entry.title}`);
@@ -328,9 +326,7 @@ function clearAllEntries() {
     App.entries = [];
 
     saveEntries();
-
     render();
-
     resetSystem();
 
     Terminal.database("All records cleared.");
@@ -356,42 +352,56 @@ function renderEntryCards() {
     DOM.entryCards.innerHTML = "";
 
     App.entries.forEach((entry, index) => {
-        const card = document.createElement("div");
-
-        card.className = `movieCard ${getStatusClass(entry.status)}`;
-        card.dataset.id = entry.id;
-
-        card.innerHTML = `
-            <button
-                class="delete-entry"
-                type="button"
-                aria-label="Remove ${escapeHTML(entry.title)}"
-                title="Remove Entry"
-            >
-                ×
-            </button>
-
-            <div class="movieTitle">
-                ◆ ${escapeHTML(entry.title)}
-            </div>
-
-            <div class="movieStatus">
-                ID : ${formatId(index)}
-                /
-                STATUS : ${entry.status}
-            </div>
-
-            <div class="movieBar"></div>
-        `;
-
-        const deleteButton = card.querySelector(".delete-entry");
-
-        deleteButton.addEventListener("click", event => {
-            event.stopPropagation();
-            removeEntry(entry.id);
-        });
+        const card = createEntryCard(entry, index);
 
         DOM.entryCards.appendChild(card);
+    });
+}
+
+function createEntryCard(entry, index) {
+    const card = document.createElement("div");
+
+    card.className = `movieCard ${getStatusClass(entry.status)}`;
+    card.dataset.id = entry.id;
+
+    card.innerHTML = `
+        <button
+            class="delete-entry"
+            type="button"
+            title="Delete Entry"
+            aria-label="Delete Entry"
+        >
+            ×
+        </button>
+
+        <div class="movieTitle">
+            ◆ ${escapeHTML(entry.title)}
+        </div>
+
+        <div class="movieStatus">
+            ID : ${formatId(index)}
+            /
+            STATUS : ${entry.status}
+        </div>
+
+        <div class="movieBar"></div>
+    `;
+
+    attachEntryEvents(card, entry);
+
+    return card;
+}
+
+function attachEntryEvents(card, entry) {
+    const deleteButton = card.querySelector(".delete-entry");
+
+    deleteButton.addEventListener("click", event => {
+        event.stopPropagation();
+        removeEntry(entry.id);
+    });
+
+    card.addEventListener("dblclick", () => {
+        removeEntry(entry.id);
     });
 }
 
@@ -545,6 +555,7 @@ const Scene = {
         await sceneStep(
             "ACCESS GRANTED",
             "Access level...........GRANTED",
+            "auth",
             520
         );
 
@@ -705,6 +716,10 @@ const Scene = {
     }
 };
 
+
+/*==================================================
+    SCENE HELPERS
+==================================================*/
 
 async function sceneStep(display, logMessage, logType, wait) {
     setSystemMessage(display);
