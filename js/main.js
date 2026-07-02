@@ -6,8 +6,10 @@
     A.R.C.S.
     Advanced Random Control System
 
-    Version 3.2.2
-    main.js
+    Version 3.3.0
+    Creator Edition
+
+    js/main.js
 
 ==================================================*/
 
@@ -20,7 +22,7 @@ const SYSTEM = {
     project: "PROJECT SHIZ",
     name: "A.R.C.S.",
     fullName: "Advanced Random Control System",
-    version: "3.2.2"
+    version: "3.3.0"
 };
 
 const STORAGE_KEY = "arcs_entries_v1";
@@ -82,7 +84,17 @@ const DOM = {
     resultTitle: document.getElementById("resultTitle"),
     resultId: document.getElementById("resultId"),
     resultConfidence: document.getElementById("resultConfidence"),
-    resultStatus: document.getElementById("resultStatus")
+    resultStatus: document.getElementById("resultStatus"),
+
+    creatorPanel: document.getElementById("creatorPanel"),
+    creatorCard: document.getElementById("creatorCard"),
+    creatorResultTitle: document.getElementById("creatorResultTitle"),
+    creatorOperator: document.getElementById("creatorOperator"),
+    creatorResultId: document.getElementById("creatorResultId"),
+    creatorConfidence: document.getElementById("creatorConfidence"),
+    saveResultButton: document.getElementById("saveResultButton"),
+    shareXButton: document.getElementById("shareXButton"),
+    closeCreatorButton: document.getElementById("closeCreatorButton")
 };
 
 
@@ -297,6 +309,9 @@ function removeEntry(id) {
         App.selectedIndex = -1;
 
         resetResultPanel();
+        resetCreatorCard();
+        closeCreatorPanel();
+
         setAppState("READY");
         setRingMode("idle");
         setSystemMessage("SYSTEM READY");
@@ -407,6 +422,86 @@ function attachEntryEvents(card, entry) {
 
 
 /*==================================================
+    CREATOR CARD
+==================================================*/
+
+function updateCreatorCard(entry, idText, confidence) {
+    if (!DOM.creatorPanel) return;
+
+    DOM.creatorResultTitle.textContent = entry.title;
+    DOM.creatorOperator.textContent = App.settings.operatorName;
+    DOM.creatorResultId.textContent = idText;
+    DOM.creatorConfidence.textContent = `${confidence}%`;
+}
+
+function resetCreatorCard() {
+    if (!DOM.creatorPanel) return;
+
+    DOM.creatorResultTitle.textContent = "---";
+    DOM.creatorOperator.textContent = "---";
+    DOM.creatorResultId.textContent = "----";
+    DOM.creatorConfidence.textContent = "--.--%";
+}
+
+function openCreatorPanel() {
+    if (!DOM.creatorPanel) return;
+
+    DOM.creatorPanel.classList.add("open");
+}
+
+function closeCreatorPanel() {
+    if (!DOM.creatorPanel) return;
+
+    DOM.creatorPanel.classList.remove("open");
+}
+
+function createShareText() {
+    const title =
+        App.selectedEntry
+            ? App.selectedEntry.title
+            : DOM.creatorResultTitle.textContent;
+
+    const id =
+        DOM.creatorResultId
+            ? DOM.creatorResultId.textContent
+            : "----";
+
+    const confidence =
+        DOM.creatorConfidence
+            ? DOM.creatorConfidence.textContent
+            : "--.--%";
+
+    return [
+        "A.R.C.S. RESULT",
+        "",
+        `TARGET : ${title}`,
+        `OPERATOR : ${App.settings.operatorName}`,
+        `DATABASE ID : ${id}`,
+        `AI CONFIDENCE : ${confidence}`,
+        "",
+        "#ProjectSHIZ #ARCS #CreatorEdition"
+    ].join("\n");
+}
+
+function shareToX() {
+    const text = createShareText();
+
+    const url =
+        "https://twitter.com/intent/tweet?text=" +
+        encodeURIComponent(text);
+
+    window.open(url, "_blank", "noopener,noreferrer");
+
+    Terminal.result("Share text generated for X.");
+}
+
+function saveResultPngPlaceholder() {
+    Terminal.system("SAVE PNG is scheduled for v3.3.1.");
+    setSystemMessage("PNG MODULE STANDBY");
+}
+
+
+/*==================================================
     STATUS CLASS
 ==================================================*/
 
@@ -492,6 +587,8 @@ function resetSystem() {
 
     resetEntryStatus();
     resetResultPanel();
+    resetCreatorCard();
+    closeCreatorPanel();
 
     setAppState("READY");
     setRingMode("idle");
@@ -705,6 +802,12 @@ const Scene = {
         DOM.resultConfidence.textContent = `${confidence}%`;
         DOM.resultStatus.textContent = "LOCKED";
 
+        updateCreatorCard(
+            App.selectedEntry,
+            idText,
+            confidence
+        );
+
         Terminal.result("Operation result received.");
         Terminal.result(`Selected target : ${App.selectedEntry.title}`);
         Terminal.result(`Database ID : ${idText}`);
@@ -712,6 +815,9 @@ const Scene = {
 
         await revealResultTitle(App.selectedEntry.title);
 
+        openCreatorPanel();
+
+        Terminal.result("Creator result card generated.");
         Terminal.result("Selection complete.");
     }
 };
@@ -781,6 +887,8 @@ const Engine = {
         DOM.resetButton.disabled = true;
 
         resetResultPanel();
+        resetCreatorCard();
+        closeCreatorPanel();
 
         try {
             await Scene.boot();
@@ -949,6 +1057,18 @@ DOM.settingsPanel.addEventListener("click", event => {
     }
 });
 
+DOM.closeCreatorButton.addEventListener("click", closeCreatorPanel);
+
+DOM.shareXButton.addEventListener("click", shareToX);
+
+DOM.saveResultButton.addEventListener("click", saveResultPngPlaceholder);
+
+DOM.creatorPanel.addEventListener("click", event => {
+    if (event.target === DOM.creatorPanel) {
+        closeCreatorPanel();
+    }
+});
+
 
 /*==================================================
     INIT
@@ -960,6 +1080,7 @@ function init() {
     setRingMode("idle");
 
     resetResultPanel();
+    resetCreatorCard();
 
     Terminal.system(`${SYSTEM.project} interface online.`);
     Terminal.system(`${SYSTEM.name} standby.`);
