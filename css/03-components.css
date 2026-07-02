@@ -1945,3 +1945,101 @@ button{
     }
 
 }
+/*==================================================
+
+    Version 3.3.5
+    Creator Module Buttons Override
+
+==================================================*/
+
+#openCreatorButton,
+#saveResultButton,
+#shareXButton,
+#closeCreatorButton{
+    position:relative;
+    overflow:hidden;
+
+    min-height:52px;
+
+    border:none;
+    border-radius:26px;
+
+    color:#00131E;
+
+    font-size:14px;
+    font-weight:900;
+    letter-spacing:3px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.96),
+            var(--primary),
+            var(--secondary)
+        );
+
+    box-shadow:
+        0 0 18px rgba(123,232,255,.34),
+        inset 0 0 12px rgba(255,255,255,.24);
+}
+
+#openCreatorButton{
+    min-width:240px;
+}
+
+#openCreatorButton::before,
+#saveResultButton::before,
+#shareXButton::before,
+#closeCreatorButton::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:42%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.78),
+            transparent
+        );
+}
+
+#openCreatorButton:hover,
+#saveResultButton:hover,
+#shareXButton:hover,
+#closeCreatorButton:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 28px rgba(123,232,255,.56),
+        inset 0 0 14px rgba(255,255,255,.36);
+}
+
+#openCreatorButton:hover::before,
+#saveResultButton:hover::before,
+#shareXButton:hover::before,
+#closeCreatorButton:hover::before{
+    animation:buttonShine .7s linear;
+}
+
+#openCreatorButton:active,
+#saveResultButton:active,
+#shareXButton:active,
+#closeCreatorButton:active{
+    transform:scale(.97);
+}
+
+#closeCreatorButton{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.94),
+            rgba(255,214,92,.92)
+        );
+}
