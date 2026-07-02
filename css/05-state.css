@@ -195,9 +195,18 @@ body[data-state="RESULT"] #systemMessage{
 body[data-state="RESULT"] .result-panel{
     opacity:1;
 
-    pointer-events:none;
+    pointer-events:auto;
 
     animation:resultPanelIn .42s ease forwards;
+}
+
+body[data-state="RESULT"] .result-actions,
+body[data-state="RESULT"] #openCreatorButton{
+    pointer-events:auto;
+
+    position:relative;
+
+    z-index:300;
 }
 
 body[data-state="RESULT"] .result-panel::before,
