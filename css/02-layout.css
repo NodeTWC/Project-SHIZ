@@ -386,7 +386,27 @@ footer{
         padding: 16px;
         text-align: center;
     }
+html {
+    background: var(--bg-deep);
+}
 
+body {
+    overflow-y: auto;
+    color: var(--text);
+    background:
+        radial-gradient(
+            circle at top,
+            var(--bg-highlight),
+            var(--bg-soft) 45%,
+            var(--bg-deep)
+        );
+}
+
+section {
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+}
     .logo,
     .operator-panel,
     .system-controls {
