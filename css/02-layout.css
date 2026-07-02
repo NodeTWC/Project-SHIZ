@@ -499,6 +499,12 @@ section {
     }
 }
 @media (max-width: 768px) {
+    body[data-state="RESULT"] .result-panel {
+        animation: none !important;
+        opacity: 1;
+        transform: none !important;
+    }
+}
     #resultPanel,
     #resultPanel.is-active,
     #resultPanel.active,
