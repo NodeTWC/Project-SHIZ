@@ -2110,31 +2110,3 @@ button{
     }
 
 }
-/*==================================================
-
-    RESULT CARD BUTTON
-    Click Fix
-
-==================================================*/
-
-body[data-state="RESULT"] .result-panel{
-    pointer-events:auto !important;
-}
-
-body[data-state="RESULT"] .result-actions{
-    pointer-events:auto !important;
-
-    position:relative;
-    z-index:200;
-}
-
-body[data-state="RESULT"] #openCreatorButton{
-    pointer-events:auto !important;
-
-    position:relative;
-    z-index:201;
-}
-
-body[data-state="RESULT"] #resultPanel{
-    z-index:120;
-}
