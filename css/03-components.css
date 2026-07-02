@@ -1057,6 +1057,7 @@ button{
 /*==================================================
 
     CREATOR RESULT CARD
+    SNS Official Card Style
 
 ==================================================*/
 
@@ -1077,9 +1078,9 @@ button{
     padding:24px;
 
     background:
-        rgba(0,0,0,.62);
+        rgba(0,0,0,.68);
 
-    backdrop-filter:blur(12px);
+    backdrop-filter:blur(14px);
 
     opacity:0;
     visibility:hidden;
@@ -1103,29 +1104,35 @@ button{
 
     position:relative;
 
-    width:min(680px, 100%);
+    width:min(460px, 100%);
 
-    padding:34px;
+    aspect-ratio:4 / 5;
+
+    padding:34px 30px;
 
     overflow:hidden;
 
-    border:
-        1px solid rgba(123,232,255,.42);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 
-    border-radius:22px;
+    border:
+        1px solid rgba(123,232,255,.44);
+
+    border-radius:26px;
 
     background:
         radial-gradient(
             circle at top,
-            rgba(123,232,255,.16),
-            rgba(8,18,28,.96) 42%,
-            rgba(2,8,14,.98)
+            rgba(123,232,255,.18),
+            rgba(9,20,31,.98) 38%,
+            rgba(2,8,14,.99)
         );
 
     box-shadow:
-        0 0 28px rgba(123,232,255,.30),
-        0 0 90px rgba(123,232,255,.16),
-        inset 0 0 34px rgba(123,232,255,.08);
+        0 0 30px rgba(123,232,255,.34),
+        0 0 110px rgba(123,232,255,.18),
+        inset 0 0 38px rgba(123,232,255,.08);
 
 }
 
@@ -1136,8 +1143,8 @@ button{
 
     position:absolute;
 
-    width:54px;
-    height:54px;
+    width:62px;
+    height:62px;
 
     border-color:var(--primary);
     border-style:solid;
@@ -1147,12 +1154,14 @@ button{
     filter:
         drop-shadow(0 0 8px rgba(123,232,255,.75));
 
+    pointer-events:none;
+
 }
 
 .creator-card::before{
 
-    top:16px;
-    left:16px;
+    top:18px;
+    left:18px;
 
     border-width:
         3px 0 0 3px;
@@ -1161,8 +1170,8 @@ button{
 
 .creator-card::after{
 
-    right:16px;
-    bottom:16px;
+    right:18px;
+    bottom:18px;
 
     border-width:
         0 3px 3px 0;
@@ -1171,70 +1180,112 @@ button{
 
 .creator-card-header{
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    text-align:center;
 
-    gap:18px;
-
-    padding-bottom:18px;
+    padding-bottom:22px;
 
     border-bottom:
-        1px solid rgba(123,232,255,.22);
-
-    color:var(--sub);
-
-    letter-spacing:3px;
+        1px solid rgba(123,232,255,.24);
 
 }
 
 .creator-card-header span{
 
+    display:block;
+
+    margin-bottom:10px;
+
+    color:var(--muted);
+
     font-size:12px;
+    font-weight:700;
+
+    letter-spacing:5px;
 
 }
 
 .creator-card-header strong{
 
-    color:var(--primary);
-
-    font-size:18px;
-
-    letter-spacing:4px;
-
-    text-shadow:
-        0 0 12px rgba(123,232,255,.65);
-
-}
-
-.creator-card-body{
-
-    padding:40px 0 32px;
-
-    text-align:center;
-
-}
-
-.creator-card-label{
-
-    margin-bottom:18px;
+    display:block;
 
     color:var(--white);
 
-    font-size:14px;
+    font-size:36px;
     font-weight:900;
 
     letter-spacing:7px;
 
     text-shadow:
-        0 0 12px rgba(255,255,255,.7),
-        0 0 34px rgba(123,232,255,.52);
+        0 0 12px rgba(255,255,255,.76),
+        0 0 34px rgba(123,232,255,.62);
+
+}
+
+.creator-card-body{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:26px 0;
+
+}
+
+.creator-card-label{
+
+    margin-bottom:24px;
+
+    color:var(--primary);
+
+    font-size:13px;
+    font-weight:900;
+
+    letter-spacing:8px;
+
+    text-shadow:
+        0 0 12px rgba(123,232,255,.72),
+        0 0 36px rgba(123,232,255,.36);
+
+}
+
+.creator-card-label::before,
+.creator-card-label::after{
+
+    content:"";
+
+    display:block;
+
+    width:100%;
+    height:1px;
+
+    margin:0 auto 18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(123,232,255,.58),
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px rgba(123,232,255,.38);
+
+}
+
+.creator-card-label::after{
+
+    margin:18px auto 0;
 
 }
 
 .creator-result-title{
 
-    min-height:72px;
+    min-height:86px;
 
     display:flex;
     justify-content:center;
@@ -1242,7 +1293,7 @@ button{
 
     color:var(--white);
 
-    font-size:clamp(36px, 7vw, 64px);
+    font-size:clamp(34px, 8vw, 56px);
     font-weight:900;
 
     line-height:1.12;
@@ -1251,33 +1302,33 @@ button{
     overflow-wrap:anywhere;
 
     text-shadow:
-        0 0 16px rgba(255,255,255,.72),
-        0 0 46px rgba(123,232,255,.60),
-        0 0 84px rgba(123,232,255,.24);
+        0 0 18px rgba(255,255,255,.82),
+        0 0 54px rgba(123,232,255,.66),
+        0 0 100px rgba(123,232,255,.28);
 
 }
 
 .creator-result-grid{
 
-    margin-top:34px;
+    margin-top:30px;
 
     display:grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap:14px;
+    gap:10px;
 
 }
 
 .creator-result-grid div{
 
-    padding:16px 12px;
+    padding:14px 8px;
 
     border:
         1px solid rgba(123,232,255,.22);
 
-    border-radius:12px;
+    border-radius:14px;
 
     background:
         rgba(0,0,0,.26);
@@ -1296,6 +1347,7 @@ button{
     color:var(--sub);
 
     font-size:10px;
+    font-weight:700;
 
     letter-spacing:2px;
 
@@ -1305,7 +1357,7 @@ button{
 
     color:var(--white);
 
-    font-size:17px;
+    font-size:15px;
 
     letter-spacing:1px;
 
@@ -1317,16 +1369,17 @@ button{
     justify-content:center;
     flex-wrap:wrap;
 
-    gap:14px;
+    gap:12px;
 
-    padding-top:18px;
+    padding-top:20px;
 
     border-top:
-        1px solid rgba(123,232,255,.22);
+        1px solid rgba(123,232,255,.24);
 
     color:var(--muted);
 
     font-size:12px;
+    font-weight:700;
 
     letter-spacing:2px;
 
@@ -1334,7 +1387,7 @@ button{
 
 .creator-actions{
 
-    width:min(680px, 100%);
+    width:min(460px, 100%);
 
     display:flex;
 
@@ -2023,30 +2076,34 @@ button{
         font-size:12px;
     }
 
-    .creator-panel{
+       .creator-panel{
         padding:16px;
     }
 
     .creator-card{
-        padding:26px 20px;
+        width:min(390px, 100%);
+        min-height:560px;
+        aspect-ratio:auto;
 
-        border-radius:18px;
-    }
+        padding:28px 22px;
 
-    .creator-card-header{
-        flex-direction:column;
-
-        gap:8px;
-
-        text-align:center;
+        border-radius:22px;
     }
 
     .creator-card-header strong{
-        font-size:16px;
+        font-size:30px;
+
+        letter-spacing:5px;
+    }
+
+    .creator-card-header span{
+        font-size:11px;
+
+        letter-spacing:4px;
     }
 
     .creator-card-body{
-        padding:32px 0 26px;
+        padding:24px 0;
     }
 
     .creator-card-label{
@@ -2056,44 +2113,31 @@ button{
     }
 
     .creator-result-title{
-        min-height:58px;
+        min-height:76px;
 
-        font-size:clamp(32px, 12vw, 48px);
+        font-size:clamp(32px, 12vw, 46px);
     }
 
     .creator-result-grid{
         grid-template-columns:1fr;
 
-        margin-top:28px;
+        margin-top:26px;
 
         gap:10px;
     }
 
+    .creator-result-grid div{
+        padding:12px;
+    }
+
     .creator-actions{
+        width:min(390px, 100%);
+
         flex-direction:column;
     }
 
     .creator-actions button{
         min-height:52px;
-    }
-
-    .settings-box{
-        width:calc(100% - 28px);
-        max-width:420px;
-        padding:24px 20px;
-    }
-
-    .settings-header{
-        font-size:18px;
-        letter-spacing:3px;
-    }
-
-    .settings-actions{
-        flex-direction:column;
-    }
-
-    .settings-actions button{
-        min-height:50px;
     }
 
     .movieTitle{
