@@ -453,7 +453,7 @@ function resetCreatorCard() {
     DOM.creatorConfidence.textContent = "--.--%";
 }
 
-function openCreatorPanel() {
+async function openCreatorPanel() {
     if (!DOM.creatorPanel) return;
 
     if (!App.selectedEntry) {
@@ -462,7 +462,14 @@ function openCreatorPanel() {
         return;
     }
 
+    Terminal.system("Accessing creator module...");
+    setSystemMessage("CREATOR MODULE");
+
+    await sleep(260);
+
     DOM.creatorPanel.classList.add("open");
+
+    Terminal.result("Creator module opened.");
 }
 
 function closeCreatorPanel() {
