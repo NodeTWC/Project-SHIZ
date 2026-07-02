@@ -2081,3 +2081,239 @@ button{
     }
 
 }
+/*==================================================
+
+    Version 3.3.1
+    Creator Reveal Motion
+
+==================================================*/
+
+.creator-panel::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(123,232,255,.08),
+            transparent
+        );
+
+    transform:translateY(-120%);
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+.creator-panel.open::before{
+
+    opacity:1;
+
+    animation:creatorScanLine .9s ease-out forwards;
+
+}
+
+.creator-panel.open .creator-card{
+
+    animation:
+        creatorCardIn .48s cubic-bezier(.16, 1, .3, 1) forwards,
+        creatorCardGlow 1.8s ease-in-out infinite .48s;
+
+}
+
+.creator-panel.open .creator-actions{
+
+    opacity:0;
+
+    animation:
+        creatorActionsIn .34s ease forwards .42s;
+
+}
+
+.creator-panel.open .creator-card-label{
+
+    animation:
+        creatorLockBlink .52s steps(2, end) 3,
+        creatorLockGlow 1.2s ease-in-out infinite 1.1s;
+
+}
+
+.creator-panel.open .creator-result-title{
+
+    animation:
+        creatorTitleImpact .42s ease-out,
+        creatorTitleGlow 1.6s ease-in-out infinite .42s;
+
+}
+
+
+/*==================================================
+    Creator Reveal Keyframes
+==================================================*/
+
+@keyframes creatorScanLine{
+
+    0%{
+        transform:translateY(-120%);
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(120%);
+        opacity:0;
+    }
+
+}
+
+@keyframes creatorCardIn{
+
+    0%{
+        opacity:0;
+        transform:
+            perspective(900px)
+            translateY(24px)
+            scale(.92)
+            rotateX(8deg);
+        filter:blur(6px);
+    }
+
+    60%{
+        opacity:1;
+        transform:
+            perspective(900px)
+            translateY(-4px)
+            scale(1.015)
+            rotateX(0);
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            perspective(900px)
+            translateY(0)
+            scale(1)
+            rotateX(0);
+        filter:blur(0);
+    }
+
+}
+
+@keyframes creatorActionsIn{
+
+    0%{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes creatorCardGlow{
+
+    0%,
+    100%{
+        box-shadow:
+            0 0 28px rgba(123,232,255,.30),
+            0 0 90px rgba(123,232,255,.16),
+            inset 0 0 34px rgba(123,232,255,.08);
+    }
+
+    50%{
+        box-shadow:
+            0 0 38px rgba(123,232,255,.44),
+            0 0 120px rgba(123,232,255,.22),
+            inset 0 0 42px rgba(123,232,255,.12);
+    }
+
+}
+
+@keyframes creatorLockBlink{
+
+    0%,
+    100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.18;
+    }
+
+}
+
+@keyframes creatorLockGlow{
+
+    0%,
+    100%{
+        text-shadow:
+            0 0 12px rgba(255,255,255,.7),
+            0 0 34px rgba(123,232,255,.52);
+    }
+
+    50%{
+        text-shadow:
+            0 0 18px rgba(255,255,255,.95),
+            0 0 48px rgba(123,232,255,.78),
+            0 0 86px rgba(123,232,255,.36);
+    }
+
+}
+
+@keyframes creatorTitleImpact{
+
+    0%{
+        opacity:0;
+        transform:scale(.92);
+        letter-spacing:8px;
+        filter:blur(5px);
+    }
+
+    65%{
+        opacity:1;
+        transform:scale(1.035);
+        letter-spacing:2px;
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+        transform:scale(1);
+        letter-spacing:0;
+        filter:blur(0);
+    }
+
+}
+
+@keyframes creatorTitleGlow{
+
+    0%,
+    100%{
+        text-shadow:
+            0 0 16px rgba(255,255,255,.72),
+            0 0 46px rgba(123,232,255,.60),
+            0 0 84px rgba(123,232,255,.24);
+    }
+
+    50%{
+        text-shadow:
+            0 0 22px rgba(255,255,255,.95),
+            0 0 64px rgba(123,232,255,.80),
+            0 0 110px rgba(123,232,255,.36);
+    }
+
+}
