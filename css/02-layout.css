@@ -359,3 +359,100 @@ footer{
     border-top:
         1px solid rgba(123,232,255,.18);
 }
+/* ==============================
+   Version 3.2 Mobile Layout
+   ============================== */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .app-shell,
+  .app,
+  .arcs-app,
+  .main-shell {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100dvh;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .operator-header,
+  .header,
+  .hud-header {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .main-layout,
+  .content-layout,
+  .hud-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .hud-panel,
+  .control-panel,
+  .result-panel,
+  .history-panel,
+  .settings-panel {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .control-grid,
+  .button-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  button,
+  .hud-button,
+  .control-button {
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+
+  .result-display,
+  .result-value {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-shell,
+  .app,
+  .arcs-app,
+  .main-shell {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .main-layout,
+  .content-layout,
+  .hud-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .result-panel,
+  .history-panel {
+    grid-column: 1 / -1;
+  }
+}
