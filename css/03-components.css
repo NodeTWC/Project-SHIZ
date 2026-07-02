@@ -1683,13 +1683,28 @@ button{
 }
 
 #ring,
-#systemMessage,
+#systemMessage{
+
+    pointer-events:none;
+
+}
+
 .result-panel{
 
     pointer-events:none;
 
 }
 
+.result-actions,
+#openCreatorButton{
+
+    pointer-events:auto;
+
+    position:relative;
+
+    z-index:30;
+
+}
 
 /*==================================================
 
