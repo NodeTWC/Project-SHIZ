@@ -510,16 +510,48 @@ footer{
     }
 
     #corePanel{
-        min-height:520px;
+    min-height:520px;
+    padding:18px;
 
-        padding:18px;
+    align-items:center;
+    justify-content:center;
 
-        align-items:center;
-        justify-content:flex-start;
+    overflow:hidden;
+}
 
-        overflow:hidden;
-    }
+#ring{
+    position:absolute;
+    left:50%;
+    top:42%;
 
+    transform:translate(-50%, -50%);
+
+    width:330px;
+    height:330px;
+}
+
+#systemMessage{
+    position:absolute;
+    left:50%;
+    top:42%;
+
+    transform:translate(-50%, -50%);
+
+    z-index:10;
+}
+
+.control-row{
+    position:absolute;
+
+    left:50%;
+    bottom:24px;
+
+    transform:translateX(-50%);
+
+    width:calc(100% - 36px);
+
+    margin-top:0;
+}
 
     /* RESULT PANEL */
 
