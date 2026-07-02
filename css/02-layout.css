@@ -498,3 +498,38 @@ section {
         min-height: 520px;
     }
 }
+@media (max-width: 768px) {
+    #resultPanel,
+    #resultPanel.is-active,
+    #resultPanel.active,
+    #resultPanel.show,
+    .result-panel,
+    .result-panel.is-active,
+    .result-panel.active,
+    .result-panel.show {
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 360px;
+        margin: 110px auto 0;
+    }
+
+    .result-panel {
+        min-height: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    #corePanel {
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+    }
+
+    .control-row {
+        margin-top: 24px;
+    }
+}
