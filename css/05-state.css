@@ -391,3 +391,12 @@ body[data-state="RESULT"] #ring{
 #terminal div{
     animation:terminalLine .16s ease;
 }
+
+body[data-state="SCAN"] .scan-line{
+
+    opacity:1;
+
+    animation:
+        scanLine 1.15s linear infinite;
+
+}
