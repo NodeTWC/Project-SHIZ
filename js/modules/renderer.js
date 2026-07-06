@@ -5,9 +5,32 @@
     PROJECT SHIZ
     A.R.C.S.
 
+    Version 3.4.0 Modular Edition
+
     renderer.js
 
 ==================================================*/
+
+
+/*==================================================
+    STATUS CLASS
+==================================================*/
+
+function getStatusClass(status) {
+    switch (status) {
+        case "CHECKING":
+            return "is-checking";
+
+        case "SCANNING":
+            return "is-scanning";
+
+        case "TARGET LOCK":
+            return "is-locked";
+
+        default:
+            return "";
+    }
+}
 
 
 /*==================================================
