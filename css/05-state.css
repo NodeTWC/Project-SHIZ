@@ -400,11 +400,3 @@ body[data-state="SCAN"] .scan-line{
         scanLine 1.15s linear infinite;
 
 }
-
-.scan-line{
-    opacity:1 !important;
-    animation:scanLine 1.15s linear infinite !important;
-    background:red !important;
-    height:6px !important;
-    z-index:999 !important;
-}
