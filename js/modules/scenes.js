@@ -1,6 +1,18 @@
 "use strict";
 
 /*==================================================
+
+    PROJECT SHIZ
+    A.R.C.S.
+
+    Version 3.4.0 Modular Edition
+
+    scenes.js
+
+==================================================*/
+
+
+/*==================================================
     CINEMATIC SCENES
 ==================================================*/
 
@@ -265,6 +277,7 @@ function writeSceneLog(message, type) {
     }
 }
 
+
 /*==================================================
     CARD CHECK
 ==================================================*/
@@ -289,7 +302,7 @@ async function revealResultTitle(title) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
     const finalText = title;
 
-        DOM.resultTitle.textContent = finalText;
+    DOM.resultTitle.textContent = finalText;
 
     fitResultTitle(DOM.resultTitle, {
         maxSize: 60,
@@ -317,6 +330,4 @@ async function revealResultTitle(title) {
     }
 
     DOM.resultTitle.textContent = finalText;
-
 }
-
