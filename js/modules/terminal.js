@@ -1,7 +1,9 @@
 "use strict";
 
 /*==================================================
-    TERMINAL
+
+    terminal.js
+
 ==================================================*/
 
 const Terminal = {
@@ -50,4 +52,3 @@ const Terminal = {
         this.write(message, "WARN");
     }
 };
-
