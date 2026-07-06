@@ -648,6 +648,7 @@ button{
         );
 
 }
+
 /*==================================================
 
     CORE RING
@@ -687,6 +688,8 @@ button{
 
     border:
         2px solid rgba(123,232,255,.45);
+
+    pointer-events:none;
 
 }
 
