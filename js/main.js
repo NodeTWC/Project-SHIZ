@@ -5,7 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.0 Modular Edition
+    Version 3.4.1 Modular Edition
 
     main.js
 
@@ -34,6 +34,8 @@ function init() {
     loadEntries();
 
     render();
+
+    bindEvents();
 
     Terminal.system("System ready.");
 
