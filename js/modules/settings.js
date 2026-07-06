@@ -1,7 +1,9 @@
 "use strict";
 
 /*==================================================
-    SETTINGS
+
+    settings.js
+
 ==================================================*/
 
 function renderSettings() {
@@ -31,4 +33,3 @@ function saveOperatorName() {
     setSystemMessage("OPERATOR UPDATED");
     Sound.play("auth");
 }
-
