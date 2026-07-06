@@ -2,9 +2,15 @@
 
 /*==================================================
 
+    PROJECT SHIZ
+    A.R.C.S.
+
+    Version 3.4.0 Modular Edition
+
     terminal.js
 
 ==================================================*/
+
 
 const Terminal = {
     write(message, type = "INFO") {
