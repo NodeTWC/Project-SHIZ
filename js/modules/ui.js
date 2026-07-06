@@ -1,6 +1,18 @@
 "use strict";
 
 /*==================================================
+
+    PROJECT SHIZ
+    A.R.C.S.
+
+    Version 3.4.0 Modular Edition
+
+    ui.js
+
+==================================================*/
+
+
+/*==================================================
     UI CONTROL
 ==================================================*/
 
@@ -77,3 +89,16 @@ function resetSystem() {
     Terminal.system("Operation reset.");
 }
 
+
+/*==================================================
+    BOOT SCREEN
+==================================================*/
+
+function closeBootScreen() {
+    if (!DOM.bootScreen) return;
+
+    setTimeout(() => {
+        DOM.bootScreen.classList.add("is-hidden");
+        Terminal.system("Boot screen closed.");
+    }, 2300);
+}
