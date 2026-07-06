@@ -705,29 +705,33 @@ button{
 
 #systemMessage{
 
-    display:flex;
+    width:100%;
 
-    flex-direction:column;
+    display:grid;
+
+    grid-template-rows:
+        36px
+        52px;
 
     align-items:center;
+    justify-items:center;
 
-    gap:12px;
+    row-gap:0;
 
     text-align:center;
 
-}
-
-#systemMessage small{
-
-    color:var(--muted);
-
-    font-size:12px;
-
-    letter-spacing:6px;
+    pointer-events:none;
 
 }
 
-#systemMessage span{
+#systemMessage span:first-child{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    height:36px;
 
     color:var(--white);
 
@@ -740,8 +744,52 @@ button{
     text-shadow:
         0 0 18px rgba(123,232,255,.75);
 
+    transition:
+        opacity .35s ease,
+        text-shadow .35s ease,
+        filter .35s ease;
+
 }
 
+#systemMessage span:last-child{
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    min-height:52px;
+
+    max-width:min(420px, 88%);
+
+    color:var(--white);
+
+    font-size:22px;
+
+    font-weight:900;
+
+    line-height:1.22;
+
+    letter-spacing:3px;
+
+    text-align:center;
+
+    overflow-wrap:anywhere;
+
+    text-shadow:
+        0 0 18px rgba(123,232,255,.75);
+
+}
+
+#systemMessage small{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    letter-spacing:6px;
+
+}
 
 /*==================================================
 
