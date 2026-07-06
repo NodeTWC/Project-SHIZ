@@ -2,9 +2,15 @@
 
 /*==================================================
 
+    PROJECT SHIZ
+    A.R.C.S.
+
+    Version 3.4.0 Modular Edition
+
     settings.js
 
 ==================================================*/
+
 
 function renderSettings() {
     DOM.operatorName.textContent = App.settings.operatorName;
