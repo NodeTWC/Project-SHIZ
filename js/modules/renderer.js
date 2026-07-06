@@ -1,6 +1,13 @@
 "use strict";
 
 /*==================================================
+
+    renderer.js
+
+==================================================*/
+
+
+/*==================================================
     RENDER
 ==================================================*/
 
@@ -69,24 +76,3 @@ function attachEntryEvents(card, entry) {
         removeEntry(entry.id);
     });
 }
-
-/*==================================================
-    STATUS CLASS
-==================================================*/
-
-function getStatusClass(status) {
-    switch (status) {
-        case "CHECKING":
-            return "is-checking";
-
-        case "SCANNING":
-            return "is-scanning";
-
-        case "TARGET LOCK":
-            return "is-locked";
-
-        default:
-            return "";
-    }
-}
-
