@@ -367,3 +367,38 @@
         filter:brightness(1);
     }
 }
+
+/*==================================================
+
+    A.R.C.S. BREATH
+
+==================================================*/
+
+@keyframes arcsBreath{
+
+    0%{
+        opacity:1;
+        filter:brightness(1);
+    }
+
+    18%{
+        opacity:.93;
+        filter:brightness(.92);
+    }
+
+    42%{
+        opacity:.82;
+        filter:brightness(.84);
+    }
+
+    63%{
+        opacity:.96;
+        filter:brightness(.95);
+    }
+
+    100%{
+        opacity:1;
+        filter:brightness(1);
+    }
+
+}
