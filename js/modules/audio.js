@@ -1,92 +1,81 @@
 "use strict";
 
 /*==================================================
-    AUDIO
+
+    audio.js
+
 ==================================================*/
 
-const AudioSystem = {
-    sounds: {},
+const Sound = {
+    cache: {},
 
-    files: {
-        boot: "assets/sounds/boot.mp3",
-        auth: "assets/sounds/auth.mp3",
-        database: "assets/sounds/database.mp3",
-        scan_loop: "assets/sounds/scan-loop.mp3",
-        lock: "assets/sounds/lock.mp3",
-        result: "assets/sounds/result.mp3",
-        add: "assets/sounds/add.mp3",
-        delete: "assets/sounds/delete.mp3",
-        clear: "assets/sounds/clear.mp3",
-        error: "assets/sounds/error.mp3"
+    map: {
+        boot: AUDIO.boot,
+        auth: AUDIO.auth,
+        database: AUDIO.database,
+        scan_loop: AUDIO.scanLoop,
+        lock: AUDIO.lock,
+        result: AUDIO.result,
+        add: AUDIO.add,
+        delete: AUDIO.delete,
+        clear: AUDIO.clear,
+        error: AUDIO.error
     },
 
-    init() {
-        Object.entries(this.files).forEach(([name, path]) => {
-            const audio = new Audio(path);
-            audio.preload = "auto";
+    load(name) {
+        const src = this.map[name];
+
+        if (!src) return null;
+
+        if (!this.cache[name]) {
+            const audio = new Audio(src);
+
             audio.volume = App.config.volume;
 
             if (name === "scan_loop") {
                 audio.loop = true;
             }
 
-            this.sounds[name] = audio;
-        });
+            this.cache[name] = audio;
+        }
+
+        return this.cache[name];
     },
 
     play(name) {
         if (!App.config.soundEnabled) return;
 
-        const sound = this.sounds[name];
+        const audio = this.load(name);
 
-        if (!sound) {
-            console.log(`sound:${name}`);
-            return;
-        }
+        if (!audio) return;
 
-        sound.currentTime = 0;
-        sound.play().catch(() => {
-            console.log(`sound-blocked:${name}`);
+        audio.currentTime = 0;
+
+        audio.play().catch(() => {
+            console.log(`sound-play-blocked:${name}`);
         });
     },
 
     stop(name) {
-        if (!App.config.soundEnabled) return;
+        const audio = this.cache[name];
 
-        const sound = this.sounds[name];
+        if (!audio) return;
 
-        if (!sound) {
-            console.log(`sound-stop:${name}`);
-            return;
-        }
-
-        sound.pause();
-        sound.currentTime = 0;
-    },
-
-    setVolume(value) {
-        App.config.volume = Math.max(0, Math.min(value, 1));
-
-        Object.values(this.sounds).forEach(sound => {
-            sound.volume = App.config.volume;
-        });
-    },
-
-    enable() {
-        App.config.soundEnabled = true;
-    },
-
-    disable() {
-        App.config.soundEnabled = false;
-        this.stopAll();
+        audio.pause();
+        audio.currentTime = 0;
     },
 
     stopAll() {
-        Object.values(this.sounds).forEach(sound => {
-            sound.pause();
-            sound.currentTime = 0;
+        Object.keys(this.cache).forEach(name => {
+            this.stop(name);
+        });
+    },
+
+    setVolume(value) {
+        App.config.volume = value;
+
+        Object.values(this.cache).forEach(audio => {
+            audio.volume = value;
         });
     }
 };
-
-const Sound = AudioSystem;
