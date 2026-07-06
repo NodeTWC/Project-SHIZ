@@ -5,6 +5,8 @@
     PROJECT SHIZ
     A.R.C.S.
 
+    Version 3.4.0 Modular Edition
+
     entries.js
 
 ==================================================*/
