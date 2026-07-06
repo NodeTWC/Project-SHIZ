@@ -163,15 +163,49 @@ body[data-state="LOCK"] #corePanel{
     SYSTEM MESSAGE STATES
 ==================================================*/
 
-body[data-state="SCAN"] #systemMessage{
+body[data-state="READY"] #systemMessage span:first-child{
+
+    opacity:1;
+
+    filter:brightness(1);
+
+}
+
+body[data-state="BOOT"] #systemMessage span:first-child,
+body[data-state="AUTH"] #systemMessage span:first-child,
+body[data-state="DATABASE"] #systemMessage span:first-child,
+body[data-state="SCAN"] #systemMessage span:first-child{
+
+    opacity:.18;
+
+    filter:brightness(.9);
+
+}
+
+body[data-state="LOCK"] #systemMessage span:first-child{
+
+    opacity:.38;
+
+    filter:brightness(1.35);
+
+    text-shadow:
+        0 0 14px rgba(255,255,255,.7),
+        0 0 34px rgba(123,232,255,.55);
+
+}
+
+body[data-state="SCAN"] #systemMessage span:last-child{
+
     animation:messageFlicker .48s infinite;
 
     text-shadow:
         0 0 12px rgba(255,255,255,.50),
         0 0 32px rgba(123,232,255,.46);
+
 }
 
-body[data-state="LOCK"] #systemMessage{
+body[data-state="LOCK"] #systemMessage span:last-child{
+
     color:#FFFFFF;
 
     text-shadow:
@@ -180,13 +214,16 @@ body[data-state="LOCK"] #systemMessage{
         0 0 86px rgba(123,232,255,.72);
 
     animation:lockTextPulse .34s infinite;
+
 }
 
 body[data-state="RESULT"] #systemMessage{
-    opacity:0;
-    pointer-events:none;
-}
 
+    opacity:0;
+
+    pointer-events:none;
+
+}
 
 /*==================================================
     RESULT PANEL STATE
