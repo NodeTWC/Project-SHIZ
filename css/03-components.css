@@ -679,6 +679,8 @@ button{
 
     position:absolute;
 
+    z-index:5;
+
     inset:18px;
 
     border-radius:50%;
@@ -702,27 +704,34 @@ button{
 
     position:absolute;
 
-    left:8%;
-    top:-20%;
+    left:6%;
+    top:50%;
 
-    width:84%;
-    height:2px;
+    width:88%;
+    height:3px;
 
     opacity:0;
+
+    z-index:30;
+
+    transform:translateY(-320px);
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.95),
+            rgba(255,255,255,1),
             var(--primary),
-            rgba(255,255,255,.95),
+            rgba(255,255,255,1),
             transparent
         );
 
     box-shadow:
-        0 0 10px var(--primary),
-        0 0 22px rgba(123,232,255,.45);
+        0 0 12px rgba(255,255,255,.85),
+        0 0 24px rgba(123,232,255,.75),
+        0 0 46px rgba(123,232,255,.38);
+
+    pointer-events:none;
 
 }
 
