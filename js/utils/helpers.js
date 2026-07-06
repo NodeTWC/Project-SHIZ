@@ -1,7 +1,9 @@
 "use strict";
 
 /*==================================================
-    UTILITY
+
+    helpers.js
+
 ==================================================*/
 
 function randomEntry() {
@@ -97,4 +99,3 @@ function resetTitleFit(element) {
     element.style.maxHeight = "";
     element.style.overflow = "";
 }
-
