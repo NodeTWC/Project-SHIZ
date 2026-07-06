@@ -5,6 +5,8 @@
     PROJECT SHIZ
     A.R.C.S.
 
+    Version 3.4.0 Modular Edition
+
     constants.js
 
 ==================================================*/
@@ -35,25 +37,14 @@ const SETTINGS_KEY = "arcs_settings_v1";
 ==================================================*/
 
 const AUDIO = {
-
     boot: "assets/sounds/boot.mp3",
-
     auth: "assets/sounds/auth.mp3",
-
     database: "assets/sounds/database.mp3",
-
     scanLoop: "assets/sounds/scan-loop.mp3",
-
     lock: "assets/sounds/lock.mp3",
-
     result: "assets/sounds/result.mp3",
-
     add: "assets/sounds/add.mp3",
-
     delete: "assets/sounds/delete.mp3",
-
     clear: "assets/sounds/clear.mp3",
-
     error: "assets/sounds/error.mp3"
-
 };
