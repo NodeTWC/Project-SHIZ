@@ -331,3 +331,5 @@ async function revealResultTitle(title) {
 
     DOM.resultTitle.textContent = finalText;
 }
+
+window.Scene = Scene;

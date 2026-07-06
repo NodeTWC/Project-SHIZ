@@ -5,7 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.1 Modular Edition
+    Version 3.4.2 Modular Edition
 
     engine.js
 
@@ -21,7 +21,7 @@ var Engine = {
         if (App.isRunning) return;
 
         if (App.entries.length === 0) {
-            Terminal.warn("No entry data found.");
+            Terminal.warn("No entry data found. Please add at least one entry.");
             setSystemMessage("NO DATA");
             Sound.play("error");
             return;
@@ -37,12 +37,19 @@ var Engine = {
         closeCreatorPanel();
 
         try {
+            Terminal.system("Start command accepted.");
+
             await Scene.boot();
             await Scene.auth();
             await Scene.database();
             await Scene.scan();
             await Scene.lock();
             await Scene.result();
+        } catch (error) {
+            console.error("[A.R.C.S. ENGINE ERROR]", error);
+            Terminal.warn(`Engine stopped : ${error.message}`);
+            setSystemMessage("ENGINE ERROR");
+            Sound.stopAll();
         } finally {
             App.isRunning = false;
 
@@ -51,3 +58,5 @@ var Engine = {
         }
     }
 };
+
+window.Engine = Engine;

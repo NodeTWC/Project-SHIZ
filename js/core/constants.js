@@ -5,7 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.0 Modular Edition
+    Version 3.4.1 Modular Edition
 
     constants.js
 
@@ -20,7 +20,7 @@ const SYSTEM = {
     project: "PROJECT SHIZ",
     name: "A.R.C.S.",
     fullName: "Advanced Random Control System",
-    version: "3.4.0 Modular Edition"
+    version: "3.4.1 Modular Edition"
 };
 
 

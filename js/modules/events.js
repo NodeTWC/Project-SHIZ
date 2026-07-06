@@ -5,7 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.1 Modular Edition
+    Version 3.4.2 Modular Edition
 
     events.js
 
@@ -16,55 +16,91 @@
     EVENTS
 ==================================================*/
 
+function safeRun(label, callback) {
+    try {
+        callback();
+    } catch (error) {
+        console.error(`[A.R.C.S. EVENT ERROR] ${label}`, error);
+
+        if (typeof Terminal !== "undefined") {
+            Terminal.warn(`${label} failed : ${error.message}`);
+        }
+
+        if (typeof setSystemMessage === "function") {
+            setSystemMessage("EVENT ERROR");
+        }
+    }
+}
+
 function bindEvents() {
     if (DOM.addEntryButton) {
-        DOM.addEntryButton.addEventListener("click", addEntry);
+        DOM.addEntryButton.addEventListener("click", () => {
+            safeRun("ADD ENTRY", addEntry);
+        });
     }
 
     if (DOM.clearAllButton) {
-        DOM.clearAllButton.addEventListener("click", clearAllEntries);
+        DOM.clearAllButton.addEventListener("click", () => {
+            safeRun("CLEAR ALL", clearAllEntries);
+        });
     }
 
     if (DOM.clearLogButton) {
         DOM.clearLogButton.addEventListener("click", () => {
-            Terminal.clear();
+            safeRun("CLEAR LOG", () => {
+                Terminal.clear();
+            });
         });
     }
 
     if (DOM.entryInput) {
         DOM.entryInput.addEventListener("keydown", event => {
             if (event.key === "Enter") {
-                addEntry();
+                safeRun("ADD ENTRY", addEntry);
             }
         });
     }
 
     if (DOM.startButton) {
         DOM.startButton.addEventListener("click", () => {
-            Engine.start();
+            safeRun("START", () => {
+                if (typeof Engine === "undefined" || !Engine || typeof Engine.start !== "function") {
+                    throw new Error("Engine.start is not available");
+                }
+
+                Engine.start();
+            });
         });
     }
 
     if (DOM.resetButton) {
-        DOM.resetButton.addEventListener("click", resetSystem);
+        DOM.resetButton.addEventListener("click", () => {
+            safeRun("RESET", resetSystem);
+        });
     }
 
     if (DOM.settingsButton) {
-        DOM.settingsButton.addEventListener("click", openSettings);
+        DOM.settingsButton.addEventListener("click", () => {
+            safeRun("OPEN SETTINGS", openSettings);
+        });
     }
 
     if (DOM.closeSettingsButton) {
-        DOM.closeSettingsButton.addEventListener("click", closeSettings);
+        DOM.closeSettingsButton.addEventListener("click", () => {
+            safeRun("CLOSE SETTINGS", closeSettings);
+        });
     }
 
     if (DOM.saveOperatorButton) {
-        DOM.saveOperatorButton.addEventListener("click", saveOperatorName);
+        DOM.saveOperatorButton.addEventListener("click", () => {
+            safeRun("SAVE OPERATOR", saveOperatorName);
+        });
     }
 
     if (DOM.operatorInput) {
         DOM.operatorInput.addEventListener("keydown", event => {
             if (event.key === "Enter") {
-                saveOperatorName();
+                safeRun("SAVE OPERATOR", saveOperatorName);
             }
         });
     }
@@ -72,31 +108,39 @@ function bindEvents() {
     if (DOM.settingsPanel) {
         DOM.settingsPanel.addEventListener("click", event => {
             if (event.target === DOM.settingsPanel) {
-                closeSettings();
+                safeRun("CLOSE SETTINGS", closeSettings);
             }
         });
     }
 
     if (DOM.openCreatorButton) {
-        DOM.openCreatorButton.addEventListener("click", openCreatorPanel);
+        DOM.openCreatorButton.addEventListener("click", () => {
+            safeRun("OPEN CREATOR", openCreatorPanel);
+        });
     }
 
     if (DOM.closeCreatorButton) {
-        DOM.closeCreatorButton.addEventListener("click", closeCreatorPanel);
+        DOM.closeCreatorButton.addEventListener("click", () => {
+            safeRun("CLOSE CREATOR", closeCreatorPanel);
+        });
     }
 
     if (DOM.shareXButton) {
-        DOM.shareXButton.addEventListener("click", shareToX);
+        DOM.shareXButton.addEventListener("click", () => {
+            safeRun("SHARE X", shareToX);
+        });
     }
 
     if (DOM.saveResultButton) {
-        DOM.saveResultButton.addEventListener("click", saveResultPng);
+        DOM.saveResultButton.addEventListener("click", () => {
+            safeRun("SAVE PNG", saveResultPng);
+        });
     }
 
     if (DOM.creatorPanel) {
         DOM.creatorPanel.addEventListener("click", event => {
             if (event.target === DOM.creatorPanel) {
-                closeCreatorPanel();
+                safeRun("CLOSE CREATOR", closeCreatorPanel);
             }
         });
     }
