@@ -165,6 +165,9 @@ body[data-state="LOCK"] #corePanel{
 
 body[data-state="READY"] #systemMessage span:first-child{
 
+    animation:
+        arcsBreath 4.8s ease-in-out infinite;
+
     opacity:1;
 
     filter:brightness(1);
