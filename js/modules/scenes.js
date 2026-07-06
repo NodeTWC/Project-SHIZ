@@ -5,7 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.0 Modular Edition
+    Version 3.4.1 Modular Edition
 
     scenes.js
 
@@ -16,7 +16,7 @@
     CINEMATIC SCENES
 ==================================================*/
 
-const Scene = {
+var Scene = {
     async boot() {
         setAppState("BOOT");
         setRingMode("boot");
