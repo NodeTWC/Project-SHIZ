@@ -268,3 +268,8 @@ function randomItem(array){
     ];
 
 }
+
+window.Idle = {
+    start: startIdle,
+    stop: stopIdle
+};
