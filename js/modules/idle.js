@@ -6,6 +6,7 @@
     A.R.C.S.
 
     Version 3.7
+    AI IDLE SYSTEM
 
     idle.js
 
@@ -36,6 +37,14 @@ const NODE_PREFIX = [
     "TGT",
     "AUX",
     "OBS"
+];
+
+const NODE_STATUS = [
+    "ACTIVE",
+    "ONLINE",
+    "SYNC",
+    "MONITOR",
+    "STABLE"
 ];
 
 const HEADERS = [
@@ -140,6 +149,8 @@ async function createWindow(){
         "-" +
         String(random(1,99)).padStart(2,"0");
 
+    const status = randomItem(NODE_STATUS);
+
     const header = randomItem(HEADERS);
     const command = randomItem(COMMANDS);
     const result = randomItem(RESULTS);
@@ -152,13 +163,17 @@ async function createWindow(){
     win.style.top = pos.y + "%";
 
     win.innerHTML = `
-        <div class="idle-node">${node}</div>
+        <div class="idle-header">
+            <div class="idle-node">${node}</div>
+            <div class="idle-state">${status}</div>
+        </div>
+
         <div class="idle-title">${header}</div>
+
         <div class="idle-line command">&gt;</div>
         <div class="idle-line result">&gt;</div>
     `;
-
-    document.body.appendChild(win);
+        document.body.appendChild(win);
 
     requestAnimationFrame(()=>{
 
@@ -175,9 +190,7 @@ async function createWindow(){
 
     await type(resultLine,result);
 
-    await wait(800);
-
-    await wait(1800);
+    await wait(2600);
 
     win.classList.remove("show");
 
