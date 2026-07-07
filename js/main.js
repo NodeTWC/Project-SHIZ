@@ -25,6 +25,8 @@ function init() {
         resetResultPanel();
         resetCreatorCard();
 
+        bindEvents();
+
         Terminal.system(`${SYSTEM.project} interface online.`);
         Terminal.system(`${SYSTEM.name} standby.`);
 
