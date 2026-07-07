@@ -400,3 +400,54 @@ body[data-state="SCAN"] #ring .scan-line{
         scanLine 1.15s linear infinite;
 
 }
+/*==================================================
+
+    DATABASE INGEST STATE
+
+==================================================*/
+
+body[data-state="INGEST"] #corePanel{
+
+    box-shadow:
+        0 0 34px rgba(123,232,255,.32),
+        0 0 90px rgba(123,232,255,.14),
+        inset 0 0 34px rgba(123,232,255,.10);
+
+}
+
+body[data-state="INGEST"] #ring{
+
+    animation:
+        scanFlash .58s ease-in-out infinite;
+
+    filter:
+        brightness(1.25);
+
+}
+
+body[data-state="INGEST"] #ring .scan-line{
+
+    opacity:.95;
+
+    animation:
+        scanLine .72s linear infinite;
+
+}
+
+body[data-state="INGEST"] #systemMessage span:first-child{
+
+    opacity:.32;
+
+    filter:brightness(1.2);
+
+}
+
+body[data-state="INGEST"] #systemMessage span:last-child{
+
+    color:#FFFFFF;
+
+    text-shadow:
+        0 0 16px rgba(255,255,255,.80),
+        0 0 42px rgba(123,232,255,.78);
+
+}
