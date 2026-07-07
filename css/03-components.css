@@ -2266,6 +2266,8 @@ body.is-dragging-file::after{
 
     position:fixed;
 
+    overflow:hidden;
+
     min-width:220px;
 
     padding:14px 18px;
