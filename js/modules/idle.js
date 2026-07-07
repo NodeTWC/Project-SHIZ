@@ -198,7 +198,16 @@ async function type(element,text){
 
     for(let i=0;i<text.length;i++){
 
-        element.textContent += text[i];
+        for(let i = 0; i < text.length; i++){
+
+    element.innerHTML =
+    "&gt; " +
+    text +
+    '<span class="cursor">█</span>';
+
+    await wait(28);
+
+}
 
         await wait(28);
 
