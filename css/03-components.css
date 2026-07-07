@@ -2254,3 +2254,23 @@ body.is-dragging-file::after{
         ingestWindowPulse 1.1s ease-in-out infinite;
 
 }
+
+/*==================================================
+    AI IDLE WINDOW
+==================================================*/
+
+.idle-window{
+    ...
+}
+
+.idle-window.show{
+    ...
+}
+
+.idle-title{
+    ...
+}
+
+.idle-line{
+    ...
+}
