@@ -5,6 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
+    Version 3.7
     events.js
 
 ==================================================*/
@@ -25,10 +26,20 @@ function bindEvents() {
     });
 
     DOM.startButton.addEventListener("click", () => {
+        if (window.Idle) {
+            Idle.stop();
+        }
+
         Engine.start();
     });
 
-    DOM.resetButton.addEventListener("click", resetSystem);
+    DOM.resetButton.addEventListener("click", () => {
+        resetSystem();
+
+        if (window.Idle) {
+            Idle.start();
+        }
+    });
 
     DOM.settingsButton.addEventListener("click", openSettings);
 
@@ -63,6 +74,10 @@ function bindEvents() {
     });
 
     bindIngestEvents();
+
+    if (window.Idle) {
+        Idle.start();
+    }
 }
 
 
@@ -76,6 +91,10 @@ function bindIngestEvents() {
 
         if (App.isRunning || Ingest.isActive) return;
 
+        if (window.Idle) {
+            Idle.stop();
+        }
+
         document.body.classList.add("is-dragging-file");
 
         Ingest.showReady();
@@ -87,6 +106,10 @@ function bindIngestEvents() {
         document.body.classList.remove("is-dragging-file");
 
         Ingest.hideReady();
+
+        if (!App.isRunning && !Ingest.isActive && window.Idle) {
+            Idle.start();
+        }
     });
 
     document.addEventListener("drop", event => {
@@ -94,10 +117,19 @@ function bindIngestEvents() {
 
         document.body.classList.remove("is-dragging-file");
 
+        if (window.Idle) {
+            Idle.stop();
+        }
+
         const file = event.dataTransfer.files[0];
 
         if (!file) {
             Ingest.hideReady();
+
+            if (!App.isRunning && !Ingest.isActive && window.Idle) {
+                Idle.start();
+            }
+
             return;
         }
 
