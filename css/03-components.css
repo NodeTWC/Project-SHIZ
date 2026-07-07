@@ -2417,6 +2417,26 @@ body.is-dragging-file::after{
     pointer-events:none;
 
 }
+
+/*==================================================
+    IDLE NODE
+==================================================*/
+
+.idle-node{
+
+    font-size:10px;
+
+    letter-spacing:.25em;
+
+    color:rgba(0,255,255,.45);
+
+    margin-bottom:6px;
+
+    text-transform:uppercase;
+
+}
+
+
 /*==================================================
     CURSOR
 ==================================================*/
@@ -2432,6 +2452,7 @@ body.is-dragging-file::after{
     animation:idleCursor .8s steps(1) infinite;
 
 }
+
 @keyframes idleCursor{
 
     0%{
@@ -2446,25 +2467,4 @@ body.is-dragging-file::after{
         opacity:1;
     }
 
-}
-
-.idle-node{
-    font-size:10px;
-    letter-spacing:.25em;
-    color:rgba(0,255,255,.45);
-    margin-bottom:6px;
-    text-transform:uppercase;
-}
-
-.cursor{
-    display:inline-block;
-    margin-left:2px;
-    color:#8ff;
-    animation:idleCursor .8s steps(1) infinite;
-}
-
-@keyframes idleCursor{
-    0%{ opacity:1; }
-    50%{ opacity:0; }
-    100%{ opacity:1; }
 }
