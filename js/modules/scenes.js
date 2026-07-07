@@ -346,6 +346,9 @@ function applyAdaptiveTitleClass(element, title) {
     element.style.fontSize = "";
     element.style.letterSpacing = "";
     element.style.lineHeight = "";
+    element.style.whiteSpace = "";
+    element.style.wordBreak = "";
+    element.style.overflowWrap = "";
 
     const length = title.length;
 
@@ -359,7 +362,7 @@ function applyAdaptiveTitleClass(element, title) {
         size = 48;
     }
 
-    element.style.fontSize = size + "px";
+    element.style.setProperty("font-size", size + "px", "important");
     element.style.lineHeight = "1.12";
 
     if (length >= 36) {
@@ -372,8 +375,13 @@ function applyAdaptiveTitleClass(element, title) {
         fitTitleToSingleLine(element);
     });
 }
+
 function fitTitleToSingleLine(element) {
     const minSize = 28;
+
+    element.style.whiteSpace = "nowrap";
+    element.style.wordBreak = "normal";
+    element.style.overflowWrap = "normal";
 
     let currentSize =
         parseFloat(window.getComputedStyle(element).fontSize);
@@ -384,7 +392,17 @@ function fitTitleToSingleLine(element) {
     ) {
         currentSize -= 1;
 
-        element.style.fontSize = currentSize + "px";
+        element.style.setProperty(
+            "font-size",
+            currentSize + "px",
+            "important"
+        );
+    }
+
+    if (element.scrollWidth > element.clientWidth) {
+        element.style.whiteSpace = "";
+        element.style.wordBreak = "";
+        element.style.overflowWrap = "";
     }
 }
 
