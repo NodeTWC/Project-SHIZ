@@ -5,8 +5,7 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.2 Modular Edition
-
+    Version 3.7
     engine.js
 
 ==================================================*/
@@ -51,20 +50,16 @@ var Engine = {
             setSystemMessage("ENGINE ERROR");
             Sound.stopAll();
         } finally {
+            App.isRunning = false;
 
-    App.isRunning = false;
+            DOM.startButton.disabled = false;
+            DOM.resetButton.disabled = false;
 
-    DOM.startButton.disabled = false;
-    DOM.resetButton.disabled = false;
-
-    if(window.Idle){
-
-        Idle.start();
-
+            if (window.Idle) {
+                Idle.start();
+            }
+        }
     }
-
-}
-        
 };
 
 window.Engine = Engine;
