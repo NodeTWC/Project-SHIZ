@@ -2417,3 +2417,33 @@ body.is-dragging-file::after{
     pointer-events:none;
 
 }
+/*==================================================
+    CURSOR
+==================================================*/
+
+.cursor{
+
+    display:inline-block;
+
+    margin-left:2px;
+
+    color:#8ff;
+
+    animation:idleCursor .8s steps(1) infinite;
+
+}
+@keyframes idleCursor{
+
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:1;
+    }
+
+}
