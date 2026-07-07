@@ -2510,19 +2510,19 @@ body.is-dragging-file::after{
 ==================================================*/
 
 .result-title.title-md{
-    font-size:48px;
+    font-size:48px !important;
     letter-spacing:2px;
     line-height:1.16;
 }
 
 .result-title.title-sm{
-    font-size:40px;
+    font-size:40px !important;
     letter-spacing:1px;
     line-height:1.18;
 }
 
 .result-title.title-xs{
-    font-size:34px;
+    font-size:34px !important;
     letter-spacing:0;
     line-height:1.2;
 }
