@@ -11,18 +11,6 @@
 
 ==================================================*/
 
-const NODE_PREFIX = [
-    "SYS",
-    "NET",
-    "MEM",
-    "ARC",
-    "SEC",
-    "CPU",
-    "GPU",
-    "DB",
-    "IDX",
-    "IO"
-];
 
 /*==================================================
     IDLE DATA
@@ -38,16 +26,16 @@ const POSITIONS = [
 ];
 
 const NODE_PREFIX = [
-    "SYS",
     "ARC",
-    "DB",
-    "NET",
+    "CORE",
+    "SIG",
     "MEM",
-    "SEC",
+    "NET",
     "IDX",
-    "CPU",
-    "GPU",
-    "IO"
+    "SYS",
+    "TGT",
+    "AUX",
+    "OBS"
 ];
 
 const HEADERS = [
@@ -147,16 +135,14 @@ async function createWindow(){
 
     const pos = randomItem(POSITIONS);
 
-　　const node =
-    randomItem(NODE_PREFIX) +
-    "-" +
-    String(random(1, 99)).padStart(2, "0");
+    const node =
+        randomItem(NODE_PREFIX) +
+        "-" +
+        String(random(1,99)).padStart(2,"0");
 
-　　const header = randomItem(HEADERS);
-
-　　const command = randomItem(COMMANDS);
-
-　　const result = randomItem(RESULTS);
+    const header = randomItem(HEADERS);
+    const command = randomItem(COMMANDS);
+    const result = randomItem(RESULTS);
 
     const win = document.createElement("div");
 
@@ -166,25 +152,10 @@ async function createWindow(){
     win.style.top = pos.y + "%";
 
     win.innerHTML = `
-
-        <div class="idle-title">
-
-            ${header}
-
-        </div>
-
-        <div class="idle-line command">
-
-            >
-
-        </div>
-
-        <div class="idle-line result">
-
-            >
-
-        </div>
-
+        <div class="idle-node">${node}</div>
+        <div class="idle-title">${header}</div>
+        <div class="idle-line command">&gt;</div>
+        <div class="idle-line result">&gt;</div>
     `;
 
     document.body.appendChild(win);
@@ -195,11 +166,8 @@ async function createWindow(){
 
     });
 
-    const commandLine =
-        win.querySelector(".command");
-
-    const resultLine =
-        win.querySelector(".result");
+    const commandLine = win.querySelector(".command");
+    const resultLine = win.querySelector(".result");
 
     await type(commandLine,command);
 
@@ -207,7 +175,9 @@ async function createWindow(){
 
     await type(resultLine,result);
 
-    await wait(2500);
+    await wait(800);
+
+    await wait(1800);
 
     win.classList.remove("show");
 
@@ -224,24 +194,26 @@ async function createWindow(){
 
 async function type(element,text){
 
-    element.innerHTML = '&gt; <span class="cursor">█</span>';
+    element.innerHTML =
+        '&gt; <span class="cursor">█</span>';
+
+    await wait(160);
 
     for(let i=0;i<text.length;i++){
 
-        for(let i = 0; i < text.length; i++){
-
-    element.innerHTML =
-    "&gt; " +
-    text +
-    '<span class="cursor">█</span>';
-
-    await wait(28);
-
-}
+        element.innerHTML =
+            "&gt; " +
+            text.substring(0,i+1) +
+            '<span class="cursor">█</span>';
 
         await wait(28);
 
     }
+
+    await wait(180);
+
+    element.textContent =
+        "> " + text;
 
 }
 
