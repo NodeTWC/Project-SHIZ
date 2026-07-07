@@ -801,7 +801,9 @@ button{
 
     align-items:center;
     justify-content:center;
-
+    
+　　white-space:pre-line;
+    
     min-height:52px;
 
     max-width:min(420px, 88%);
