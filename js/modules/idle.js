@@ -1,57 +1,74 @@
+"use strict";
+
 /*==================================================
 
-    AI IDLE SYSTEM
+    PROJECT SHIZ
+    A.R.C.S.
+
     Version 3.7
+
+    idle.js
 
 ==================================================*/
 
-let timer = null;
-let running = false;
+
+/*==================================================
+    IDLE DATA
+==================================================*/
 
 const POSITIONS = [
-    { x: 8,  y: 12 },
-    { x: 72, y: 18 },
-    { x: 15, y: 62 },
-    { x: 75, y: 70 },
-    { x: 45, y: 25 },
-    { x: 42, y: 74 }
+    { x: 8,  y: 10 },
+    { x: 70, y: 14 },
+    { x: 12, y: 60 },
+    { x: 72, y: 66 },
+    { x: 42, y: 24 },
+    { x: 45, y: 72 }
 ];
 
 const HEADERS = [
-    "DATABASE",
-    "NETWORK",
-    "SYSTEM",
+    "DATABASE CACHE",
+    "SYSTEM CORE",
     "MEMORY",
-    "CACHE",
-    "INDEX",
-    "ARCHIVE",
-    "NODE",
+    "NETWORK",
+    "SECURITY",
     "PROCESS",
-    "SECURITY"
+    "A.R.C.S. NODE",
+    "TARGET MEMORY",
+    "SIGNATURE CACHE",
+    "CACHE INDEX"
 ];
 
 const COMMANDS = [
     "checking...",
-    "sync...",
+    "syncing...",
     "verifying...",
-    "mapping...",
-    "loading...",
-    "optimizing...",
-    "compressing...",
-    "analyzing...",
     "rebuilding...",
-    "ping..."
+    "optimizing...",
+    "analyzing...",
+    "compressing...",
+    "mapping...",
+    "heartbeat...",
+    "indexing..."
 ];
 
 const RESULTS = [
     "OK",
-    "complete",
     "verified",
+    "complete",
     "stable",
-    "success",
-    "ready",
-    "cached"
+    "cached",
+    "online",
+    "ready"
 ];
+
+
+/*==================================================
+    STATE
+==================================================*/
+
+let running = false;
+let timer = null;
+
 
 /*==================================================
     PUBLIC
@@ -63,7 +80,7 @@ export function startIdle(){
 
     running = true;
 
-    scheduleNext();
+    schedule();
 
 }
 
@@ -75,47 +92,43 @@ export function stopIdle(){
 
 }
 
+
 /*==================================================
     LOOP
 ==================================================*/
 
-function scheduleNext(){
+function schedule(){
 
     if(!running) return;
 
-    const delay =
-        random(5000,12000);
+    timer = setTimeout(async()=>{
 
-    timer = setTimeout(async ()=>{
+        await createWindow();
 
-        await spawnWindow();
+        schedule();
 
-        scheduleNext();
-
-    },delay);
+    },random(5000,10000));
 
 }
+
 
 /*==================================================
     WINDOW
 ==================================================*/
 
-async function spawnWindow(){
+async function createWindow(){
 
-    const pos =
-        randomItem(POSITIONS);
+    if(!running) return;
 
-    const header =
-        randomItem(HEADERS);
+    const pos = randomItem(POSITIONS);
 
-    const command =
-        randomItem(COMMANDS);
+    const header = randomItem(HEADERS);
 
-    const result =
-        randomItem(RESULTS);
+    const command = randomItem(COMMANDS);
 
-    const win =
-        document.createElement("div");
+    const result = randomItem(RESULTS);
+
+    const win = document.createElement("div");
 
     win.className = "idle-window";
 
@@ -123,9 +136,25 @@ async function spawnWindow(){
     win.style.top = pos.y + "%";
 
     win.innerHTML = `
-        <div class="idle-title">${header}</div>
-        <div class="idle-line command">&gt; </div>
-        <div class="idle-line result">&gt; </div>
+
+        <div class="idle-title">
+
+            ${header}
+
+        </div>
+
+        <div class="idle-line command">
+
+            >
+
+        </div>
+
+        <div class="idle-line result">
+
+            >
+
+        </div>
+
     `;
 
     document.body.appendChild(win);
@@ -136,17 +165,17 @@ async function spawnWindow(){
 
     });
 
-    const commandElement =
+    const commandLine =
         win.querySelector(".command");
 
-    const resultElement =
+    const resultLine =
         win.querySelector(".result");
 
-    await typeText(commandElement,command);
+    await type(commandLine,command);
 
-    await wait(400);
+    await wait(350);
 
-    await typeText(resultElement,result);
+    await type(resultLine,result);
 
     await wait(2500);
 
@@ -158,36 +187,25 @@ async function spawnWindow(){
 
 }
 
+
 /*==================================================
-    TYPE
+    TYPE EFFECT
 ==================================================*/
 
-function typeText(element,text,speed=30){
+async function type(element,text){
 
-    return new Promise(resolve=>{
+    element.textContent="> ";
 
-        let index = 0;
+    for(let i=0;i<text.length;i++){
 
-        const timer = setInterval(()=>{
+        element.textContent += text[i];
 
-            element.textContent =
-                "> " + text.substring(0,index);
+        await wait(28);
 
-            index++;
-
-            if(index>text.length){
-
-                clearInterval(timer);
-
-                resolve();
-
-            }
-
-        },speed);
-
-    });
+    }
 
 }
+
 
 /*==================================================
     UTIL
@@ -206,7 +224,9 @@ function wait(ms){
 function random(min,max){
 
     return Math.floor(
+
         Math.random()*(max-min+1)
+
     )+min;
 
 }
@@ -214,9 +234,13 @@ function random(min,max){
 function randomItem(array){
 
     return array[
+
         Math.floor(
+
             Math.random()*array.length
+
         )
+
     ];
 
 }
