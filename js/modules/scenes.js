@@ -343,14 +343,48 @@ function applyAdaptiveTitleClass(element, title) {
         "title-xs"
     );
 
+    element.style.fontSize = "";
+    element.style.letterSpacing = "";
+    element.style.lineHeight = "";
+
     const length = title.length;
 
+    let size = 60;
+
     if (length >= 50) {
-        element.classList.add("title-xs");
+        size = 34;
     } else if (length >= 36) {
-        element.classList.add("title-sm");
+        size = 40;
     } else if (length >= 22) {
-        element.classList.add("title-md");
+        size = 48;
+    }
+
+    element.style.fontSize = size + "px";
+    element.style.lineHeight = "1.12";
+
+    if (length >= 36) {
+        element.style.letterSpacing = "0";
+    } else if (length >= 22) {
+        element.style.letterSpacing = "1px";
+    }
+
+    requestAnimationFrame(() => {
+        fitTitleToSingleLine(element);
+    });
+}
+function fitTitleToSingleLine(element) {
+    const minSize = 28;
+
+    let currentSize =
+        parseFloat(window.getComputedStyle(element).fontSize);
+
+    while (
+        element.scrollWidth > element.clientWidth &&
+        currentSize > minSize
+    ) {
+        currentSize -= 1;
+
+        element.style.fontSize = currentSize + "px";
     }
 }
 
