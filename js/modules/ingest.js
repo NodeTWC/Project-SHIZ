@@ -58,9 +58,8 @@ const Ingest = {
 
             await this.showProgress("SCANNING...", "████░░░░░░", 620);
             await this.showProgress("INDEXING...", "███████░░░", 620);
-            await this.showProgress("REGISTERING...", "██████████", 620);
 
-            this.registerEntries(entries);
+            await this.registerEntriesSequentially(entries);
 
             await this.complete();
 
@@ -95,17 +94,25 @@ const Ingest = {
         await sleep(wait);
     },
 
-    registerEntries(entries) {
-        entries.forEach(title => {
+    async registerEntriesSequentially(entries) {
+        this.setCore("DATABASE", "REGISTERING...\n██████████");
+
+        Terminal.database("REGISTERING...");
+
+        for (const title of entries) {
             App.entries.push({
                 id: createId(),
                 title,
                 status: "READY"
             });
-        });
 
-        saveEntries();
-        render();
+            saveEntries();
+            render();
+
+            Terminal.database(`REGISTERED : ${title}`);
+
+            await sleep(28);
+        }
 
         Terminal.database("DATABASE UPDATED");
     },
@@ -114,7 +121,13 @@ const Ingest = {
         this.setCore("DATABASE", "COMPLETE!");
         Sound.play("result");
 
-        await sleep(700);
+        document.body.classList.add("ingest-complete-flash");
+
+        await sleep(420);
+
+        document.body.classList.remove("ingest-complete-flash");
+
+        await sleep(420);
 
         this.setCore("DATABASE", "UPDATED");
 
