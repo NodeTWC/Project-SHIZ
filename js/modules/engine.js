@@ -60,3 +60,5 @@ var Engine = {
 };
 
 window.Engine = Engine;
+
+Idle.start();
