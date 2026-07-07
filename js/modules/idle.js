@@ -194,7 +194,7 @@ async function createWindow(){
 
 async function type(element,text){
 
-    element.textContent="> ";
+    element.innerHTML = '&gt; <span class="cursor">█</span>';
 
     for(let i=0;i<text.length;i++){
 
