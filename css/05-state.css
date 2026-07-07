@@ -394,16 +394,7 @@ body[data-state="RESULT"] #ring{
 
 body[data-state="SCAN"] .scan-line{
 
-    opacity:1;
-
-    animation:
-        scanLine 1.15s linear infinite;
-
-}
-
-body[data-state="SCAN"] .scan-line{
-
-    opacity:1;
+    opacity:.95;
 
     animation:
         scanLine 1.15s linear infinite;
