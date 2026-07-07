@@ -96,7 +96,7 @@ let timer = null;
     PUBLIC
 ==================================================*/
 
-export function startIdle(){
+function startIdle(){
 
     if(running) return;
 
@@ -106,7 +106,7 @@ export function startIdle(){
 
 }
 
-export function stopIdle(){
+function stopIdle(){
 
     running = false;
 
