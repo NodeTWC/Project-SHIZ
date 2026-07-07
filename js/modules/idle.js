@@ -11,6 +11,18 @@
 
 ==================================================*/
 
+const NODE_PREFIX = [
+    "SYS",
+    "NET",
+    "MEM",
+    "ARC",
+    "SEC",
+    "CPU",
+    "GPU",
+    "DB",
+    "IDX",
+    "IO"
+];
 
 /*==================================================
     IDLE DATA
@@ -23,6 +35,19 @@ const POSITIONS = [
     { x: 72, y: 66 },
     { x: 42, y: 24 },
     { x: 45, y: 72 }
+];
+
+const NODE_PREFIX = [
+    "SYS",
+    "ARC",
+    "DB",
+    "NET",
+    "MEM",
+    "SEC",
+    "IDX",
+    "CPU",
+    "GPU",
+    "IO"
 ];
 
 const HEADERS = [
@@ -122,11 +147,16 @@ async function createWindow(){
 
     const pos = randomItem(POSITIONS);
 
-    const header = randomItem(HEADERS);
+　　const node =
+    randomItem(NODE_PREFIX) +
+    "-" +
+    String(random(1, 99)).padStart(2, "0");
 
-    const command = randomItem(COMMANDS);
+　　const header = randomItem(HEADERS);
 
-    const result = randomItem(RESULTS);
+　　const command = randomItem(COMMANDS);
+
+　　const result = randomItem(RESULTS);
 
     const win = document.createElement("div");
 
