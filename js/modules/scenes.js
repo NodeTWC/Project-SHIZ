@@ -302,7 +302,7 @@ async function revealResultTitle(title) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789■□◇◆▓▒░";
     const finalText = title;
 
-   DOM.resultTitle.textContent = finalText;
+DOM.resultTitle.textContent = finalText;
 
 fitResultTitle(DOM.resultTitle, {
     maxSize: 60,
