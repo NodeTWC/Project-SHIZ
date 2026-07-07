@@ -304,6 +304,8 @@ async function revealResultTitle(title) {
 
     DOM.resultTitle.textContent = finalText;
 
+    applyAdaptiveTitleClass(DOM.resultTitle, finalText);
+
     fitResultTitle(DOM.resultTitle, {
         maxSize: 60,
         minSize: 22,
@@ -330,6 +332,26 @@ async function revealResultTitle(title) {
     }
 
     DOM.resultTitle.textContent = finalText;
+
+    applyAdaptiveTitleClass(DOM.resultTitle, finalText);
+}
+
+function applyAdaptiveTitleClass(element, title) {
+    element.classList.remove(
+        "title-md",
+        "title-sm",
+        "title-xs"
+    );
+
+    const length = title.length;
+
+    if (length >= 50) {
+        element.classList.add("title-xs");
+    } else if (length >= 36) {
+        element.classList.add("title-sm");
+    } else if (length >= 22) {
+        element.classList.add("title-md");
+    }
 }
 
 window.Scene = Scene;
