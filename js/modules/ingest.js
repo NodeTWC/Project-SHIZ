@@ -18,13 +18,15 @@ const Ingest = {
 
         if (App.isRunning || this.isActive) {
             Terminal.warn("Ingest rejected : system busy.");
-            setSystemMessage("SYSTEM BUSY");
+            this.setCore("A.R.C.S.", "SYSTEM BUSY");
             return;
         }
 
         if (!file.name.toLowerCase().endsWith(".txt")) {
             Terminal.warn("Invalid file format. TXT required.");
-            setSystemMessage("IMPORT ERROR");
+            this.setCore("DATABASE", "IMPORT ERROR");
+            await sleep(900);
+            this.restoreReady();
             return;
         }
 
@@ -32,43 +34,49 @@ const Ingest = {
 
         try {
             setAppState("INGEST");
-            setSystemMessage("DATABASE INGEST");
+            setRingMode("scan");
 
-            Terminal.system("DATABASE INGEST request received.");
-            Terminal.database(`File detected : ${file.name}`);
-            Terminal.database("Verifying file format...");
+            this.setCore("DATABASE", "INGEST");
 
-            await sleep(400);
+            Terminal.database("FILE DETECTED");
+            Terminal.database("VERIFYING FORMAT...");
+
+            await sleep(420);
 
             const text = await file.text();
             const entries = this.parseText(text);
 
             if (entries.length === 0) {
                 Terminal.warn("No valid entries found.");
-                setSystemMessage("NO DATA");
+                this.setCore("DATABASE", "NO DATA");
+                await sleep(900);
                 return;
             }
 
-            Terminal.database("Format OK.");
-            Terminal.database(`Entries detected : ${entries.length}`);
+            Terminal.database("FORMAT VERIFIED");
+            Terminal.database("DATABASE INGEST");
 
-            await this.showStep("SCANNING...", 700);
-            await this.showStep("INDEXING...", 700);
-            await this.registerEntries(entries);
-            await this.complete(entries.length);
+            await this.showProgress("SCANNING...", "████░░░░░░", 620);
+            await this.showProgress("INDEXING...", "███████░░░", 620);
+            await this.showProgress("REGISTERING...", "██████████", 620);
+
+            this.registerEntries(entries);
+
+            await this.complete();
 
         } catch (error) {
-            Terminal.warn("Ingest failed.");
+            Terminal.warn("INGEST FAILED");
             console.error(error);
-            setSystemMessage("IMPORT ERROR");
-        } finally {
-            await sleep(900);
 
+            this.setCore("DATABASE", "IMPORT ERROR");
+
+            await sleep(900);
+        } finally {
             this.isActive = false;
 
-            setAppState("READY");
-            setRingMode("idle");
-            setSystemMessage("SYSTEM READY");
+            await sleep(600);
+
+            this.restoreReady();
         }
     },
 
@@ -79,16 +87,15 @@ const Ingest = {
             .filter(Boolean);
     },
 
-    async showStep(message, wait) {
-        setSystemMessage(message);
-        Terminal.database(message);
+    async showProgress(label, bar, wait) {
+        this.setCore("DATABASE", `${label}\n${bar}`);
+
+        Terminal.database(label);
+
         await sleep(wait);
     },
 
-    async registerEntries(entries) {
-        setSystemMessage("REGISTERING...");
-        Terminal.database("Registering entries...");
-
+    registerEntries(entries) {
         entries.forEach(title => {
             App.entries.push({
                 id: createId(),
@@ -100,25 +107,46 @@ const Ingest = {
         saveEntries();
         render();
 
-        Terminal.database(`${entries.length} entries registered.`);
+        Terminal.database("DATABASE UPDATED");
     },
 
-    async complete(count) {
-        setSystemMessage("COMPLETE!");
-        Terminal.result(`DATABASE INGEST complete : ${count} entries added.`);
+    async complete() {
+        this.setCore("DATABASE", "COMPLETE!");
         Sound.play("result");
-        await sleep(900);
+
+        await sleep(700);
+
+        this.setCore("DATABASE", "UPDATED");
+
+        await sleep(700);
     },
 
     showReady() {
         if (App.isRunning || this.isActive) return;
 
-        setSystemMessage("DATABASE INGEST READY");
+        this.setCore("DATABASE", "INGEST READY");
     },
 
     hideReady() {
         if (App.isRunning || this.isActive) return;
 
-        setSystemMessage("SYSTEM READY");
+        this.restoreReady();
+    },
+
+    restoreReady() {
+        setAppState("READY");
+        setRingMode("idle");
+        this.setCore("A.R.C.S.", "SYSTEM READY");
+    },
+
+    setCore(title, message) {
+        const titleElement =
+            document.querySelector("#systemMessage span:first-child");
+
+        if (titleElement) {
+            titleElement.textContent = title;
+        }
+
+        setSystemMessage(message);
     }
 };
