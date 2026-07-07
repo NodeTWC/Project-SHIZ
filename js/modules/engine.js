@@ -51,14 +51,20 @@ var Engine = {
             setSystemMessage("ENGINE ERROR");
             Sound.stopAll();
         } finally {
-            App.isRunning = false;
 
-            DOM.startButton.disabled = false;
-            DOM.resetButton.disabled = false;
-        }
+    App.isRunning = false;
+
+    DOM.startButton.disabled = false;
+    DOM.resetButton.disabled = false;
+
+    if(window.Idle){
+
+        Idle.start();
+
     }
+
+}
+        
 };
 
 window.Engine = Engine;
-
-Idle.start();
