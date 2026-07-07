@@ -2502,3 +2502,27 @@ body.is-dragging-file::after{
     }
 
 }
+/*==================================================
+
+    ADAPTIVE TITLE SYSTEM
+    Version 3.7.1
+
+==================================================*/
+
+.result-title.title-md{
+    font-size:48px;
+    letter-spacing:2px;
+    line-height:1.16;
+}
+
+.result-title.title-sm{
+    font-size:40px;
+    letter-spacing:1px;
+    line-height:1.18;
+}
+
+.result-title.title-xs{
+    font-size:34px;
+    letter-spacing:0;
+    line-height:1.2;
+}
