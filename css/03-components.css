@@ -2157,3 +2157,98 @@ button{
     }
 
 }
+/*==================================================
+
+    DATABASE INGEST OVERLAY
+
+==================================================*/
+
+body.is-dragging-file::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:8000;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(123,232,255,.18),
+            rgba(0,18,32,.42) 55%,
+            rgba(0,0,0,.58)
+        );
+
+    border:
+        2px solid rgba(123,232,255,.45);
+
+    box-shadow:
+        inset 0 0 80px rgba(123,232,255,.24),
+        0 0 60px rgba(123,232,255,.20);
+
+    animation:
+        ingestOverlayPulse .9s ease-in-out infinite;
+
+}
+
+body.is-dragging-file::after{
+
+    content:"DATABASE\\AINGEST READY";
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%, -50%);
+
+    z-index:8001;
+
+    pointer-events:none;
+
+    min-width:320px;
+
+    padding:28px 34px;
+
+    border:
+        1px solid rgba(123,232,255,.65);
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.10),
+            rgba(0,20,35,.88)
+        );
+
+    color:#FFFFFF;
+
+    font-size:26px;
+    font-weight:900;
+
+    line-height:1.45;
+
+    letter-spacing:5px;
+
+    white-space:pre;
+
+    text-align:center;
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.72),
+        0 0 34px rgba(123,232,255,.76);
+
+    box-shadow:
+        0 0 30px rgba(123,232,255,.38),
+        inset 0 0 28px rgba(123,232,255,.12);
+
+    animation:
+        ingestWindowIn .18s ease-out,
+        ingestWindowPulse 1.1s ease-in-out infinite;
+
+}
