@@ -5,145 +5,102 @@
     PROJECT SHIZ
     A.R.C.S.
 
-    Version 3.4.2 Modular Edition
-
     events.js
 
 ==================================================*/
 
+function bindEvents() {
+    DOM.addEntryButton.addEventListener("click", addEntry);
 
-/*==================================================
-    EVENTS
-==================================================*/
+    DOM.clearAllButton.addEventListener("click", clearAllEntries);
 
-function safeRun(label, callback) {
-    try {
-        callback();
-    } catch (error) {
-        console.error(`[A.R.C.S. EVENT ERROR] ${label}`, error);
+    DOM.clearLogButton.addEventListener("click", () => {
+        Terminal.clear();
+    });
 
-        if (typeof Terminal !== "undefined") {
-            Terminal.warn(`${label} failed : ${error.message}`);
+    DOM.entryInput.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            addEntry();
         }
+    });
 
-        if (typeof setSystemMessage === "function") {
-            setSystemMessage("EVENT ERROR");
+    DOM.startButton.addEventListener("click", () => {
+        Engine.start();
+    });
+
+    DOM.resetButton.addEventListener("click", resetSystem);
+
+    DOM.settingsButton.addEventListener("click", openSettings);
+
+    DOM.closeSettingsButton.addEventListener("click", closeSettings);
+
+    DOM.saveOperatorButton.addEventListener("click", saveOperatorName);
+
+    DOM.operatorInput.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+            saveOperatorName();
         }
-    }
+    });
+
+    DOM.settingsPanel.addEventListener("click", event => {
+        if (event.target === DOM.settingsPanel) {
+            closeSettings();
+        }
+    });
+
+    DOM.openCreatorButton.addEventListener("click", openCreatorPanel);
+
+    DOM.closeCreatorButton.addEventListener("click", closeCreatorPanel);
+
+    DOM.shareXButton.addEventListener("click", shareToX);
+
+    DOM.saveResultButton.addEventListener("click", saveResultPng);
+
+    DOM.creatorPanel.addEventListener("click", event => {
+        if (event.target === DOM.creatorPanel) {
+            closeCreatorPanel();
+        }
+    });
+
+    bindIngestEvents();
 }
 
-function bindEvents() {
-    if (DOM.addEntryButton) {
-        DOM.addEntryButton.addEventListener("click", () => {
-            safeRun("ADD ENTRY", addEntry);
-        });
-    }
 
-    if (DOM.clearAllButton) {
-        DOM.clearAllButton.addEventListener("click", () => {
-            safeRun("CLEAR ALL", clearAllEntries);
-        });
-    }
+/*==================================================
+    DATABASE INGEST EVENTS
+==================================================*/
 
-    if (DOM.clearLogButton) {
-        DOM.clearLogButton.addEventListener("click", () => {
-            safeRun("CLEAR LOG", () => {
-                Terminal.clear();
-            });
-        });
-    }
+function bindIngestEvents() {
+    document.addEventListener("dragover", event => {
+        event.preventDefault();
 
-    if (DOM.entryInput) {
-        DOM.entryInput.addEventListener("keydown", event => {
-            if (event.key === "Enter") {
-                safeRun("ADD ENTRY", addEntry);
-            }
-        });
-    }
+        if (App.isRunning || Ingest.isActive) return;
 
-    if (DOM.startButton) {
-        DOM.startButton.addEventListener("click", () => {
-            safeRun("START", () => {
-                if (typeof Engine === "undefined" || !Engine || typeof Engine.start !== "function") {
-                    throw new Error("Engine.start is not available");
-                }
+        document.body.classList.add("is-dragging-file");
 
-                Engine.start();
-            });
-        });
-    }
+        Ingest.showReady();
+    });
 
-    if (DOM.resetButton) {
-        DOM.resetButton.addEventListener("click", () => {
-            safeRun("RESET", resetSystem);
-        });
-    }
+    document.addEventListener("dragleave", event => {
+        if (event.relatedTarget !== null) return;
 
-    if (DOM.settingsButton) {
-        DOM.settingsButton.addEventListener("click", () => {
-            safeRun("OPEN SETTINGS", openSettings);
-        });
-    }
+        document.body.classList.remove("is-dragging-file");
 
-    if (DOM.closeSettingsButton) {
-        DOM.closeSettingsButton.addEventListener("click", () => {
-            safeRun("CLOSE SETTINGS", closeSettings);
-        });
-    }
+        Ingest.hideReady();
+    });
 
-    if (DOM.saveOperatorButton) {
-        DOM.saveOperatorButton.addEventListener("click", () => {
-            safeRun("SAVE OPERATOR", saveOperatorName);
-        });
-    }
+    document.addEventListener("drop", event => {
+        event.preventDefault();
 
-    if (DOM.operatorInput) {
-        DOM.operatorInput.addEventListener("keydown", event => {
-            if (event.key === "Enter") {
-                safeRun("SAVE OPERATOR", saveOperatorName);
-            }
-        });
-    }
+        document.body.classList.remove("is-dragging-file");
 
-    if (DOM.settingsPanel) {
-        DOM.settingsPanel.addEventListener("click", event => {
-            if (event.target === DOM.settingsPanel) {
-                safeRun("CLOSE SETTINGS", closeSettings);
-            }
-        });
-    }
+        const file = event.dataTransfer.files[0];
 
-    if (DOM.openCreatorButton) {
-        DOM.openCreatorButton.addEventListener("click", () => {
-            safeRun("OPEN CREATOR", openCreatorPanel);
-        });
-    }
+        if (!file) {
+            Ingest.hideReady();
+            return;
+        }
 
-    if (DOM.closeCreatorButton) {
-        DOM.closeCreatorButton.addEventListener("click", () => {
-            safeRun("CLOSE CREATOR", closeCreatorPanel);
-        });
-    }
-
-    if (DOM.shareXButton) {
-        DOM.shareXButton.addEventListener("click", () => {
-            safeRun("SHARE X", shareToX);
-        });
-    }
-
-    if (DOM.saveResultButton) {
-        DOM.saveResultButton.addEventListener("click", () => {
-            safeRun("SAVE PNG", saveResultPng);
-        });
-    }
-
-    if (DOM.creatorPanel) {
-        DOM.creatorPanel.addEventListener("click", event => {
-            if (event.target === DOM.creatorPanel) {
-                safeRun("CLOSE CREATOR", closeCreatorPanel);
-            }
-        });
-    }
-
-    Terminal.system("Event bindings ready.");
+        Ingest.handleFile(file);
+    });
 }
