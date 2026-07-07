@@ -451,3 +451,45 @@ body[data-state="INGEST"] #systemMessage span:last-child{
         0 0 42px rgba(123,232,255,.78);
 
 }
+/*==================================================
+
+    DATABASE INGEST COMPLETE FLASH
+
+==================================================*/
+
+body.ingest-complete-flash #ring{
+
+    animation:
+        ringShock .42s ease-out 1;
+
+    filter:
+        brightness(2.2);
+
+    box-shadow:
+        0 0 58px rgba(255,255,255,.55),
+        0 0 130px rgba(123,232,255,.48),
+        inset 0 0 46px rgba(255,255,255,.16);
+
+}
+
+body.ingest-complete-flash #ring::before,
+body.ingest-complete-flash #ring::after{
+
+    border-color:#FFFFFF;
+
+    box-shadow:
+        0 0 32px rgba(255,255,255,.70),
+        0 0 72px rgba(123,232,255,.52);
+
+}
+
+body.ingest-complete-flash #systemMessage span:last-child{
+
+    color:#FFFFFF;
+
+    text-shadow:
+        0 0 18px #FFFFFF,
+        0 0 48px var(--primary),
+        0 0 90px rgba(123,232,255,.72);
+
+}
