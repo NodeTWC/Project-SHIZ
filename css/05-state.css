@@ -392,7 +392,7 @@ body[data-state="RESULT"] #ring{
     animation:terminalLine .16s ease;
 }
 
-body[data-state="SCAN"] .scan-line{
+body[data-state="SCAN"] #ring .scan-line{
 
     opacity:.95;
 
