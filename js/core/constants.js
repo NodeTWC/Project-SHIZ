@@ -48,3 +48,10 @@ const AUDIO = {
     clear: "assets/sounds/clear.mp3",
     error: "assets/sounds/error.mp3"
 };
+/*==================================================
+    FEATURES
+==================================================*/
+
+const FEATURES = {
+    idle: true
+};
