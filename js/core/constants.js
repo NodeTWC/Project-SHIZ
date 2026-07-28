@@ -53,5 +53,6 @@ const AUDIO = {
 ==================================================*/
 
 window.FEATURES = {
-    idle: true
+//    idle: true
+    idle: false
 };
