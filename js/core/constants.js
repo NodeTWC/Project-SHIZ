@@ -52,6 +52,6 @@ const AUDIO = {
     FEATURES
 ==================================================*/
 
-const FEATURES = {
+window.FEATURES = {
     idle: true
 };
