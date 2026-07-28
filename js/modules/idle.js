@@ -98,8 +98,8 @@ let timer = null;
 
 function startIdle(){
 
-    if(running) return;
-
+    if(!FEATURES.idle) return;
+    
     running = true;
 
     schedule();
@@ -140,6 +140,7 @@ function schedule(){
 
 async function createWindow(){
 
+    if(!FEATURES.idle) return;
     if(!running) return;
 
     const pos = randomItem(POSITIONS);
